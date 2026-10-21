@@ -3262,6 +3262,14 @@ function setupEvents(){
 }
 
 /* ---------- INIT ---------- */
+/* Reparent sections incorrectly outside the dashboard main container. */
+(function repairDashboardSections(){
+ const main=document.querySelector('main.main');
+ if(!main) return;
+ document.querySelectorAll('section.dashboard-page').forEach(section=>{
+  if(section.parentElement!==main) main.appendChild(section);
+ });
+})();
 renderFySelector();
 setupQA();
 setupEvents();
