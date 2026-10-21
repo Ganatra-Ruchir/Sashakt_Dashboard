@@ -1493,15 +1493,7 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
     </div>
   </div>
 
-  <div class="row" style="grid-template-columns:1fr;gap:14px;">
-    <div class="panel">
-      <div class="section-title-block">
-        <div><h3>Sashakt journey</h3><p>Main milestones recorded in Master Data.</p></div>
-      </div>
-      <div class="timeline-compact" id="overviewTimeline"></div>
-    </div>
-  </div>
-
+  <div class="kpi-grid-six" id="overviewKpis"></div>
   <div class="row" style="grid-template-columns:1fr 1fr;gap:14px;align-items:stretch" id="narodaHistoricalSnapshot">
   <div class="panel">
     <div class="section-title-block"><div><h3>Naroda — Project Pillars</h3><p>Historical Home First slide · proportions of reported pillar investment, not the current FY.</p></div></div>
@@ -1523,7 +1515,7 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
     <div class="chart-note"><b>Audit warning:</b> Screenshot reports 924 total families but its seven regions sum to 1,084 (difference: 160). Treat this as a historical visual reference only, not a current family KPI.</div>
   </div>
 </div>
-<div class="kpi-grid-six" id="overviewKpis"></div>
+
 
   <div class="row" style="grid-template-columns:1.05fr .95fr;gap:14px;">
     <div class="panel">
@@ -2711,7 +2703,7 @@ function renderOverview(){
   ].join('');
 
   renderTrackerOverview();
-  document.getElementById('overviewTimeline').innerHTML=DATA.combined.map(x=>`<div class="timeline-item"><div class="tl-year">${fyLabel(x.fy)}</div><div class="tl-text">${x.milestone||'No milestone recorded'}</div></div>`).join('');
+
 }
 
 /* ---------- HEALTH ---------- */
