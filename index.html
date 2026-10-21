@@ -2652,6 +2652,20 @@ function renderOverview(){
   const previous=scopedProgram(prevSplit,p.key);
   return {...p,total,current,previous};
  }).filter(x=>Number.isFinite(x.total)&&x.total>0&&Number.isFinite(x.current));
+ // Family and school totals exist only at combined level; never invent center splits.
+ if(loc==='All'){
+  const combinedCurrent=periods[Math.max(0,fyIndex)]||null;
+  [
+   {name:'Families Onboarded',key:'families',color:'#9456ed'},
+   {name:'Students Reached in Schools',key:'studentsSchools',color:'#dd5a94'}
+  ].forEach(p=>{
+   const total=all?DATA.overviewCumulative[p.key]:row?.[p.key];
+   const current=combinedCurrent?.[p.key];
+   if(Number.isFinite(total)&&total>0&&Number.isFinite(current)){
+    bubbleRows.push({...p,total,current});
+   }
+  });
+ }
  const bubbleMax=Math.max(1,...bubbleRows.map(x=>x.total));
  const bubbleData=bubbleRows.map(p=>({
   x:p.total,y:p.current,
@@ -2660,7 +2674,7 @@ function renderOverview(){
  }));
  const bubbleChips=document.getElementById('sashaktBubbleChips');
  const leader=[...bubbleRows].sort((a,b)=>b.total-a.total)[0];
- bubbleChips.innerHTML='<div class="sashakt-bubble-chip"><span>PROGRAMS WITH VERIFIED DATA</span><strong>'+bubbleRows.length+'</strong></div>'+
+ bubbleChips.innerHTML='<div class="sashakt-bubble-chip"><span>INDICATORS WITH VERIFIED DATA</span><strong>'+bubbleRows.length+'</strong></div>'+
  '<div class="sashakt-bubble-chip"><span>HIGHEST REPORTED REACH</span><strong>'+(leader?leader.name:'Not available')+'</strong></div>'+
  '<div class="sashakt-bubble-chip"><span>VIEWING</span><strong>'+(loc==='All'?'Narol + Naroda':loc)+'</strong></div>';
  const yDesc='FY '+(curFY||'—')+' reported reach';
@@ -2699,7 +2713,7 @@ function renderOverview(){
   options:{...baseOptions(),indexAxis:'y',plugins:{legend:{display:false}}}
  });
  document.getElementById('overallFamiliesBadge').textContent='Source-reported figures';
- document.getElementById('overviewFamilyNote').textContent=bubbleRows.length?'Bubble area indicates reported beneficiary reach. X = '+xDesc+'; Y = '+yDesc+'. Counts across programs may overlap; active participation and unique family coverage are not available in this source.':'No verified program data is available for this filter selection.';
+ document.getElementById('overviewFamilyNote').textContent=bubbleRows.length?'Bubble size represents the reported total for each indicator (families, students, or program beneficiaries). X = '+xDesc+'; Y = '+yDesc+'. These indicators measure different populations and must not be added together. Family and school totals are only available for the combined locations; no center split is inferred.':'No verified program data is available for this filter selection.';
  const history=document.getElementById('narodaHistoricalSnapshot');
  if(history){history.style.display=(all&&(loc==='Naroda'||loc==='All'))?'grid':'none';}
  const diva=document.querySelector('#page-overview .diva-overview-panel')?.closest('.row');
