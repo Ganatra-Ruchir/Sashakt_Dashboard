@@ -1090,7 +1090,7 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 .sp-participation{margin:16px 0}.sp-part-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:18px}.sp-part-card{background:var(--panel,#fff);border:1px solid var(--panel-border,#dae4ed);border-radius:16px;padding:20px;min-width:0}.sp-part-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.sp-part-head h3{font-size:17px;margin:0;color:var(--ink,#16213d)}.sp-part-sub{font-size:12px;color:var(--ink-soft,#5b6b8c);margin:5px 0 0;line-height:1.55}.sp-location{padding:9px 12px;border:1px solid #ccd8eb;border-radius:9px;background:white;color:#16213d;font-weight:700}.sp-donut-wrap{display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;padding:12px 0}.sp-donut{height:205px;width:205px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}.sp-donut-center{width:130px;height:130px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;box-shadow:0 1px 8px #15223b13}.sp-donut-center b{font-size:25px;color:#16213d}.sp-donut-center small{font-size:10px;color:#65718a}.sp-legend{display:grid;gap:9px;font-size:12px;min-width:150px}.sp-legend-row{display:flex;align-items:center;gap:8px}.sp-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}.sp-legend-row b{margin-left:auto}.sp-venn{position:relative;width:min(100%,380px);height:310px;margin:6px auto 2px}.sp-circle{position:absolute;width:205px;height:205px;border-radius:50%;opacity:.7}.sp-circle.health{background:#83d6e9;left:87px;top:2px}.sp-circle.skilling{background:#39b6ad;left:24px;top:102px}.sp-circle.education{background:#c6c8d0;left:147px;top:102px}.sp-vnum{position:absolute;z-index:2;text-align:center;font-weight:800;font-size:16px;color:#112646;text-shadow:0 1px #ffffffaa}.sp-vnum small{display:block;font-size:10px;font-weight:650}.sp-v-total{text-align:center;margin:0 0 8px;font-size:14px;color:#30405b}.sp-v-total strong{font-size:24px;color:#182d59}.sp-sp-note{font-size:11px;color:#66748b;line-height:1.65;margin-top:12px}.sp-source-chip{font-size:10px;font-weight:800;letter-spacing:.05em;background:#edf5ff;color:#2459b8;border-radius:7px;padding:6px 9px}@media(max-width:850px){.sp-part-grid{grid-template-columns:1fr}.sp-venn{transform:scale(.9);transform-origin:top center;margin-bottom:-24px}}@media(max-width:420px){.sp-venn{transform:scale(.74);margin-left:calc(50% - 190px);margin-bottom:-65px}.sp-donut-wrap{gap:13px}}
 </style>
 <style>
-.overall-chart-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.overall-chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px}
 .overall-chart-grid .panel{min-width:0}
 #narodaHistoricalSnapshot{max-width:1250px;margin:0 auto 14px;grid-template-columns:repeat(2,minmax(0,1fr))!important}
 @media(max-width:1050px){.overall-chart-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -1519,10 +1519,6 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
   </div>
   <div id="sashaktBubbleLegend" class="sashakt-bubble-legend"></div>
   <div class="chart-note sashakt-bubble-note" id="overviewFamilyNote"></div>
- </div>
- <div class="panel">
-  <div class="section-title-block"><div><h3>Narol vs Naroda Program Reach</h3><p>Skilling, OPD and financial literacy, source-reported reach.</p></div></div>
-  <div class="chart-box" style="height:300px"><canvas id="overallCenterChart"></canvas></div>
  </div>
  <div class="panel">
   <div class="section-title-block"><div><h3>Program Reach Distribution</h3><p>Program reach totals may overlap; not unique people.</p></div></div>
@@ -2693,15 +2689,6 @@ function renderOverview(){
   const rec=selectedFY==='all'?BIFTOTAL:BIF.find(x=>x.fy===selectedFY);
   return rec?rec[area+key]:null;
  };
- const cKeys=['Skilling','OpdBeneficiaries','FL'];
- const centerLabels=['Skilling','OPD','Financial literacy'];
- destroyChart('overallCenter');
- charts.overallCenter=new Chart(document.getElementById('overallCenterChart'),{
-  type:'bar',data:{labels:centerLabels,datasets:[
-   {label:'Narol',data:cKeys.map(k=>scopedValue('narol',k)),backgroundColor:C.blue},
-   {label:'Naroda',data:cKeys.map(k=>scopedValue('naroda',k)),backgroundColor:C.teal}
-  ]},options:{...baseOptions(),plugins:{legend:{display:true}}}
- });
  destroyChart('overallReach');
  const reachLabels=['Financial literacy','OPD beneficiaries','STEM Lab students','Students in schools','Skilling beneficiaries'];
  const sumScope=(key)=>loc==='All'?(Number(scopedValue('narol',key)||0)+Number(scopedValue('naroda',key)||0)):scopedValue(loc.toLowerCase(),key);
