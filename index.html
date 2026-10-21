@@ -1493,6 +1493,11 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
     </div>
   </div>
 
+  <div class="panel" style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:12px 16px;margin-bottom:12px" id="overallFilters">
+    <label style="font-weight:700;font-size:12px">Financial year <select id="overallYear" class="local-select" aria-label="Overall financial year"><option value="all">Overall Till Now</option></select></label>
+    <label style="font-weight:700;font-size:12px">Location <select id="overallLocation" class="local-select" aria-label="Overall location"><option value="All">Narol + Naroda</option><option value="Narol">Narol</option><option value="Naroda">Naroda</option></select></label>
+    <span id="overallFilterStatus" style="font-size:11px;color:#617386">Lifetime combined indicators remain unchanged when location splits are unavailable.</span>
+  </div>
   <div class="kpi-grid-six" id="overviewKpis"></div>
   <div class="row" style="grid-template-columns:1fr 1fr;gap:14px;align-items:stretch" id="narodaHistoricalSnapshot">
   <div class="panel">
@@ -2157,7 +2162,7 @@ const charts = {};
 const BIFTOTAL=DATA.bifurcatedTotal;
 const BIF=DATA.bifurcatedFull;
 const state = {
-  page:'overview', fy:latestFY,
+  page:'overview', fy:latestFY, overallFy:'all', overallLocation:'All',
   healthArea:'Narol', healthTrendMetric:'opdBeneficiaries', healthServiceMetric:'opd',
   batchArea:'All', batch:'All', skillingTrendMetric:'certified',
   educationTrendMetric:'stem',
@@ -2649,41 +2654,47 @@ function renderChangeInsights(targetId, defs){
 
 /* ---------- OVERVIEW ---------- */
 function renderOverview(){
-  const r=rowFor(latestFY), idx=YEARS.indexOf(latestFY), prev=idx>0?rowFor(YEARS[idx-1]):null;
-  const O=DATA.overviewCumulative;
-  const oChip=document.getElementById('overviewFyChip'); if(oChip) oChip.textContent='Total so far';
-  const oProg=document.getElementById('overviewProgressChip'); if(oProg){oProg.style.display='inline-flex';oProg.textContent='FY 2026–27 is still in progress';}
-
-  document.getElementById('overviewKpis').innerHTML=[
-    statCard('Families onboarded',num(O.families),'Latest Master Data total = 11,000','teal'),
-    statCard('Skilling beneficiaries',num(O.skilling),`Formula: ${num(BIFTOTAL.narolSkilling)} Narol + ${num(BIFTOTAL.narodaSkilling)} Naroda = ${num(O.skilling)}`,'blue'),
-    statCard('OPD beneficiaries',num(O.opdBeneficiaries),`Formula: ${num(BIFTOTAL.narolOpdBeneficiaries)} Narol + ${num(BIFTOTAL.narodaOpdBeneficiaries)} Naroda = ${num(O.opdBeneficiaries)}`,'cyan'),
-    statCard('Financial literacy',num(O.financialLiteracy),`Formula: ${num(BIFTOTAL.narolFL)} Narol + ${num(BIFTOTAL.narodaFL)} Naroda = ${num(O.financialLiteracy)}`,'orange'),
-    statCard('STEM Lab students',num(O.stem),'Latest Master Data total = 18,874','purple'),
-    statCard('Students reached in schools',num(O.studentsSchools),'Latest Master Data total = 11,107','blue')
-  ].join('');
-
-  destroyChart('overviewFamily');
-  charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{
-    type:'line',
-    data:{labels:YEARS.map(f=>fyLabel(f).replace('FY ','')),datasets:[{
-      label:'Families onboarded',data:DATA.combined.map(x=>x.families),borderColor:C.blue,backgroundColor:'rgba(59,118,240,.10)',fill:true,tension:.28,pointRadius:4,pointHoverRadius:6
-    }]},options:trendOptions()
-  });
-  const first=DATA.combined[0],last=DATA.combined[DATA.combined.length-1];
-  document.getElementById('overviewFamilyNote').innerHTML=`Family count moved from <b>${num(first.families)}</b> in ${fyLabel(first.fy)} to <b>${num(last.families)}</b> in ${fyLabel(last.fy)}.`;
-
-  document.getElementById('overviewProgramGrid').innerHTML=[
-    `<div class="program-card"><div class="p-kicker">HEALTH & MEDICAL</div><div class="p-value">${num(O.opdBeneficiaries)}</div><div class="p-name">Total OPD beneficiaries</div><div class="p-sub">${num(BIFTOTAL.narolBody+BIFTOTAL.narodaBody)} body profiling · ${num(BIFTOTAL.narolEye+BIFTOTAL.narodaEye)} eye camp · ${num(BIFTOTAL.narolDental+BIFTOTAL.narodaDental)} dental</div></div>`,
-    `<div class="program-card"><div class="p-kicker">SKILLING & EMPLOYMENT</div><div class="p-value">${num(O.skilling)}</div><div class="p-name">Total skilling beneficiaries</div><div class="p-sub">${num(O.earningBeneficiaries)} earning beneficiaries · ${money(O.trackedSkillingIncome)} tracked center income</div></div>`,
-    `<div class="program-card"><div class="p-kicker">EDUCATION</div><div class="p-value">${num(O.stem)}</div><div class="p-name">STEM Lab students</div><div class="p-sub">${num(O.studentsSchools)} students reached · ${O.schoolTrainingHours.toLocaleString('en-IN',{maximumFractionDigits:2})} school training hours</div></div>`,
-    `<div class="program-card"><div class="p-kicker">LIVELIHOOD & COMMUNITY</div><div class="p-value">${num(O.financialLiteracy)}</div><div class="p-name">Financial literacy beneficiaries</div><div class="p-sub">${num(O.awareness)} awareness-camp reach across reported years · DIVA totals shown below</div></div>`
-  ].join('');
-
-  // Activity Summary removed from Overall page.
-
+ const all=state.overallFy==='all', loc=state.overallLocation, yr=state.overallFy;
+ const row=all?null:DATA.combined.find(x=>x.fy===yr);
+ const split=all?BIFTOTAL:BIF.find(x=>x.fy===yr);
+ const selected=(field)=>split?(loc==='All'?((Number(split['narol'+field])||0)+(Number(split['naroda'+field])||0)):split[loc.toLowerCase()+field]):null;
+ const fmt=v=>Number.isFinite(Number(v))&&v!==null&&v!==undefined?num(Number(v)):'Not available';
+ const metric=(label,value,scope,tone)=>statCard(label,fmt(value),scope,tone);
+ const canYearFamily=loc==='All';
+ const scoped=all?'Cumulative source totals':('FY '+yr+' · '+(loc==='All'?'Narol + Naroda':loc));
+ document.getElementById('overviewFyChip').textContent=all?'Overall Till Now':'FY '+yr;
+ document.getElementById('overviewProgressChip').style.display=(!all&&yr===latestFY)?'inline-flex':'none';
+ document.getElementById('overallYear').value=yr;
+ document.getElementById('overallLocation').value=loc;
+ document.getElementById('overallFilterStatus').textContent=loc==='All'?'Narol + Naroda combined · '+(all?'lifetime totals':'selected financial year'):'Center-specific figures where the source provides them; other figures are marked Not available.';
+ const sk=selected('Skilling'),opd=selected('OpdBeneficiaries'),fl=selected('FL');
+ const families=canYearFamily?(all?DATA.overviewCumulative.families:row?.families):null;
+ const stem=canYearFamily?(all?DATA.overviewCumulative.stem:row?.stem):null;
+ const schools=canYearFamily?(all?DATA.overviewCumulative.studentsSchools:row?.studentsSchools):null;
+ document.getElementById('overviewKpis').innerHTML=[
+ metric('Families onboarded',families,canYearFamily?'Combined master family milestone':'No verified center split','teal'),
+ metric('Skilling beneficiaries',sk,scoped,'blue'),
+ metric('OPD beneficiary reach',opd,scoped,'cyan'),
+ metric('Financial literacy reach',fl,scoped,'orange'),
+ metric('STEM Lab students',stem,canYearFamily?'Combined source':'No verified center split','purple'),
+ metric('Students reached in schools',schools,canYearFamily?'Combined source':'No verified center split','blue')
+ ].join('');
+ destroyChart('overviewFamily');
+ const years=DATA.combined.filter(x=>all||YEARS.indexOf(x.fy)<=YEARS.indexOf(yr));
+ const values=loc==='All'?years.map(x=>x.families):years.map(x=>{const b=BIF.find(z=>z.fy===x.fy);return b?b[loc.toLowerCase()+'OpdBeneficiaries']:null});
+ charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{
+ type:'line',data:{labels:years.map(x=>fyLabel(x.fy).replace('FY ','')),datasets:[{label:loc==='All'?'Combined family milestones':loc+' OPD reach (yearly)',data:values,borderColor:C.blue,backgroundColor:'rgba(59,118,240,.10)',fill:true,tension:.28,pointRadius:4}]},options:trendOptions()});
+ const chartTitle=document.querySelector('#page-overview #overviewFamilyChart')?.closest('.panel')?.querySelector('h3');
+ if(chartTitle)chartTitle.textContent=loc==='All'?'Cumulative Family Milestones':loc+' — OPD Reach by Year';
+ document.getElementById('overviewFamilyNote').textContent=loc==='All'?'Combined milestone series; values represent reported families by FY, not new families per year.':'Family milestone data cannot be split by center; this chart displays annual OPD reach instead.';
+ document.getElementById('overviewProgramGrid').innerHTML=[
+  ['HEALTH & MEDICAL',opd,'OPD beneficiary reach'],['SKILLING & EMPLOYMENT',sk,'Skilling beneficiaries'],['EDUCATION',stem,'STEM students (combined only)'],['LIVELIHOOD & COMMUNITY',fl,'Financial literacy reach']
+ ].map(([name,value,sub])=>'<div class="program-card"><div class="p-kicker">'+name+'</div><div class="p-value">'+fmt(value)+'</div><div class="p-name">'+sub+'</div><div class="p-sub">'+scoped+'</div></div>').join('');
+ const history=document.getElementById('narodaHistoricalSnapshot');
+ if(history){history.style.display=(all&&loc==='Naroda')?'grid':'none';}
+ const diva=document.querySelector('#page-overview .diva-overview-panel')?.closest('.row');
+ if(diva)diva.style.display=(all&&loc==='All')?'grid':'none';
 }
-
 /* ---------- HEALTH ---------- */
 const HEALTH_TREND_LABELS={
   opdBeneficiaries:'OPD beneficiaries', communityHealth:'Community health beneficiaries',
@@ -3240,6 +3251,11 @@ function setupEvents(){
     showPage('overview');
   });
 
+  const overallYear=document.getElementById('overallYear');
+  if(overallYear){overallYear.innerHTML='<option value="all">Overall Till Now</option>'+YEARS.map(y=>'<option value="'+y+'">FY '+y+'</option>').join('');
+  overallYear.addEventListener('change',e=>{state.overallFy=e.target.value;renderOverview();});}
+  const overallLocation=document.getElementById('overallLocation');
+  if(overallLocation)overallLocation.addEventListener('change',e=>{state.overallLocation=e.target.value;renderOverview();});
   window.addEventListener('hashchange',()=>{
     const p=(location.hash||'#overview').slice(1);
     if(['overview','health','skilling','education','livelihood'].includes(p)) showPage(p,false);
