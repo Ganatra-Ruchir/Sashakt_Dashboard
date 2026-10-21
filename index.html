@@ -1096,6 +1096,9 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 @media(max-width:1050px){.overall-chart-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.overall-chart-grid{grid-template-columns:1fr}#narodaHistoricalSnapshot{grid-template-columns:1fr!important}}
 </style>
+<style id="sashakt-bubble-design">
+.sashakt-bubble-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}.sashakt-bubble-chip{border:1px solid #dfebfb;border-radius:12px;background:linear-gradient(130deg,#f7fbff,#edf8ff);padding:11px 12px;min-width:0}.sashakt-bubble-chip span{display:block;font-size:9px;font-weight:800;letter-spacing:.65px;color:#647b98}.sashakt-bubble-chip strong{display:block;color:#163961;font-size:15px;margin-top:4px;overflow-wrap:anywhere}.sashakt-bubble-shell{position:relative;overflow:hidden;background:radial-gradient(ellipse at 70% 20%,rgba(53,157,239,.09),transparent 55%),linear-gradient(135deg,#ffffff,#f8fbff);border:1px solid #e2edfb;border-radius:14px;padding:7px}.sashakt-bubble-watermark{position:absolute;right:15px;top:10px;font-size:9px;letter-spacing:2px;color:#a7bdd1;font-weight:800;pointer-events:none}.sashakt-bubble-legend{display:flex;flex-wrap:wrap;gap:8px 16px;padding:10px 3px}.sashakt-bubble-legend span{font-size:11px;font-weight:650;color:#455b78;display:flex;align-items:center;gap:6px}.sashakt-bubble-legend i{display:inline-block;width:10px;height:10px;border-radius:50%}.sashakt-bubble-note{border-left:3px solid #14a8a5;background:#effaf9;padding:9px 12px;border-radius:6px;color:#335872;font-size:11px}@media(max-width:640px){.sashakt-bubble-chips{grid-template-columns:1fr 1fr}.sashakt-bubble-chip:last-child{grid-column:1/-1}}
+</style>
 </head>
 <style>
 :root{
@@ -1508,8 +1511,14 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
   <div class="kpi-grid-six" id="overviewKpis"></div>
 <div class="overall-chart-grid">
  <div class="panel">
-  <div class="section-title-block"><div><h3>Cumulative Family Milestones</h3><p>Yearly new families and cumulative family milestones.</p></div><div id="overallFamiliesBadge" class="period-chip">Total families: 11,000</div></div>
-  <div class="chart-box" style="height:280px"><canvas id="overviewFamilyChart"></canvas></div><div class="chart-note" id="overviewFamilyNote"></div>
+  <div class="section-title-block"><div><h3>Program Reach &amp; Scale</h3><p>Compare program beneficiary reach across historical periods. Each bubble represents one program.</p></div><div id="overallFamiliesBadge" class="period-chip">Verified records only</div></div>
+  <div id="sashaktBubbleChips" class="sashakt-bubble-chips"></div>
+  <div class="sashakt-bubble-shell">
+    <div class="sashakt-bubble-watermark">REACH · GROWTH</div>
+    <div class="chart-box" style="height:310px"><canvas id="overviewFamilyChart"></canvas></div>
+  </div>
+  <div id="sashaktBubbleLegend" class="sashakt-bubble-legend"></div>
+  <div class="chart-note sashakt-bubble-note" id="overviewFamilyNote"></div>
  </div>
  <div class="panel">
   <div class="section-title-block"><div><h3>Narol vs Naroda Program Reach</h3><p>Skilling, OPD and financial literacy, source-reported reach.</p></div></div>
@@ -2621,11 +2630,64 @@ function renderOverview(){
  metric('STEM Lab students',stem,canYearFamily?'Combined source':'No verified center split','purple'),
  metric('Students reached in schools',schools,canYearFamily?'Combined source':'No verified center split','blue')
  ].join('');
+
  destroyChart('overviewFamily');
- const years=DATA.combined.filter(x=>all||YEARS.indexOf(x.fy)<=YEARS.indexOf(yr));
- const values=loc==='All'?years.map(x=>x.families):years.map(x=>{const b=BIF.find(z=>z.fy===x.fy);return b?b[loc.toLowerCase()+'OpdBeneficiaries']:null});
- charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{
- type:'line',data:{labels:years.map(x=>fyLabel(x.fy).replace('FY ','')),datasets:[{label:loc==='All'?'Combined family milestones':loc+' OPD reach (yearly)',data:values,borderColor:C.blue,backgroundColor:'rgba(59,118,240,.10)',fill:true,tension:.28,pointRadius:4}]},options:trendOptions()});
+ const periods=DATA.combined;
+ const fyIndex=state.overallFy==='all'?periods.length-1:periods.findIndex(z=>z.fy===state.overallFy);
+ const curFY=periods[Math.max(0,fyIndex)]?.fy;
+ const prevFY=fyIndex>0?periods[fyIndex-1]?.fy:null;
+ const curSplit=BIF.find(z=>z.fy===curFY);
+ const prevSplit=BIF.find(z=>z.fy===prevFY);
+ const programDefs=[
+  {name:'Skilling',key:'Skilling',color:'#3478f6'},
+  {name:'OPD / Health',key:'OpdBeneficiaries',color:'#0ca5a6'},
+  {name:'Financial Literacy',key:'FL',color:'#ee9050'}
+ ];
+ const scopedProgram=(rec,key)=>{
+  if(!rec) return null;
+  const a=loc==='All'?['narol','naroda']:[loc.toLowerCase()];
+  const values=a.map(z=>rec[z+key]);
+  return values.every(v=>typeof v==='number'&&Number.isFinite(v))?values.reduce((v,x)=>v+x,0):null;
+ };
+ const bubbleRows=programDefs.map(p=>{
+  const source=all?BIFTOTAL:(BIF.find(z=>z.fy===yr));
+  const total=scopedProgram(source,p.key);
+  const current=scopedProgram(curSplit,p.key);
+  const previous=scopedProgram(prevSplit,p.key);
+  return {...p,total,current,previous};
+ }).filter(x=>Number.isFinite(x.total)&&x.total>0&&Number.isFinite(x.current));
+ const bubbleMax=Math.max(1,...bubbleRows.map(x=>x.total));
+ const bubbleData=bubbleRows.map(p=>({
+  x:p.total,y:p.current,
+  r:Math.max(12,Math.min(34,11+23*Math.sqrt(p.total/bubbleMax))),
+  name:p.name,reach:p.total,color:p.color
+ }));
+ const bubbleChips=document.getElementById('sashaktBubbleChips');
+ const leader=[...bubbleRows].sort((a,b)=>b.total-a.total)[0];
+ bubbleChips.innerHTML='<div class="sashakt-bubble-chip"><span>PROGRAMS WITH VERIFIED DATA</span><strong>'+bubbleRows.length+'</strong></div>'+
+ '<div class="sashakt-bubble-chip"><span>HIGHEST REPORTED REACH</span><strong>'+(leader?leader.name:'Not available')+'</strong></div>'+
+ '<div class="sashakt-bubble-chip"><span>VIEWING</span><strong>'+(loc==='All'?'Narol + Naroda':loc)+'</strong></div>';
+ const yDesc='FY '+(curFY||'—')+' reported reach';
+ const xDesc=all?'Lifetime reported reach':'Selected FY reported reach';
+ const bubbleCanvas=document.getElementById('overviewFamilyChart');
+ const bubbleLabelsPlugin={id:'sashaktLabels',afterDatasetsDraw(chart){
+  const ctx=chart.ctx;const meta=chart.getDatasetMeta(0);ctx.save();ctx.textAlign='center';ctx.font='600 11px system-ui, sans-serif';
+  meta.data.forEach((pt,i)=>{const p=bubbleRows[i];if(!p)return;ctx.fillStyle='#183253';ctx.fillText(p.name,pt.x,pt.y-pt.options.radius-8);});ctx.restore();
+ }};
+ charts.overviewFamily=new Chart(bubbleCanvas,{
+  type:'bubble',
+  data:{datasets:[{label:'Reported program reach',data:bubbleData,
+   backgroundColor:bubbleData.map(p=>p.color+'77'),borderColor:bubbleData.map(p=>p.color),
+   borderWidth:2.5,hoverBorderWidth:4,hoverBackgroundColor:bubbleData.map(p=>p.color+'aa')}]},
+  plugins:[bubbleLabelsPlugin],
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20,right:15,bottom:7,left:8}},
+   scales:{x:{beginAtZero:true,title:{display:true,text:xDesc,font:{weight:'700'}},grid:{color:'rgba(100,116,139,.09)'},ticks:{precision:0}},
+    y:{beginAtZero:true,title:{display:true,text:yDesc,font:{weight:'700'}},grid:{color:'rgba(100,116,139,.09)'},ticks:{precision:0}}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{label(ctx){const p=bubbleRows[ctx.dataIndex];return p.name+' · '+xDesc+': '+num(p.total)+' · '+yDesc+': '+num(p.current);}}}},
+   animation:{duration:650},
+  }
+ });
+ document.getElementById('sashaktBubbleLegend').innerHTML=bubbleRows.map(p=>'<span><i style="background:'+p.color+'"></i>'+p.name+'</span>').join('');
  const selectedFY=state.overallFy;
  const scopedValue=(area,key)=>{
   const rec=selectedFY==='all'?BIFTOTAL:BIF.find(x=>x.fy===selectedFY);
@@ -2649,10 +2711,8 @@ function renderOverview(){
   type:'bar',data:{labels:reachLabels,datasets:[{label:'Reported reach',data:reachVals,backgroundColor:['#ed833c',C.teal,'#9263d2',C.blue,'#164d94']}]},
   options:{...baseOptions(),indexAxis:'y',plugins:{legend:{display:false}}}
  });
- document.getElementById('overallFamiliesBadge').textContent='Total families: '+(families===null?'Not available':num(families));
- const chartTitle=document.querySelector('#page-overview #overviewFamilyChart')?.closest('.panel')?.querySelector('h3');
- if(chartTitle)chartTitle.textContent=loc==='All'?'Cumulative Family Milestones':loc+' — OPD Reach by Year';
- document.getElementById('overviewFamilyNote').textContent=loc==='All'?'Combined milestone series; values represent reported families by FY, not new families per year.':'Family milestone data cannot be split by center; this chart displays annual OPD reach instead.';
+ document.getElementById('overallFamiliesBadge').textContent='Source-reported figures';
+ document.getElementById('overviewFamilyNote').textContent=bubbleRows.length?'Bubble area indicates reported beneficiary reach. X = '+xDesc+'; Y = '+yDesc+'. Counts across programs may overlap; active participation and unique family coverage are not available in this source.':'No verified program data is available for this filter selection.';
  const history=document.getElementById('narodaHistoricalSnapshot');
  if(history){history.style.display=(all&&(loc==='Naroda'||loc==='All'))?'grid':'none';}
  const diva=document.querySelector('#page-overview .diva-overview-panel')?.closest('.row');
