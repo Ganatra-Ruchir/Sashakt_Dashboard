@@ -1605,29 +1605,23 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
   </div>
 
 <div class="sp-participation" id="spPillarParticipation">
-  <div class="sp-part-head"><div><h3>Project Sashakt — Pillars &amp; Family Participation</h3><p class="sp-part-sub">Verified mutually exclusive family categories, FY 2025–26. The same family may take part in multiple pillars.</p></div><select class="sp-location" id="spParticipationLocation" aria-label="Family participation location"><option value="combined">Narol + Naroda</option><option value="narol">Narol</option><option value="naroda">Naroda</option></select></div>
+  <div class="sp-part-head"><div><h3>Sashakt — Cross-pillar Reporting Audit</h3><p class="sp-part-sub">Current source-reported activity reach, separated from unique family participation.</p></div><span class="sp-source-chip">DATA DEFINITIONS CORRECTED</span></div>
   <div class="sp-part-grid">
-    <div class="sp-part-card"><div class="sp-part-head"><h3>Families reached by pillar</h3><span class="sp-source-chip">FY 2025–26</span></div><p class="sp-part-sub">Share of pillar participation counts (not expenditure). Multi-pillar families contribute once to each pillar they joined.</p><div class="sp-donut-wrap"><div class="sp-donut" id="spPillarDonut"><div class="sp-donut-center"><b id="spPillarReach">—</b><small>Pillar participations</small></div></div><div class="sp-legend" id="spPillarLegend"></div></div><div class="sp-sp-note">Investment by pillar is not displayed until expenditure amounts can be reconciled with the finance source. Financial Literacy is not classified in this historical family-category dataset.</div></div>
-    <div class="sp-part-card"><div class="sp-part-head"><h3>Cross-pillar family participation</h3><span class="sp-source-chip">VERIFIED SOURCE</span></div><p class="sp-v-total"><strong id="spUniqueFamilies">—</strong> family category records</p><div class="sp-venn"><div class="sp-circle health"></div><div class="sp-circle skilling"></div><div class="sp-circle education"></div><div class="sp-vnum" id="spHOnly" style="left:168px;top:56px"></div><div class="sp-vnum" id="spSOnly" style="left:55px;top:202px"></div><div class="sp-vnum" id="spEOnly" style="left:265px;top:202px"></div><div class="sp-vnum" id="spHS" style="left:110px;top:145px"></div><div class="sp-vnum" id="spHE" style="left:239px;top:145px"></div><div class="sp-vnum" id="spSE" style="left:177px;top:242px"></div><div class="sp-vnum" id="spHSE" style="left:178px;top:184px"></div></div><div class="sp-sp-note">Blue: Health · Teal: Skilling · Grey: Education. Counts are mutually exclusive regions. Total is the sum of the seven source categories, not a verified project-wide deduplicated family census.</div></div>
-  </div><div class="sp-sp-note">Source: Sashakt Dashboard Master Data – Live → Family Participation; FY 2025–26 reference. Excludes Financial Literacy and other interventions. Separate from the Overview's cumulative totals.</div>
+    <div class="sp-part-card"><div class="sp-part-head"><h3>FY 2026–27 — OPD beneficiary reach</h3><span class="sp-source-chip">ACTIVITY REACH</span></div><p class="sp-part-sub">Figures from Sashakt Master Data → Bifurcated Data, FY 2026–27 row; repeated visits may be counted.</p><div id="spOpdBar" role="img" aria-label="OPD reach Narol 1508 and Naroda 2091"></div><p class="sp-sp-note">Narol: 1,508 · Naroda: 2,091. Combined location-report total: 3,599. Do not interpret this as unique families.</p></div>
+    <div class="sp-part-card"><div class="sp-part-head"><h3>FY 2026–27 — Financial literacy reported reach</h3><span class="sp-source-chip">REPORTED REACH</span></div><p class="sp-part-sub">Figures from Sashakt Master Data → Bifurcated Data, FY 2026–27 row. Not independently deduplicated.</p><div id="spFlBar" role="img" aria-label="Financial literacy reported reach Narol 1982 and Naroda 2072"></div><p class="sp-sp-note">Narol: 1,982 · Naroda: 2,072. Combined location-report total: 4,054. May include follow-ups and repeat participation.</p></div>
+  </div>
+  <div class="sp-part-card" style="margin-top:14px"><div class="sp-part-head"><h3>Family overlap &amp; pillar expenditure</h3><span class="sp-source-chip">PENDING VALIDATION</span></div><p class="sp-part-sub">The previous 1,351 (Narol) and 1,095 (Naroda) counts were historical family-category entries, not proven unique-family totals. Cross-pillar overlap needs matched family IDs for Health, Skilling, and Education. The four-pillar expenditure donut needs a reconciled financial ledger. Neither is displayed as a verified result until validated.</p></div>
+  <div class="sp-sp-note">Source: <a href="https://docs.google.com/spreadsheets/d/13LvnxWSRcmhhW8MOdWzoJrpyYOsuUOx-r-9dNBNmKzo/edit" target="_blank" rel="noopener noreferrer">Sashakt – Master Data</a> → Bifurcated Data. Source period FY 2026–27 as recorded; no invented uniqueness or financial allocation. Historical overlap diagram withdrawn after cross-source QA.</div>
 </div>
     <div class="page-source"><b>Overview source:</b> “Data for Narol and Naroda”. Headline figures are shown as reported; program counts may overlap and are not summed into a unique-beneficiary total.</div>
 </section><script>
 (function(){
-  const families={narol:[287,476,377,82,33,72,24],naroda:[72,807,107,33,8,66,2]};
-  const labels=['Education','Health','Skilling'],colors=['#b9c1cc','#6bcde2','#23ae9c'];
-  const fmt=n=>n.toLocaleString('en-IN');
-  function paint(){
-    const el=document.getElementById('spParticipationLocation');if(!el)return;
-    const a=el.value==='narol'?families.narol:el.value==='naroda'?families.naroda:families.narol.map((n,i)=>n+families.naroda[i]);
-    const [e,h,sk,eh,es,hs,all]=a,total=a.reduce((x,y)=>x+y,0);
-    const counts=[e+eh+es+all,h+eh+hs+all,sk+es+hs+all],sum=counts.reduce((x,y)=>x+y,0);
-    document.getElementById('spUniqueFamilies').textContent=fmt(total);document.getElementById('spPillarReach').textContent=fmt(sum);
-    let st=0;document.getElementById('spPillarDonut').style.background='conic-gradient('+counts.map((v,i)=>{const start=st;st+=v/sum*100;return colors[i]+' '+start+'% '+st+'%'}).join(',')+')';
-    document.getElementById('spPillarLegend').innerHTML=counts.map((v,i)=>'<div class="sp-legend-row"><span class="sp-dot" style="background:'+colors[i]+'"></span><span>'+labels[i]+'</span><b>'+fmt(v)+' <small>('+Math.round(v/sum*100)+'%)</small></b></div>').join('');
-    for(const [id,v] of Object.entries({spEOnly:e,spHOnly:h,spSOnly:sk,spHE:eh,spSE:es,spHS:hs,spHSE:all})){document.getElementById(id).textContent=fmt(v)}
+  const charts=[['spOpdBar',1508,2091,'#58a9e7'],['spFlBar',1982,2072,'#2baea5']];
+  for(const [id,narol,naroda,color] of charts){
+    const el=document.getElementById(id);if(!el)continue;
+    const max=Math.max(narol,naroda);const fmt=n=>n.toLocaleString('en-IN');
+    el.innerHTML=[['Narol',narol],['Naroda',naroda]].map(([loc,v])=>'<div style="margin:18px 0"><div style="display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:700;margin-bottom:7px"><span>'+loc+'</span><span>'+fmt(v)+'</span></div><div style="height:18px;border-radius:9px;background:#e9f1fb;overflow:hidden"><div style="height:100%;width:'+(v/max*100)+'%;border-radius:9px;background:'+color+'"></div></div></div>').join('');
   }
-  const el=document.getElementById('spParticipationLocation');if(el){el.addEventListener('change',paint);paint();}
 })();
 </script>
 
