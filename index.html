@@ -2653,9 +2653,6 @@ function renderOverview(){
  const chartTitle=document.querySelector('#page-overview #overviewFamilyChart')?.closest('.panel')?.querySelector('h3');
  if(chartTitle)chartTitle.textContent=loc==='All'?'Cumulative Family Milestones':loc+' — OPD Reach by Year';
  document.getElementById('overviewFamilyNote').textContent=loc==='All'?'Combined milestone series; values represent reported families by FY, not new families per year.':'Family milestone data cannot be split by center; this chart displays annual OPD reach instead.';
- document.getElementById('overviewProgramGrid').innerHTML=[
-  ['HEALTH & MEDICAL',opd,'OPD beneficiary reach'],['SKILLING & EMPLOYMENT',sk,'Skilling beneficiaries'],['EDUCATION',stem,'STEM students (combined only)'],['LIVELIHOOD & COMMUNITY',fl,'Financial literacy reach']
- ].map(([name,value,sub])=>'<div class="program-card"><div class="p-kicker">'+name+'</div><div class="p-value">'+fmt(value)+'</div><div class="p-name">'+sub+'</div><div class="p-sub">'+scoped+'</div></div>').join('');
  const history=document.getElementById('narodaHistoricalSnapshot');
  if(history){history.style.display=(all&&(loc==='Naroda'||loc==='All'))?'grid':'none';}
  const diva=document.querySelector('#page-overview .diva-overview-panel')?.closest('.row');
