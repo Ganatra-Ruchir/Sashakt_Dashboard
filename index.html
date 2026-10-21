@@ -1594,29 +1594,7 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 
 
 
-  <div class="row" style="grid-template-columns:1fr;gap:14px;">
-    <div class="panel tracker-overview-panel">
-      <div class="section-title-block">
-        <div><h3>Activity Summary</h3><p>Detailed activities from FY 2023–24 onward. The same person can appear more than once in activity reach.</p></div>
-        <span class="tracker-badge">DETAIL ACTIVITY DATA</span>
-      </div>
-      <div class="tracker-summary-grid" id="trackerOverviewKpis"></div>
-      <div class="source-coverage-strip" id="sourceCoverageStrip"></div>
-      <div class="row tracker-analysis-row" style="grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;display:none">
-        <div class="tracker-inner-card"><div class="tracker-mini-title">Historical activity reach by year (reference only)</div><div class="chart-box" style="height:235px"><canvas id="trackerOverviewFyChart"></canvas></div></div>
-        <div class="tracker-inner-card"><div class="tracker-mini-title">Activities by Program</div><div class="chart-box" style="height:235px"><canvas id="trackerOverviewProgramChart"></canvas></div></div>
-      </div>
-    </div>
-  </div>
-
-<div class="sp-participation" id="spPillarParticipation">
-<div class="sp-part-head"><div><h3>Sashakt — Cumulative Reported Reach</h3><p class="sp-part-sub">Lifetime / total-so-far values from the audited Overview master snapshot. Not a single-year view, and not necessarily unique individuals.</p></div><span class="sp-source-chip">TOTAL SO FAR</span></div>
-<div class="sp-part-grid">
-<div class="sp-part-card"><div class="sp-part-head"><h3>OPD beneficiary reach</h3><span class="sp-source-chip">CUMULATIVE</span></div><div style="font-size:32px;font-weight:800;color:#193a68;margin:12px 0">23,687</div><div style="height:18px;background:#e9f1fb;border-radius:9px;overflow:hidden"><div style="height:100%;width:100%;background:#58a9e7;border-radius:9px"></div></div><p class="sp-sp-note">Source-reported cumulative OPD reach across recorded years. Repeated attendance may be included; do not describe as unique families.</p></div>
-<div class="sp-part-card"><div class="sp-part-head"><h3>Financial literacy reach</h3><span class="sp-source-chip">CUMULATIVE</span></div><div style="font-size:32px;font-weight:800;color:#193a68;margin:12px 0">27,458</div><div style="height:18px;background:#e9f1fb;border-radius:9px;overflow:hidden"><div style="height:100%;width:100%;background:#2baea5;border-radius:9px"></div></div><p class="sp-sp-note">Source-reported cumulative reach across recorded years. It may include repeated attendance and follow-ups.</p></div></div>
-<div class="sp-part-card" style="margin-top:14px"><div class="sp-part-head"><h3>Reconciliation notice — family overlap and expenditure</h3><span class="sp-source-chip">NOT VERIFIED</span></div><p class="sp-part-sub">The source-reported cumulative Overview totals differ from the location-wise totals in the Bifurcated Data source. Do not add the source totals or label them unique beneficiaries until reconciled. Cross-pillar family intersections also require matched family codes; pillar expenditure needs financial ledger confirmation. These unverified graphs are withheld.</p></div>
-<div class="sp-sp-note">Source: audited Overview dashboard snapshot (cumulative). Cross-check: Sashakt – Master Data → Bifurcated Data, Total row. The FY 2026–27 counts are shown on the respective program pages, not here.</div></div>
-    <div class="page-source"><b>Overview source:</b> “Data for Narol and Naroda”. Headline figures are shown as reported; program counts may overlap and are not summed into a unique-beneficiary total.</div>
+<div class="page-source"><b>Overview source:</b> “Data for Narol and Naroda”. Headline figures are shown as reported; program counts may overlap and are not summed into a unique-beneficiary total.</div>
 </section>
 
 <!-- ===================== HEALTH ===================== -->
@@ -2702,7 +2680,7 @@ function renderOverview(){
     `<div class="program-card"><div class="p-kicker">LIVELIHOOD & COMMUNITY</div><div class="p-value">${num(O.financialLiteracy)}</div><div class="p-name">Financial literacy beneficiaries</div><div class="p-sub">${num(O.awareness)} awareness-camp reach across reported years · DIVA totals shown below</div></div>`
   ].join('');
 
-  renderTrackerOverview();
+  // Activity Summary removed from Overall page.
 
 }
 
