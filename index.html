@@ -1085,6 +1085,10 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 }
 </style>
 
+<style>
+/* Verified FY25-26 pillar participation panel */
+.sp-participation{margin:16px 0}.sp-part-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:18px}.sp-part-card{background:var(--panel,#fff);border:1px solid var(--panel-border,#dae4ed);border-radius:16px;padding:20px;min-width:0}.sp-part-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.sp-part-head h3{font-size:17px;margin:0;color:var(--ink,#16213d)}.sp-part-sub{font-size:12px;color:var(--ink-soft,#5b6b8c);margin:5px 0 0;line-height:1.55}.sp-location{padding:9px 12px;border:1px solid #ccd8eb;border-radius:9px;background:white;color:#16213d;font-weight:700}.sp-donut-wrap{display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;padding:12px 0}.sp-donut{height:205px;width:205px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}.sp-donut-center{width:130px;height:130px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;box-shadow:0 1px 8px #15223b13}.sp-donut-center b{font-size:25px;color:#16213d}.sp-donut-center small{font-size:10px;color:#65718a}.sp-legend{display:grid;gap:9px;font-size:12px;min-width:150px}.sp-legend-row{display:flex;align-items:center;gap:8px}.sp-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}.sp-legend-row b{margin-left:auto}.sp-venn{position:relative;width:min(100%,380px);height:310px;margin:6px auto 2px}.sp-circle{position:absolute;width:205px;height:205px;border-radius:50%;opacity:.7}.sp-circle.health{background:#83d6e9;left:87px;top:2px}.sp-circle.skilling{background:#39b6ad;left:24px;top:102px}.sp-circle.education{background:#c6c8d0;left:147px;top:102px}.sp-vnum{position:absolute;z-index:2;text-align:center;font-weight:800;font-size:16px;color:#112646;text-shadow:0 1px #ffffffaa}.sp-vnum small{display:block;font-size:10px;font-weight:650}.sp-v-total{text-align:center;margin:0 0 8px;font-size:14px;color:#30405b}.sp-v-total strong{font-size:24px;color:#182d59}.sp-sp-note{font-size:11px;color:#66748b;line-height:1.65;margin-top:12px}.sp-source-chip{font-size:10px;font-weight:800;letter-spacing:.05em;background:#edf5ff;color:#2459b8;border-radius:7px;padding:6px 9px}@media(max-width:850px){.sp-part-grid{grid-template-columns:1fr}.sp-venn{transform:scale(.9);transform-origin:top center;margin-bottom:-24px}}@media(max-width:420px){.sp-venn{transform:scale(.74);margin-left:calc(50% - 190px);margin-bottom:-65px}.sp-donut-wrap{gap:13px}}
+</style>
 </head>
 <style>
 :root{
@@ -1600,8 +1604,32 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
     </div>
   </div>
 
-  <div class="page-source"><b>Overview source:</b> “Data for Narol and Naroda”. Headline figures are shown as reported; program counts may overlap and are not summed into a unique-beneficiary total.</div>
-</section>
+<div class="sp-participation" id="spPillarParticipation">
+  <div class="sp-part-head"><div><h3>Project Sashakt — Pillars &amp; Family Participation</h3><p class="sp-part-sub">Verified mutually exclusive family categories, FY 2025–26. The same family may take part in multiple pillars.</p></div><select class="sp-location" id="spParticipationLocation" aria-label="Family participation location"><option value="combined">Narol + Naroda</option><option value="narol">Narol</option><option value="naroda">Naroda</option></select></div>
+  <div class="sp-part-grid">
+    <div class="sp-part-card"><div class="sp-part-head"><h3>Families reached by pillar</h3><span class="sp-source-chip">FY 2025–26</span></div><p class="sp-part-sub">Share of pillar participation counts (not expenditure). Multi-pillar families contribute once to each pillar they joined.</p><div class="sp-donut-wrap"><div class="sp-donut" id="spPillarDonut"><div class="sp-donut-center"><b id="spPillarReach">—</b><small>Pillar participations</small></div></div><div class="sp-legend" id="spPillarLegend"></div></div><div class="sp-sp-note">Investment by pillar is not displayed until expenditure amounts can be reconciled with the finance source. Financial Literacy is not classified in this historical family-category dataset.</div></div>
+    <div class="sp-part-card"><div class="sp-part-head"><h3>Cross-pillar family participation</h3><span class="sp-source-chip">VERIFIED SOURCE</span></div><p class="sp-v-total"><strong id="spUniqueFamilies">—</strong> family category records</p><div class="sp-venn"><div class="sp-circle health"></div><div class="sp-circle skilling"></div><div class="sp-circle education"></div><div class="sp-vnum" id="spHOnly" style="left:168px;top:56px"></div><div class="sp-vnum" id="spSOnly" style="left:55px;top:202px"></div><div class="sp-vnum" id="spEOnly" style="left:265px;top:202px"></div><div class="sp-vnum" id="spHS" style="left:110px;top:145px"></div><div class="sp-vnum" id="spHE" style="left:239px;top:145px"></div><div class="sp-vnum" id="spSE" style="left:177px;top:242px"></div><div class="sp-vnum" id="spHSE" style="left:178px;top:184px"></div></div><div class="sp-sp-note">Blue: Health · Teal: Skilling · Grey: Education. Counts are mutually exclusive regions. Total is the sum of the seven source categories, not a verified project-wide deduplicated family census.</div></div>
+  </div><div class="sp-sp-note">Source: Sashakt Dashboard Master Data – Live → Family Participation; FY 2025–26 reference. Excludes Financial Literacy and other interventions. Separate from the Overview's cumulative totals.</div>
+</div>
+    <div class="page-source"><b>Overview source:</b> “Data for Narol and Naroda”. Headline figures are shown as reported; program counts may overlap and are not summed into a unique-beneficiary total.</div>
+</section><script>
+(function(){
+  const families={narol:[287,476,377,82,33,72,24],naroda:[72,807,107,33,8,66,2]};
+  const labels=['Education','Health','Skilling'],colors=['#b9c1cc','#6bcde2','#23ae9c'];
+  const fmt=n=>n.toLocaleString('en-IN');
+  function paint(){
+    const el=document.getElementById('spParticipationLocation');if(!el)return;
+    const a=el.value==='narol'?families.narol:el.value==='naroda'?families.naroda:families.narol.map((n,i)=>n+families.naroda[i]);
+    const [e,h,sk,eh,es,hs,all]=a,total=a.reduce((x,y)=>x+y,0);
+    const counts=[e+eh+es+all,h+eh+hs+all,sk+es+hs+all],sum=counts.reduce((x,y)=>x+y,0);
+    document.getElementById('spUniqueFamilies').textContent=fmt(total);document.getElementById('spPillarReach').textContent=fmt(sum);
+    let st=0;document.getElementById('spPillarDonut').style.background='conic-gradient('+counts.map((v,i)=>{const start=st;st+=v/sum*100;return colors[i]+' '+start+'% '+st+'%'}).join(',')+')';
+    document.getElementById('spPillarLegend').innerHTML=counts.map((v,i)=>'<div class="sp-legend-row"><span class="sp-dot" style="background:'+colors[i]+'"></span><span>'+labels[i]+'</span><b>'+fmt(v)+' <small>('+Math.round(v/sum*100)+'%)</small></b></div>').join('');
+    for(const [id,v] of Object.entries({spEOnly:e,spHOnly:h,spSOnly:sk,spHE:eh,spSE:es,spHS:hs,spHSE:all})){document.getElementById(id).textContent=fmt(v)}
+  }
+  const el=document.getElementById('spParticipationLocation');if(el){el.addEventListener('change',paint);paint();}
+})();
+</script>
 
 <!-- ===================== HEALTH ===================== -->
 <section class="dashboard-page" id="page-health">
