@@ -1502,7 +1502,28 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
     </div>
   </div>
 
-  <div class="kpi-grid-six" id="overviewKpis"></div>
+  <div class="row" style="grid-template-columns:1fr 1fr;gap:14px;align-items:stretch" id="narodaHistoricalSnapshot">
+  <div class="panel">
+    <div class="section-title-block"><div><h3>Naroda — Project Pillars</h3><p>Historical Home First slide · proportions of reported pillar investment, not the current FY.</p></div></div>
+    <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:center;padding:14px 5px">
+      <div role="img" aria-label="Historical Naroda pillar allocations: Skilling 53 percent, Education 34 percent, Health 8 percent, Financial Literacy 5 percent" style="width:210px;height:210px;border-radius:50%;background:conic-gradient(#f8cc00 0 53%,#2970b8 53% 87%,#cdd3d8 87% 95%,#a8e0ef 95% 100%);display:grid;place-items:center;flex-shrink:0"><div style="background:white;width:125px;height:125px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;color:#122c45;font-size:16px">₹1,70,73,493</div></div>
+      <div style="display:grid;gap:12px;font-size:14px"><div><span style="color:#d1a900">●</span> Skilling <strong>53%</strong></div><div><span style="color:#2970b8">●</span> Education <strong>34%</strong></div><div><span style="color:#909aa7">●</span> Health <strong>8%</strong></div><div><span style="color:#60bed5">●</span> Financial literacy <strong>5%</strong></div></div>
+    </div>
+    <div class="chart-note">Source: historical Naroda presentation screenshot. These are spending proportions, not a verified current-year expenditure split.</div>
+  </div>
+  <div class="panel">
+    <div class="section-title-block"><div><h3>Naroda — Families Participation</h3><p>Historical intervention-overlap snapshot. Counts in the original image require reconciliation.</p></div></div>
+    <div style="width:100%;max-width:440px;margin:auto;position:relative;height:300px;isolation:isolate">
+      <div style="position:absolute;left:25%;top:4px;width:49%;height:60%;border-radius:50%;background:rgba(126,209,231,.56);display:flex;align-items:flex-start;justify-content:center;padding-top:32px;box-sizing:border-box;font-weight:800;font-size:21px">676</div>
+      <div style="position:absolute;left:5%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(28,166,159,.58);display:flex;align-items:flex-end;justify-content:flex-start;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">113</div>
+      <div style="position:absolute;right:4%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(188,191,204,.50);display:flex;align-items:flex-end;justify-content:flex-end;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">217</div>
+      <span style="position:absolute;left:36%;top:112px;font-size:20px;font-weight:800">62</span><span style="position:absolute;left:61%;top:112px;font-size:20px;font-weight:800">15</span><span style="position:absolute;left:50%;top:154px;font-size:20px;font-weight:800">1</span><span style="position:absolute;left:50%;top:210px;font-size:20px;font-weight:800">0</span>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-size:12px;margin:6px 0 12px"><span>🔵 Health & wellness</span><span>🟢 Skilling & employment</span><span>⚪ Education & development</span></div>
+    <div class="chart-note"><b>Audit warning:</b> Screenshot reports 924 total families but its seven regions sum to 1,084 (difference: 160). Treat this as a historical visual reference only, not a current family KPI.</div>
+  </div>
+</div>
+<div class="kpi-grid-six" id="overviewKpis"></div>
 
   <div class="row" style="grid-template-columns:1.05fr .95fr;gap:14px;">
     <div class="panel">
@@ -1561,19 +1582,19 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
             <div class="diva-program-chip studio-chip">STUDIO</div>
           </div>
           <div class="diva-metric-grid">
-            <div class="diva-metric primary"><span>Beneficiaries</span><b>235</b><small>58 alumni are already included</small></div>
-            <div class="diva-metric"><span>Total income so far</span><b>₹34.00L</b><small>₹17.57L Studio + ₹16.43L earned outside DIVA after Studio</small></div>
-            <div class="diva-metric"><span>Studio income</span><b>₹17.57L</b><small>Income earned through DIVA Studio</small></div>
-            <div class="diva-metric"><span>Income after DIVA (form)</span><b>₹27.96L</b><small>Only the outside-DIVA part is added to Total Income So Far</small></div>
-            <div class="diva-metric"><span>Pieces completed</span><b>2,05,467</b><small>From the Daily Update Tracker</small></div>
-            <div class="diva-metric"><span>Income from completed pieces</span><b>₹14.06L</b><small>Completed pieces × rate per piece</small></div>
+            <div class="diva-metric primary"><span>Beneficiaries</span><b>267</b><small>Regular beneficiaries · 113 alumni tracked separately</small></div>
+            <div class="diva-metric"><span>Total income so far</span><b>₹48.29L</b><small>₹18.80L Studio + ₹29.48L after Studio (after-Studio figure provisional)</small></div>
+            <div class="diva-metric"><span>Studio income</span><b>₹18.80L</b><small>₹18,80,369.85 recorded Studio income</small></div>
+            <div class="diva-metric"><span>Income after DIVA (form)</span><b>₹29.48L</b><small>After-Studio source not independently reverified</small></div>
+            <div class="diva-metric"><span>Pieces completed</span><b>2,05,371</b><small>From the Daily Update Tracker</small></div>
+            <div class="diva-metric"><span>Income from completed pieces</span><b>₹14.01L</b><small>Completed pieces × rate per piece</small></div>
           </div>
         </div></div>
       </div>
 
       <div class="diva-overview-note">
         <b>Data note:</b> Salon numbers use the latest approved Salon dashboard. Studio numbers use the audited Studio dashboard.
-        Studio beneficiaries are matched using Name, Book No. and Phone; 58 alumni are already included in the 235 count.
+        Studio reporting uses 267 regular beneficiaries (Narol 126, Naroda 121, Vastral 20) and 113 alumni separately; identity checks use name + family code together. After-Studio income and production remain provisional.
         A few Studio ID conflicts still need a final check before external reporting.
       </div>
     </div>
