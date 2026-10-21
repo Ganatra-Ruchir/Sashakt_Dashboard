@@ -1089,6 +1089,13 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 /* Verified FY25-26 pillar participation panel */
 .sp-participation{margin:16px 0}.sp-part-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:18px}.sp-part-card{background:var(--panel,#fff);border:1px solid var(--panel-border,#dae4ed);border-radius:16px;padding:20px;min-width:0}.sp-part-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.sp-part-head h3{font-size:17px;margin:0;color:var(--ink,#16213d)}.sp-part-sub{font-size:12px;color:var(--ink-soft,#5b6b8c);margin:5px 0 0;line-height:1.55}.sp-location{padding:9px 12px;border:1px solid #ccd8eb;border-radius:9px;background:white;color:#16213d;font-weight:700}.sp-donut-wrap{display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;padding:12px 0}.sp-donut{height:205px;width:205px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}.sp-donut-center{width:130px;height:130px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;box-shadow:0 1px 8px #15223b13}.sp-donut-center b{font-size:25px;color:#16213d}.sp-donut-center small{font-size:10px;color:#65718a}.sp-legend{display:grid;gap:9px;font-size:12px;min-width:150px}.sp-legend-row{display:flex;align-items:center;gap:8px}.sp-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}.sp-legend-row b{margin-left:auto}.sp-venn{position:relative;width:min(100%,380px);height:310px;margin:6px auto 2px}.sp-circle{position:absolute;width:205px;height:205px;border-radius:50%;opacity:.7}.sp-circle.health{background:#83d6e9;left:87px;top:2px}.sp-circle.skilling{background:#39b6ad;left:24px;top:102px}.sp-circle.education{background:#c6c8d0;left:147px;top:102px}.sp-vnum{position:absolute;z-index:2;text-align:center;font-weight:800;font-size:16px;color:#112646;text-shadow:0 1px #ffffffaa}.sp-vnum small{display:block;font-size:10px;font-weight:650}.sp-v-total{text-align:center;margin:0 0 8px;font-size:14px;color:#30405b}.sp-v-total strong{font-size:24px;color:#182d59}.sp-sp-note{font-size:11px;color:#66748b;line-height:1.65;margin-top:12px}.sp-source-chip{font-size:10px;font-weight:800;letter-spacing:.05em;background:#edf5ff;color:#2459b8;border-radius:7px;padding:6px 9px}@media(max-width:850px){.sp-part-grid{grid-template-columns:1fr}.sp-venn{transform:scale(.9);transform-origin:top center;margin-bottom:-24px}}@media(max-width:420px){.sp-venn{transform:scale(.74);margin-left:calc(50% - 190px);margin-bottom:-65px}.sp-donut-wrap{gap:13px}}
 </style>
+<style>
+.overall-chart-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.overall-chart-grid .panel{min-width:0}
+#narodaHistoricalSnapshot{max-width:1250px;margin:0 auto 14px;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+@media(max-width:1050px){.overall-chart-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.overall-chart-grid{grid-template-columns:1fr}#narodaHistoricalSnapshot{grid-template-columns:1fr!important}}
+</style>
 </head>
 <style>
 :root{
@@ -1499,7 +1506,21 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
     <span id="overallFilterStatus" style="font-size:11px;color:#617386">Lifetime combined indicators remain unchanged when location splits are unavailable.</span>
   </div>
   <div class="kpi-grid-six" id="overviewKpis"></div>
-  <div class="row" style="grid-template-columns:1fr 1fr;gap:14px;align-items:stretch" id="narodaHistoricalSnapshot">
+<div class="overall-chart-grid">
+ <div class="panel">
+  <div class="section-title-block"><div><h3>Cumulative Family Milestones</h3><p>Yearly new families and cumulative family milestones.</p></div><div id="overallFamiliesBadge" class="period-chip">Total families: 11,000</div></div>
+  <div class="chart-box" style="height:280px"><canvas id="overviewFamilyChart"></canvas></div><div class="chart-note" id="overviewFamilyNote"></div>
+ </div>
+ <div class="panel">
+  <div class="section-title-block"><div><h3>Narol vs Naroda Program Reach</h3><p>Skilling, OPD and financial literacy, source-reported reach.</p></div></div>
+  <div class="chart-box" style="height:300px"><canvas id="overallCenterChart"></canvas></div>
+ </div>
+ <div class="panel">
+  <div class="section-title-block"><div><h3>Program Reach Distribution</h3><p>Program reach totals may overlap; not unique people.</p></div></div>
+  <div class="chart-box" style="height:300px"><canvas id="overallReachChart"></canvas></div>
+ </div>
+</div>
+<div class="row" style="grid-template-columns:1fr 1fr;gap:14px;align-items:stretch" id="narodaHistoricalSnapshot">
   <div class="panel">
     <div class="section-title-block"><div><h3>Naroda — Project Pillars</h3><p>Historical Home First slide · proportions of reported pillar investment, not the current FY.</p></div></div>
     <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:center;padding:14px 5px">
@@ -1520,85 +1541,6 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
     <div class="chart-note"><b>Audit warning:</b> Screenshot reports 924 total families but its seven regions sum to 1,084 (difference: 160). Treat this as a historical visual reference only, not a current family KPI.</div>
   </div>
 </div>
-
-
-  <div class="row" style="grid-template-columns:1.05fr .95fr;gap:14px;">
-    <div class="panel">
-      <div class="section-title-block">
-        <div><h3>Cumulative Family Milestones</h3><p>Reported families onboarded as of each financial year; not new families per year.</p></div>
-      </div>
-      <div class="chart-box" style="height:285px"><canvas id="overviewFamilyChart"></canvas></div>
-      <div class="chart-note" id="overviewFamilyNote"></div>
-    </div>
-    <div class="panel">
-      <div class="section-title-block">
-        <div><h3>Main Program Numbers</h3><p>One main number from each Sashakt program.</p></div>
-      </div>
-      <div class="program-grid" id="overviewProgramGrid"></div>
-    </div>
-  </div>
-
-
-  <div class="row" style="grid-template-columns:1fr;gap:14px;">
-    <div class="panel diva-overview-panel">
-      <div class="section-title-block">
-        <div>
-          <h3>DIVA Salon &amp; Studio — Total So Far</h3>
-          <p>Total DIVA results from the detailed Salon and Studio dashboards. The year filter does not change this section.</p>
-        </div>
-        <span class="diva-lifetime-badge">TOTAL SO FAR</span>
-      </div>
-
-      <div class="diva-overview-grid">
-        <div class="diva-overview-card salon-card">
-          <div class="diva-card-head">
-            <div>
-              <div class="diva-program-kicker">WOMEN'S ENTERPRISE</div>
-              <div class="diva-program-title">DIVA Salon</div>
-              <div class="diva-program-locations">Narol · Naroda · Memnagar</div>
-            </div>
-            <div class="diva-program-chip salon-chip">SALON</div>
-          </div>
-          <div class="diva-metric-grid">
-            <div class="diva-metric primary"><span>Beneficiaries</span><b>198</b><small>Total beneficiaries so far</small></div>
-            <div class="diva-metric"><span>Total income so far</span><b>₹59.68L</b><small>Through + after Salon</small></div>
-            <div class="diva-metric"><span>Income through Salon</span><b>₹19.97L</b><small>Income earned through Salon</small></div>
-            <div class="diva-metric"><span>Income after Salon</span><b>₹39.72L</b><small>Income recorded after Salon</small></div>
-            <div class="diva-metric"><span>Total client visits</span><b>4,431</b><small>1,139 repeat visits</small></div>
-            <div class="diva-metric"><span>Alumni</span><b>69</b><small>₹2.37L alumni income</small></div>
-          </div>
-        </div>
-
-        <div class="diva-overview-card studio-card">
-          <div class="diva-card-head">
-            <div>
-              <div class="diva-program-kicker">DESIGN &amp; PRODUCTION</div>
-              <div class="diva-program-title">DIVA Design Studio</div>
-              <div class="diva-program-locations">Narol · Naroda · Vastral</div>
-            </div>
-            <div class="diva-program-chip studio-chip">STUDIO</div>
-          </div>
-          <div class="diva-metric-grid">
-            <div class="diva-metric primary"><span>Beneficiaries</span><b>267</b><small>Regular beneficiaries · 113 alumni tracked separately</small></div>
-            <div class="diva-metric"><span>Total income so far</span><b>₹48.29L</b><small>₹18.80L Studio + ₹29.48L after Studio (after-Studio figure provisional)</small></div>
-            <div class="diva-metric"><span>Studio income</span><b>₹18.80L</b><small>₹18,80,369.85 recorded Studio income</small></div>
-            <div class="diva-metric"><span>Income after DIVA (form)</span><b>₹29.48L</b><small>After-Studio source not independently reverified</small></div>
-            <div class="diva-metric"><span>Pieces completed</span><b>2,05,371</b><small>From the Daily Update Tracker</small></div>
-            <div class="diva-metric"><span>Income from completed pieces</span><b>₹14.01L</b><small>Completed pieces × rate per piece</small></div>
-          </div>
-        </div></div>
-      </div>
-
-      <div class="diva-overview-note">
-        <b>Data note:</b> Salon numbers use the latest approved Salon dashboard. Studio numbers use the audited Studio dashboard.
-        Studio reporting uses 267 regular beneficiaries (Narol 126, Naroda 121, Vastral 20) and 113 alumni separately; identity checks use name + family code together. After-Studio income and production remain provisional.
-        A few Studio ID conflicts still need a final check before external reporting.
-      </div>
-    </div>
-  </div>
-
-
-
 <div class="page-source"><b>Overview source:</b> “Data for Narol and Naroda”. Headline figures are shown as reported; program counts may overlap and are not summed into a unique-beneficiary total.</div>
 </section>
 
@@ -2684,6 +2626,30 @@ function renderOverview(){
  const values=loc==='All'?years.map(x=>x.families):years.map(x=>{const b=BIF.find(z=>z.fy===x.fy);return b?b[loc.toLowerCase()+'OpdBeneficiaries']:null});
  charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{
  type:'line',data:{labels:years.map(x=>fyLabel(x.fy).replace('FY ','')),datasets:[{label:loc==='All'?'Combined family milestones':loc+' OPD reach (yearly)',data:values,borderColor:C.blue,backgroundColor:'rgba(59,118,240,.10)',fill:true,tension:.28,pointRadius:4}]},options:trendOptions()});
+ const selectedFY=state.overallFy;
+ const scopedValue=(area,key)=>{
+  const rec=selectedFY==='all'?BIFTOTAL:BIF.find(x=>x.fy===selectedFY);
+  return rec?rec[area+key]:null;
+ };
+ const cKeys=['Skilling','OpdBeneficiaries','FL'];
+ const centerLabels=['Skilling','OPD','Financial literacy'];
+ destroyChart('overallCenter');
+ charts.overallCenter=new Chart(document.getElementById('overallCenterChart'),{
+  type:'bar',data:{labels:centerLabels,datasets:[
+   {label:'Narol',data:cKeys.map(k=>scopedValue('narol',k)),backgroundColor:C.blue},
+   {label:'Naroda',data:cKeys.map(k=>scopedValue('naroda',k)),backgroundColor:C.teal}
+  ]},options:{...baseOptions(),plugins:{legend:{display:true}}}
+ });
+ destroyChart('overallReach');
+ const reachLabels=['Financial literacy','OPD beneficiaries','STEM Lab students','Students in schools','Skilling beneficiaries'];
+ const sumScope=(key)=>loc==='All'?(Number(scopedValue('narol',key)||0)+Number(scopedValue('naroda',key)||0)):scopedValue(loc.toLowerCase(),key);
+ const allScope=loc==='All';
+ const reachVals=[sumScope('FL'),sumScope('OpdBeneficiaries'),allScope?(all?DATA.overviewCumulative.stem:row?.stem):null,allScope?(all?DATA.overviewCumulative.studentsSchools:row?.studentsSchools):null,sumScope('Skilling')];
+ charts.overallReach=new Chart(document.getElementById('overallReachChart'),{
+  type:'bar',data:{labels:reachLabels,datasets:[{label:'Reported reach',data:reachVals,backgroundColor:['#ed833c',C.teal,'#9263d2',C.blue,'#164d94']}]},
+  options:{...baseOptions(),indexAxis:'y',plugins:{legend:{display:false}}}
+ });
+ document.getElementById('overallFamiliesBadge').textContent='Total families: '+(families===null?'Not available':num(families));
  const chartTitle=document.querySelector('#page-overview #overviewFamilyChart')?.closest('.panel')?.querySelector('h3');
  if(chartTitle)chartTitle.textContent=loc==='All'?'Cumulative Family Milestones':loc+' — OPD Reach by Year';
  document.getElementById('overviewFamilyNote').textContent=loc==='All'?'Combined milestone series; values represent reported families by FY, not new families per year.':'Family milestone data cannot be split by center; this chart displays annual OPD reach instead.';
@@ -2691,7 +2657,7 @@ function renderOverview(){
   ['HEALTH & MEDICAL',opd,'OPD beneficiary reach'],['SKILLING & EMPLOYMENT',sk,'Skilling beneficiaries'],['EDUCATION',stem,'STEM students (combined only)'],['LIVELIHOOD & COMMUNITY',fl,'Financial literacy reach']
  ].map(([name,value,sub])=>'<div class="program-card"><div class="p-kicker">'+name+'</div><div class="p-value">'+fmt(value)+'</div><div class="p-name">'+sub+'</div><div class="p-sub">'+scoped+'</div></div>').join('');
  const history=document.getElementById('narodaHistoricalSnapshot');
- if(history){history.style.display=(all&&loc==='Naroda')?'grid':'none';}
+ if(history){history.style.display=(all&&(loc==='Naroda'||loc==='All'))?'grid':'none';}
  const diva=document.querySelector('#page-overview .diva-overview-panel')?.closest('.row');
  if(diva)diva.style.display=(all&&loc==='All')?'grid':'none';
 }
