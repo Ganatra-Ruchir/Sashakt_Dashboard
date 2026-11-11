@@ -1215,6 +1215,19 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
 #page-overview #areaHistoricalSnapshot .chart-note{font-size:11px;line-height:1.45}
 @media(max-width:600px){#page-overview #areaHistoricalSnapshot .historical-empty-visual{flex-direction:column}#page-overview #areaHistoricalSnapshot .historical-empty-venn-wrap{min-height:215px}}
 </style>
+<style id="historical-pillars-verified-mix">
+#page-overview .historical-pillar-body{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:18px;padding:9px 0 14px;min-height:247px}
+#page-overview .historical-data-donut{width:196px;height:196px;border-radius:50%;flex:0 0 196px;display:grid;place-items:center}
+#page-overview .historical-data-donut-center{width:123px;height:123px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:8px;box-sizing:border-box}
+#page-overview .historical-data-donut-center strong{font-weight:850;font-size:25px;color:#1b3458}
+#page-overview .historical-data-donut-center span{font-size:10px;line-height:1.35;color:#62748b}
+#page-overview .historical-pillar-legend{display:grid;gap:11px;flex:1 1 240px;max-width:355px;min-width:220px}
+#page-overview .historical-pillar-line{display:grid;grid-template-columns:11px minmax(0,1fr) auto 51px;align-items:center;gap:8px;font-size:11px;color:#34506d}
+#page-overview .historical-pillar-line i{width:10px;height:10px;border-radius:3px}
+#page-overview .historical-pillar-line strong{font-size:12px;color:#173654}
+#page-overview .historical-pillar-line small{text-align:right;font-size:10px;color:#657d96}
+@media(max-width:630px){#page-overview .historical-data-donut{width:170px;height:170px;flex-basis:170px}#page-overview .historical-pillar-legend{min-width:0;width:100%}}
+</style>
 </head>
 <style>
 :root{
@@ -1641,47 +1654,34 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
   <div class="chart-box" style="height:300px"><canvas id="overallReachChart"></canvas></div>
  </div>
 </div>
-<div class="section-title-block" id="narodaHistoricalHeading"><div><h3>Historical Insights</h3><p id="historicalInsightsDescription">The historical charts follow the location selection, with source and period noted.</p></div><span class="period-chip">Historical reference</span></div>
+<div class="section-title-block" id="narodaHistoricalHeading"><div><h3>Historical Insights</h3><p id="historicalInsightsDescription">Source-reported historical program activity by location; family-overlap evidence is shown only where available.</p></div><span class="period-chip">FY 2025–26 reference</span></div>
 <div class="row naroda-historical-charts" id="narodaHistoricalSnapshot">
-  <div class="panel">
-    <div class="section-title-block"><div><h3>Naroda — Project Pillars</h3><p>Historical Home First slide · indicative investment proportions; not current-year expenditure.</p></div></div>
-    <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:center;padding:14px 5px">
-      <div role="img" aria-label="Historical Naroda pillar allocations: Skilling 53 percent, Education 34 percent, Health 8 percent, Financial Literacy 5 percent" style="width:210px;height:210px;border-radius:50%;background:conic-gradient(#f8cc00 0 53%,#2970b8 53% 87%,#cdd3d8 87% 95%,#a8e0ef 95% 100%);display:grid;place-items:center;flex-shrink:0"><div style="background:white;width:125px;height:125px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;color:#122c45;font-size:16px">₹1,70,73,493</div></div>
-      <div style="display:grid;gap:12px;font-size:14px"><div><span style="color:#d1a900">●</span> Skilling <strong>53%</strong></div><div><span style="color:#2970b8">●</span> Education <strong>34%</strong></div><div><span style="color:#909aa7">●</span> Health <strong>8%</strong></div><div><span style="color:#60bed5">●</span> Financial literacy <strong>5%</strong></div></div>
-    </div>
-    <div class="chart-note">Source: historical Naroda presentation screenshot. These are spending proportions, not a verified current-year expenditure split.</div>
+ <div class="panel">
+  <div class="section-title-block"><div><h3 id="historicalPillarsTitle">Project Pillars · Reported Activity Mix</h3><p>FY 2025–26 · activity counts, not investment or unique individuals</p></div></div>
+  <div class="historical-pillar-body">
+   <div id="historicalPillarDonut" class="historical-data-donut" role="img" aria-label="Program activity mix donut chart">
+    <div class="historical-data-donut-center"><strong id="historicalPillarTotal">—</strong><span>reported activity<br>counts summed</span></div>
+   </div>
+   <div class="historical-pillar-legend" id="historicalPillarLegend"></div>
   </div>
-  <div class="panel">
-    <div class="section-title-block"><div><h3>Naroda — Families Participation</h3><p>Historical family participation overlap. Original counts require reconciliation.</p></div></div>
-    <div style="width:100%;max-width:440px;margin:auto;position:relative;height:300px;isolation:isolate">
-      <div style="position:absolute;left:25%;top:4px;width:49%;height:60%;border-radius:50%;background:rgba(126,209,231,.56);display:flex;align-items:flex-start;justify-content:center;padding-top:32px;box-sizing:border-box;font-weight:800;font-size:21px">676</div>
-      <div style="position:absolute;left:5%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(28,166,159,.58);display:flex;align-items:flex-end;justify-content:flex-start;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">113</div>
-      <div style="position:absolute;right:4%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(188,191,204,.50);display:flex;align-items:flex-end;justify-content:flex-end;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">217</div>
-      <span style="position:absolute;left:36%;top:112px;font-size:20px;font-weight:800">62</span><span style="position:absolute;left:61%;top:112px;font-size:20px;font-weight:800">15</span><span style="position:absolute;left:50%;top:154px;font-size:20px;font-weight:800">1</span><span style="position:absolute;left:50%;top:210px;font-size:20px;font-weight:800">0</span>
-    </div>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-size:12px;margin:6px 0 12px"><span>🔵 Health & wellness</span><span>🟢 Skilling & employment</span><span>⚪ Education & development</span></div>
-    <div class="chart-note"><b>Audit warning:</b> Screenshot reports 924 total families but its seven regions sum to 1,084 (difference: 160). Treat this as a historical visual reference only, not a current family KPI.</div>
+  <div class="chart-note" id="historicalPillarNote">Source: Gifting Life Sashakt Master Data · Bifurcated Data. Shares describe recorded activities only. The four measures may contain repeat participants, and should not be treated as unique families or spending proportions.</div>
+ </div>
+ <div class="panel">
+  <div class="section-title-block"><div><h3 id="historicalFamiliesTitle">Families Participation</h3><p id="historicalFamiliesSubtitle">Three-program participation overlap · historical reference</p></div></div>
+  <div id="historicalNarodaVenn">
+   <div style="width:100%;max-width:440px;margin:auto;position:relative;height:300px;isolation:isolate">
+    <div style="position:absolute;left:25%;top:4px;width:49%;height:60%;border-radius:50%;background:rgba(126,209,231,.56);display:flex;align-items:flex-start;justify-content:center;padding-top:32px;box-sizing:border-box;font-weight:800;font-size:21px">676</div>
+    <div style="position:absolute;left:5%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(28,166,159,.58);display:flex;align-items:flex-end;justify-content:flex-start;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">113</div>
+    <div style="position:absolute;right:4%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(188,191,204,.50);display:flex;align-items:flex-end;justify-content:flex-end;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">217</div>
+    <span style="position:absolute;left:36%;top:112px;font-size:20px;font-weight:800">62</span><span style="position:absolute;left:61%;top:112px;font-size:20px;font-weight:800">15</span><span style="position:absolute;left:50%;top:154px;font-size:20px;font-weight:800">1</span><span style="position:absolute;left:50%;top:210px;font-size:20px;font-weight:800">0</span>
+   </div>
+   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-size:12px;margin:6px 0 12px"><span>🔵 Health &amp; wellness</span><span>🟢 Skilling &amp; employment</span><span>⚪ Education &amp; development</span></div>
   </div>
-</div>
-<div class="row naroda-historical-charts" id="areaHistoricalSnapshot" style="display:none">
-  <div class="panel">
-    <div class="section-title-block"><div><h3 id="historicProgramTitle">Project Pillars</h3><p id="historicPillarSubtitle">Historical allocation chart · selected location</p></div></div>
-    <div class="historical-empty-visual">
-      <div class="historical-empty-donut" role="img" aria-label="Donut chart data unavailable for this location"><div class="historical-empty-donut-hole">No verified<br>allocation</div></div>
-      <div class="historical-empty-explanation">No verified pillar investment percentages are available for this location. The original donut design is preserved; values are not inferred.</div>
-    </div>
-    <div class="chart-note">Naroda's original historical investment breakdown cannot be reused as a Narol or combined figure.</div>
+  <div id="historicalUnavailableVenn" style="display:none">
+   <div class="historical-empty-visual historical-empty-venn-wrap"><div class="historical-empty-venn" role="img" aria-label="Family overlap data not verified"><span class="historical-empty-circle top"></span><span class="historical-empty-circle left"></span><span class="historical-empty-circle right"></span><span class="historical-empty-center">Overlap not<br>verified</span></div></div>
   </div>
-  <div class="panel">
-    <div class="section-title-block"><div><h3 id="historicDivaTitle">Families Participation</h3><p>Historical intervention overlap · selected location</p></div></div>
-    <div class="historical-empty-visual historical-empty-venn-wrap">
-      <div class="historical-empty-venn" role="img" aria-label="Three-circle family participation diagram unavailable for this location">
-        <span class="historical-empty-circle top"></span><span class="historical-empty-circle left"></span><span class="historical-empty-circle right"></span>
-        <span class="historical-empty-center">Not verified</span>
-      </div>
-    </div>
-    <div class="chart-note">No reconciled seven-region participation overlap is available for the selected location. The Venn diagram type is retained without displaying Naroda's counts as other locations.</div>
-  </div>
+  <div class="chart-note" id="historicalFamiliesNote">Naroda source reference has an unresolved inconsistency: reported total 924, seven displayed regions total 1,084. Not a verified current count.</div>
+ </div>
 </div>
 <div class="page-source"><b>Overview source:</b> Gifting Life Drive · “Sashakt - Master Data” (combined FY indicators). Latest family milestone corrected to 12,000 as reported for FY 2026–27. Figures may be annual or milestone measures, not distinct lifetime people. FY26–27 Q2 uses separate quarterly report intervention tables. Historical Naroda charts are reference-only and subject to reconciliation.</div>
 </section>
@@ -2741,21 +2741,43 @@ const Q2_REPORT={Narol:{enrolled:204,graduated:192,opd:881,fl:1194,stem:2082,lau
 
 function renderHistoricalInsights(){
  const loc=state.overallLocation;
- const isNaroda=loc==='Naroda';
- const original=document.getElementById('narodaHistoricalSnapshot');
- const alternative=document.getElementById('areaHistoricalSnapshot');
- const description=document.getElementById('historicalInsightsDescription');
- if(!original||!alternative||!description)return;
- original.style.setProperty('display',isNaroda?'grid':'none','important');
- alternative.style.setProperty('display',isNaroda?'none':'grid','important');
- if(isNaroda){
-  description.textContent='Naroda · original historical Project Pillars donut and Families Participation Venn diagram. Historical figures are not filtered by year or quarter and remain subject to reconciliation.';
-  return;
- }
- const label=loc==='All'?'Narol + Naroda':loc;
- document.getElementById('historicProgramTitle').textContent=label+' — Project Pillars';
- document.getElementById('historicDivaTitle').textContent=label+' — Families Participation';
- description.textContent=label+' · historical donut and Venn chart designs retained. Equivalent verified historical allocation and overlap figures are not available for this selected location.';
+ const displayLoc=loc==='All'?'Narol + Naroda':loc;
+ const ref=BIF.find(x=>x.fy==='2025-26');
+ if(!ref)return;
+ const areas=loc==='All'?['narol','naroda']:[loc.toLowerCase()];
+ const sumField=key=>{
+  const values=areas.map(area=>ref[area+key]);
+  return values.every(v=>typeof v==='number'&&Number.isFinite(v))?values.reduce((sum,v)=>sum+v,0):null;
+ };
+ // These four Master Data measures are activity counts; none measures family overlap
+ // or investment. They form a transparent activity mix, NOT spending shares.
+ const parts=[
+  {name:'Skilling',val:sumField('Skilling'),color:'#f8cc00'},
+  {name:'OPD services',val:sumField('OpdBeneficiaries'),color:'#2970b8'},
+  {name:'Financial literacy',val:sumField('FL'),color:'#a8e0ef'},
+  {name:'School health checkups',val:sumField('SchoolGenCheckup'),color:'#7ab9aa'}
+ ];
+ // The school-checkup field name differs from the historic BIF object: use the
+ // directly read FY25–26 Narol/Naroda master figures, only for this reference FY.
+ parts[3].val=(loc==='Narol'?4075:loc==='Naroda'?3868:4075+3868);
+ const usable=parts.filter(p=>typeof p.val==='number'&&Number.isFinite(p.val)&&p.val>=0);
+ const total=usable.reduce((sum,p)=>sum+p.val,0);
+ let pos=0;const gradient=usable.map(p=>{const start=pos;pos+=total?p.val/total*100:0;return p.color+' '+start.toFixed(3)+'% '+pos.toFixed(3)+'%';}).join(',');
+ const donut=document.getElementById('historicalPillarDonut');
+ donut.style.background=total?'conic-gradient('+gradient+')':'#d9e5ef';
+ donut.setAttribute('aria-label',displayLoc+' FY25-26 program activity mix; '+usable.map(p=>p.name+' '+p.val).join(', '));
+ document.getElementById('historicalPillarTotal').textContent=total?num(total):'—';
+ document.getElementById('historicalPillarLegend').innerHTML=usable.map(p=>'<div class="historical-pillar-line"><i style="background:'+p.color+'"></i><span>'+p.name+'</span><strong>'+num(p.val)+'</strong><small>'+(total?(p.val*100/total).toFixed(1):'—')+'%</small></div>').join('');
+ document.getElementById('historicalPillarsTitle').textContent=displayLoc+' — Project Pillars';
+ document.getElementById('historicalFamiliesTitle').textContent=displayLoc+' — Families Participation';
+ document.getElementById('historicalInsightsDescription').textContent='FY 2025–26 · '+displayLoc+' · project activity mix uses Master Data location splits. Family-overlap counts are separate from these activities.';
+ const naroda=loc==='Naroda';
+ document.getElementById('historicalNarodaVenn').style.display=naroda?'block':'none';
+ document.getElementById('historicalUnavailableVenn').style.display=naroda?'none':'block';
+ document.getElementById('historicalFamiliesSubtitle').textContent=naroda?'Original Naroda historical visual · not yet reconciled':'Original three-circle diagram retained · no verified seven-region family overlap';
+ document.getElementById('historicalFamiliesNote').textContent=naroda?
+  'Historical Naroda visual only. Reported total 924; seven printed region counts sum to 1,084. Not verified for publication as a current family count.':
+  'The master workbook contains program counts but not household-ID intersections. Without deduplicated family records, no seven-region Venn values can be responsibly displayed for '+displayLoc+'.';
 }
 
 function renderOverview(){
