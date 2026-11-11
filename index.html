@@ -2755,11 +2755,9 @@ function renderHistoricalInsights(){
   {name:'Skilling',val:sumField('Skilling'),color:'#f8cc00'},
   {name:'OPD services',val:sumField('OpdBeneficiaries'),color:'#2970b8'},
   {name:'Financial literacy',val:sumField('FL'),color:'#a8e0ef'},
-  {name:'School health checkups',val:sumField('SchoolGenCheckup'),color:'#7ab9aa'}
+  {name:'School health checkups',val:sumField('SchoolGeneral'),color:'#7ab9aa'}
  ];
- // The school-checkup field name differs from the historic BIF object: use the
- // directly read FY25–26 Narol/Naroda master figures, only for this reference FY.
- parts[3].val=(loc==='Narol'?4075:loc==='Naroda'?3868:4075+3868);
+ // The four categories count activity reach; school health is explicitly not education spending.
  const usable=parts.filter(p=>typeof p.val==='number'&&Number.isFinite(p.val)&&p.val>=0);
  const total=usable.reduce((sum,p)=>sum+p.val,0);
  let pos=0;const gradient=usable.map(p=>{const start=pos;pos+=total?p.val/total*100:0;return p.color+' '+start.toFixed(3)+'% '+pos.toFixed(3)+'%';}).join(',');
