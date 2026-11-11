@@ -1143,6 +1143,58 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 #page-overview #narodaHistoricalSnapshot .chart-note{font-size:11px;line-height:1.5}
 @media(max-width:900px){#page-overview #narodaHistoricalSnapshot{grid-template-columns:minmax(0,1fr)!important}}
 </style>
+
+<style id="overall-compact-audited-2026-11-11">
+/* Overview-specific cleanup: keep other program pages unchanged. */
+body:has(#page-overview.active) .top-status{display:none!important}
+body:has(#page-overview.active) .topbar{
+ display:grid!important;grid-template-columns:minmax(200px,auto) minmax(260px,1fr) auto!important;
+ align-items:center!important;gap:12px!important;height:auto!important;min-height:0!important;
+ padding:8px 14px!important
+}
+body:has(#page-overview.active) .top-brand{min-width:0}
+body:has(#page-overview.active) .top-brand img{height:54px!important;width:auto!important;max-width:85px!important;object-fit:contain!important}
+body:has(#page-overview.active) .page-nav{margin-top:7px!important;margin-bottom:8px!important}
+body:has(#page-overview.active) .main{padding-top:8px!important}
+#page-overview .page-hero{padding:12px 16px!important;margin-bottom:10px!important}
+#page-overview .page-title{margin-top:3px!important}
+#page-overview #overallFilters{margin-bottom:10px!important}
+#page-overview #overviewKpis{gap:10px!important;margin-bottom:10px!important}
+#page-overview #overviewKpis .stat-card{min-height:104px!important;max-height:none;padding:13px 16px!important}
+#page-overview #overviewKpis .stat-label{font-size:11px!important;line-height:1.25!important}
+#page-overview #overviewKpis .stat-value{font-size:clamp(22px,2.1vw,30px)!important;line-height:1.16!important;margin:6px 0 4px!important}
+#page-overview #overviewKpis .stat-sub{font-size:10px!important;line-height:1.35!important}
+#page-overview .overall-chart-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important;margin-bottom:10px!important}
+#page-overview .overall-chart-grid>.panel{display:flex;flex-direction:column;min-width:0;min-height:0;height:auto;padding:13px!important}
+#page-overview .overall-chart-grid .section-title-block{margin-bottom:6px!important}
+#page-overview .overall-chart-grid .chart-box{height:250px!important;min-height:250px!important;max-height:250px!important}
+#page-overview .overall-chart-grid .chart-box canvas{height:250px!important;max-height:250px!important}
+#page-overview .sashakt-bubble-shell{margin-top:6px;padding:6px}
+#page-overview .sashakt-bubble-legend:empty{display:none}
+#page-overview .sashakt-bubble-chips{margin:5px 0!important}
+#page-overview .sashakt-bubble-chip{padding:7px 9px!important}
+#page-overview .sashakt-bubble-chip strong{font-size:12px!important}
+#page-overview .sashakt-bubble-note{margin-top:7px!important;font-size:10px!important;line-height:1.4!important}
+#page-overview #narodaHistoricalHeading{margin:10px 0 8px!important}
+#page-overview #narodaHistoricalSnapshot{gap:10px!important;margin-bottom:10px!important}
+#page-overview #narodaHistoricalSnapshot>.panel{padding:13px!important}
+#page-overview #narodaHistoricalSnapshot>.panel>div:nth-child(2){padding-top:6px!important;padding-bottom:6px!important}
+#page-overview #narodaHistoricalSnapshot .chart-note{margin-top:5px}
+#page-overview .page-source{margin-top:7px!important}
+@media(max-width:1100px){
+ #page-overview .overall-chart-grid{grid-template-columns:1fr!important}
+ body:has(#page-overview.active) .topbar{grid-template-columns:minmax(150px,auto) minmax(160px,1fr) auto!important}
+}
+@media(max-width:700px){
+ body:has(#page-overview.active) .topbar{display:flex!important;flex-wrap:wrap!important}
+ body:has(#page-overview.active) .top-search{flex:1 1 100%!important}
+ #page-overview #overviewKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #page-overview #narodaHistoricalSnapshot{grid-template-columns:1fr!important}
+ #page-overview .overall-chart-grid .chart-box{height:235px!important;min-height:235px!important;max-height:235px!important}
+ #page-overview .overall-chart-grid .chart-box canvas{height:235px!important;max-height:235px!important}
+}
+@media(max-width:390px){#page-overview #overviewKpis{grid-template-columns:1fr!important}}
+</style>
 </head>
 <style>
 :root{
@@ -2647,132 +2699,102 @@ function renderChangeInsights(targetId, defs){
 /* ---------- OVERVIEW ---------- */
 const Q2_REPORT={Narol:{enrolled:204,graduated:192,opd:881,fl:1194,stem:2082,launch:500},Naroda:{enrolled:190,graduated:168,opd:1077,fl:1214,stem:2637,launch:0}};
 function renderOverview(){
- const isQ2FY=state.overallFy==='2026-27';
- document.getElementById('overallQuarterWrap').style.display=isQ2FY?'inline-flex':'none';
- if(!isQ2FY)state.overallQuarter='all';
+ const loc=state.overallLocation, all=state.overallFy==='all';
+ const fy=all?latestFY:state.overallFy;
+ const latest=fy===latestFY;
+ const sourceRow=DATA.combined.find(x=>x.fy===fy);
+ const row=sourceRow?{...sourceRow}:null;
+ // Verified against Gifting Life "Sashakt - Master Data" as of 11 Nov 2026.
+ // This is a reported FY snapshot; never sum family milestones across FYs.
+ if(row&&latest)row.families=12000;
+ const qwrap=document.getElementById('overallQuarterWrap');
+ qwrap.style.display=state.overallFy==='2026-27'?'inline-flex':'none';
+ if(state.overallFy!=='2026-27')state.overallQuarter='all';
  document.getElementById('overallQuarter').value=state.overallQuarter;
- if(isQ2FY&&state.overallQuarter==='Q2'){renderOverallQ2();return;}
- document.querySelector('#page-overview .overall-chart-grid .panel:first-child h3').textContent='Program Reach & Scale';
- document.querySelector('#page-overview .overall-chart-grid .panel:nth-child(2) h3').textContent='Program Reach Distribution';
- document.querySelector('#page-overview .overall-chart-grid .panel:first-child p').textContent='Source-reported indicators across available fiscal years; program reach may overlap.';
- document.querySelector('#page-overview .overall-chart-grid .panel:nth-child(2) p').textContent='Program reach totals may overlap; not unique people.';
- const all=state.overallFy==='all', loc=state.overallLocation, yr=state.overallFy;
- const row=all?null:DATA.combined.find(x=>x.fy===yr);
- const split=all?BIFTOTAL:BIF.find(x=>x.fy===yr);
- const selected=(field)=>{if(!split)return null;const keys=loc==='All'?['narol'+field,'naroda'+field]:[loc.toLowerCase()+field];const vals=keys.map(k=>split[k]);return vals.every(v=>typeof v==='number'&&Number.isFinite(v))?vals.reduce((a,b)=>a+b,0):null;};
- const fmt=v=>typeof v==='number'&&Number.isFinite(v)?num(v):'Not reported';
- const metric=(label,value,scope,tone)=>statCard(label,fmt(value),scope,tone);
- const canYearFamily=loc==='All';
- const scoped=all?'Cumulative source totals':('FY '+yr+' · '+(loc==='All'?'Narol + Naroda':loc));
- document.getElementById('overviewFyChip').textContent=all?'Overall Till Now':'FY '+yr;
- document.getElementById('overviewProgressChip').style.display=(!all&&yr===latestFY)?'inline-flex':'none';
- document.getElementById('overallYear').value=yr;
+ if(state.overallQuarter==='Q2'&&state.overallFy==='2026-27'){renderOverallQ2();return;}
+ document.getElementById('overallYear').value=state.overallFy;
  document.getElementById('overallLocation').value=loc;
- document.getElementById('overallFilterStatus').textContent=loc==='All'?'Narol + Naroda combined · '+(all?'lifetime totals':'selected financial year'):'Center-specific figures where the source provides them; other figures are marked Not available.';
- const sk=selected('Skilling'),opd=selected('OpdBeneficiaries'),fl=selected('FL');
- const families=canYearFamily?(all?DATA.overviewCumulative.families:row?.families):null;
- const stem=canYearFamily?(all?DATA.overviewCumulative.stem:row?.stem):null;
- const schools=canYearFamily?(all?DATA.overviewCumulative.studentsSchools:row?.studentsSchools):null;
+ document.getElementById('overviewFyChip').textContent=all?'Latest master snapshot · FY '+fy:'FY '+fy;
+ document.getElementById('overviewProgressChip').style.display=latest?'inline-flex':'none';
+ const combined=loc==='All';
+ const split=BIF.find(x=>x.fy===fy);
+ // FY26-27 bifurcated skilling totals conflict with the certified-only master data;
+ // do not display the unreliable center-wise annual breakdown.
+ const splitMetric=(field)=>{
+  if(!split||latest)return null;
+  const value=split[loc.toLowerCase()+field];
+  return typeof value==='number'&&Number.isFinite(value)?value:null;
+ };
+ const value=(key,field)=>{
+  if(combined)return row?.[key]??null;
+  return field?splitMetric(field):null;
+ };
+ const fmt=v=>typeof v==='number'&&Number.isFinite(v)?num(v):'Not verified';
+ const metric=(label,n,sub,tone)=>statCard(label,fmt(n),sub,tone);
+ const combinedFoot='Master Data · FY '+fy;
+ const centerFoot=latest?'Location split pending reconciliation':'Location operational report · FY '+fy;
+ document.getElementById('overallFilterStatus').textContent=combined?
+ (all?'Latest combined master snapshot; annual/cumulative measures are not summed across years.':'Combined master row for FY '+fy+'; not a sum of past FYs.'):
+ ('Location: '+loc+' · only reconciled figures shown; unavailable figures are not zero.');
  document.getElementById('overviewKpis').innerHTML=[
- metric('Families onboarded',families,canYearFamily?'Combined master family milestone':'No verified center split','teal'),
- metric('Skilling beneficiaries',sk,scoped,'blue'),
- metric('OPD beneficiary reach',opd,scoped,'cyan'),
- metric('Financial literacy reach',fl,scoped,'orange'),
- metric('STEM Lab students',stem,canYearFamily?'Combined source':'No verified center split','purple'),
- metric('Students reached in schools',schools,canYearFamily?'Combined source':'No verified center split','blue')
+  metric('Families onboarded',value('families'),combined?'Reported family milestone · FY '+fy:centerFoot,'teal'),
+  metric('Certified skilling beneficiaries',value('certified','Skilling'),combined?combinedFoot:centerFoot,'blue'),
+  metric('OPD beneficiary reach',value('opdBeneficiaries','OpdBeneficiaries'),combined?combinedFoot:centerFoot,'cyan'),
+  metric('Financial literacy reach',value('financialLiteracy','FL'),combined?combinedFoot:centerFoot,'orange'),
+  metric('STEM Lab students',value('stem'),combined?combinedFoot:centerFoot,'purple'),
+  metric('School students reported',value('studentsSchools'),combined?'Reported school coverage · FY '+fy:centerFoot,'blue')
  ].join('');
-
+ const panels=document.querySelectorAll('#page-overview .overall-chart-grid .panel');
+ panels[0].querySelector('h3').textContent='Families Onboarded · Milestones';
+ panels[0].querySelector('p').textContent='Reported family milestones by financial year, not annual additions.';
+ panels[1].querySelector('h3').textContent='Program Reach · FY '+fy;
+ panels[1].querySelector('p').textContent='Independent source-reported measures; these are not unique people.';
+ document.getElementById('overallFamiliesBadge').textContent='Master Data · FY milestones';
+ document.querySelector('#page-overview .sashakt-bubble-watermark').textContent='FAMILY MILESTONES';
+ const history=DATA.combined.filter(x=>YEARS.indexOf(x.fy)<=YEARS.indexOf(fy));
+ const familyHistory=history.map(x=>({fy:x.fy,value:x.fy===latestFY?12000:x.families})).filter(x=>typeof x.value==='number');
+ const chips=document.getElementById('sashaktBubbleChips');
+ chips.innerHTML='<div class="sashakt-bubble-chip"><span>SELECTED PERIOD</span><strong>FY '+fy+'</strong></div>'+
+  '<div class="sashakt-bubble-chip"><span>GEOGRAPHY</span><strong>'+(combined?'Combined':loc)+'</strong></div>'+
+  '<div class="sashakt-bubble-chip"><span>VALUE BASIS</span><strong>Reported, not added</strong></div>';
  destroyChart('overviewFamily');
- const periods=DATA.combined;
- const fyIndex=state.overallFy==='all'?periods.length-1:periods.findIndex(z=>z.fy===state.overallFy);
- const curFY=periods[Math.max(0,fyIndex)]?.fy;
- const prevFY=fyIndex>0?periods[fyIndex-1]?.fy:null;
- const curSplit=BIF.find(z=>z.fy===curFY);
- const prevSplit=BIF.find(z=>z.fy===prevFY);
- const programDefs=[
-  {name:'Skilling',key:'Skilling',color:'#3478f6'},
-  {name:'OPD / Health',key:'OpdBeneficiaries',color:'#0ca5a6'},
-  {name:'Financial Literacy',key:'FL',color:'#ee9050'}
- ];
- const scopedProgram=(rec,key)=>{
-  if(!rec) return null;
-  const a=loc==='All'?['narol','naroda']:[loc.toLowerCase()];
-  const values=a.map(z=>rec[z+key]);
-  return values.every(v=>typeof v==='number'&&Number.isFinite(v))?values.reduce((v,x)=>v+x,0):null;
- };
- const bubbleRows=programDefs.map(p=>{
-  const source=all?BIFTOTAL:(BIF.find(z=>z.fy===yr));
-  const total=scopedProgram(source,p.key);
-  const current=scopedProgram(curSplit,p.key);
-  const previous=scopedProgram(prevSplit,p.key);
-  return {...p,total,current,previous};
- }).filter(x=>Number.isFinite(x.total)&&x.total>0&&Number.isFinite(x.current));
- // Family and school totals exist only at combined level; never invent center splits.
- if(loc==='All'){
-  const combinedCurrent=periods[Math.max(0,fyIndex)]||null;
-  [
-   {name:'Families Onboarded',key:'families',color:'#9456ed'},
-   {name:'Students Reached in Schools',key:'studentsSchools',color:'#dd5a94'}
-  ].forEach(p=>{
-   const total=all?DATA.overviewCumulative[p.key]:row?.[p.key];
-   const current=combinedCurrent?.[p.key];
-   if(Number.isFinite(total)&&total>0&&Number.isFinite(current)){
-    bubbleRows.push({...p,total,current});
-   }
-  });
- }
- const bubbleMax=Math.max(1,...bubbleRows.map(x=>x.total));
- const bubbleData=bubbleRows.map(p=>({
-  x:p.total,y:p.current,
-  r:Math.max(12,Math.min(34,11+23*Math.sqrt(p.total/bubbleMax))),
-  name:p.name,reach:p.total,color:p.color
- }));
- const bubbleChips=document.getElementById('sashaktBubbleChips');
- const leader=[...bubbleRows].sort((a,b)=>b.total-a.total)[0];
- bubbleChips.innerHTML='<div class="sashakt-bubble-chip"><span>INDICATORS WITH VERIFIED DATA</span><strong>'+bubbleRows.length+'</strong></div>'+
- '<div class="sashakt-bubble-chip"><span>HIGHEST REPORTED REACH</span><strong>'+(leader?leader.name:'Not available')+'</strong></div>'+
- '<div class="sashakt-bubble-chip"><span>VIEWING</span><strong>'+(loc==='All'?'Narol + Naroda':loc)+'</strong></div>';
- const yDesc='FY '+(curFY||'—')+' reported reach';
- const xDesc=all?'Lifetime reported reach':'Selected FY reported reach';
- const bubbleCanvas=document.getElementById('overviewFamilyChart');
- const bubbleLabelsPlugin={id:'sashaktLabels',afterDatasetsDraw(chart){
-  const ctx=chart.ctx;const meta=chart.getDatasetMeta(0);ctx.save();ctx.textAlign='center';ctx.font='600 11px system-ui, sans-serif';
-  meta.data.forEach((pt,i)=>{const p=bubbleRows[i];if(!p)return;ctx.fillStyle='#183253';ctx.fillText(p.name,pt.x,pt.y-pt.options.radius-8);});ctx.restore();
- }};
- charts.overviewFamily=new Chart(bubbleCanvas,{
-  type:'bubble',
-  data:{datasets:[{label:'Reported program reach',data:bubbleData,
-   backgroundColor:bubbleData.map(p=>p.color+'77'),borderColor:bubbleData.map(p=>p.color),
-   borderWidth:2.5,hoverBorderWidth:4,hoverBackgroundColor:bubbleData.map(p=>p.color+'aa')}]},
-  plugins:[bubbleLabelsPlugin],
-  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20,right:15,bottom:7,left:8}},
-   scales:{x:{beginAtZero:true,title:{display:true,text:xDesc,font:{weight:'700'}},grid:{color:'rgba(100,116,139,.09)'},ticks:{precision:0}},
-    y:{beginAtZero:true,title:{display:true,text:yDesc,font:{weight:'700'}},grid:{color:'rgba(100,116,139,.09)'},ticks:{precision:0}}},
-   plugins:{legend:{display:false},tooltip:{callbacks:{label(ctx){const p=bubbleRows[ctx.dataIndex];return p.name+' · '+xDesc+': '+num(p.total)+' · '+yDesc+': '+num(p.current);}}}},
-   animation:{duration:650},
-  }
+ charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{
+  type:'line',data:{labels:familyHistory.map(x=>'FY '+x.fy),datasets:[{
+   label:'Reported families',data:combined?familyHistory.map(x=>x.value):familyHistory.map(()=>null),
+   borderColor:'#3478f6',backgroundColor:'rgba(52,120,246,.11)',fill:true,
+   tension:.22,pointRadius:4,pointHoverRadius:6,borderWidth:2.5
+  }]},
+  options:{...baseOptions(),maintainAspectRatio:false,
+   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>num(c.parsed.y)+' reported families (milestone)'}}},
+   scales:{y:{beginAtZero:true,ticks:{precision:0}},x:{grid:{display:false}}}}
  });
- document.getElementById('sashaktBubbleLegend').innerHTML=bubbleRows.map(p=>'<span><i style="background:'+p.color+'"></i>'+p.name+'</span>').join('');
- const selectedFY=state.overallFy;
- const scopedValue=(area,key)=>{
-  const rec=selectedFY==='all'?BIFTOTAL:BIF.find(x=>x.fy===selectedFY);
-  return rec?rec[area+key]:null;
- };
+ document.getElementById('sashaktBubbleLegend').innerHTML='';
+ const reachRows=[
+  {name:'Certified skilling',v:value('certified','Skilling'),color:'#3478f6'},
+  {name:'OPD reach',v:value('opdBeneficiaries','OpdBeneficiaries'),color:'#0ca5a6'},
+  {name:'Financial literacy',v:value('financialLiteracy','FL'),color:'#ee9050'},
+  {name:'STEM Lab',v:value('stem'),color:'#9456ed'},
+  {name:'School students',v:value('studentsSchools'),color:'#dd5a94'}
+ ].filter(x=>typeof x.v==='number'&&Number.isFinite(x.v));
  destroyChart('overallReach');
- const reachLabels=['Financial literacy','OPD beneficiaries','STEM Lab students','Students in schools','Skilling beneficiaries'];
- const sumScope=(key)=>loc==='All'?(Number(scopedValue('narol',key)||0)+Number(scopedValue('naroda',key)||0)):scopedValue(loc.toLowerCase(),key);
- const allScope=loc==='All';
- const reachVals=[selected('FL'),selected('OpdBeneficiaries'),allScope?(all?DATA.overviewCumulative.stem:row?.stem):null,allScope?(all?DATA.overviewCumulative.studentsSchools:row?.studentsSchools):null,selected('Skilling')];
  charts.overallReach=new Chart(document.getElementById('overallReachChart'),{
-  type:'bar',data:{labels:reachLabels,datasets:[{label:'Reported reach',data:reachVals,backgroundColor:['#ed833c',C.teal,'#9263d2',C.blue,'#164d94']}]},
-  options:{...baseOptions(),indexAxis:'y',plugins:{legend:{display:false}}}
+  type:'bar',data:{labels:reachRows.map(x=>x.name),datasets:[{
+   label:'FY reported measure',data:reachRows.map(x=>x.v),backgroundColor:reachRows.map(x=>x.color),borderRadius:5,
+   maxBarThickness:34
+  }]},
+  options:{...baseOptions(),maintainAspectRatio:false,indexAxis:'y',
+   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>num(c.parsed.x)+' reported (FY '+fy+')'}}},
+   scales:{x:{beginAtZero:true,ticks:{precision:0}},y:{grid:{display:false}}}}
  });
- document.getElementById('overallFamiliesBadge').textContent='Source-reported figures';
- document.getElementById('overviewFamilyNote').textContent=bubbleRows.length?'Bubble size represents the reported total for each indicator (families, students, or program beneficiaries). X = '+xDesc+'; Y = '+yDesc+'. These indicators measure different populations and must not be added together. Family and school totals are only available for the combined locations; no center split is inferred.':'No verified program data is available for this filter selection.';
- const history=document.getElementById('narodaHistoricalSnapshot');
- if(history)history.style.display='grid';
- const diva=document.querySelector('#page-overview .diva-overview-panel')?.closest('.row');
- if(diva)diva.style.display=(all&&loc==='All')?'grid':'none';
+ document.getElementById('overviewFamilyNote').textContent=combined?
+ 'Source: Sashakt - Master Data. Family values are reported milestones, not yearly additions. Skilling is certified-only. Other reach measures can include repeated participation; do not sum across categories or years.':
+ 'Family and school figures have no verified center split. FY26-27 skilling/OPD/financial literacy center data require reconciliation; unsupported figures are not estimated.';
+ const reachCard=document.querySelector('#page-overview .overall-chart-grid .panel:nth-child(2) .chart-box');
+ reachCard.style.display=reachRows.length?'block':'none';
+ let empty=document.getElementById('overviewReachEmpty');
+ if(!empty){empty=document.createElement('p');empty.id='overviewReachEmpty';empty.className='chart-note';reachCard.parentElement.appendChild(empty);}
+ empty.style.display=reachRows.length?'none':'block';
+ empty.textContent='No reconciled location-level figures are available for this selection.';
 }
 
 function renderOverallQ2(){
