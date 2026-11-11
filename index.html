@@ -2624,6 +2624,8 @@ function renderOverview(){
  if(isQ2FY&&state.overallQuarter==='Q2'){renderOverallQ2();return;}
  document.querySelector('#page-overview .overall-chart-grid .panel:first-child h3').textContent='Program Reach & Scale';
  document.querySelector('#page-overview .overall-chart-grid .panel:nth-child(2) h3').textContent='Program Reach Distribution';
+ document.querySelector('#page-overview .overall-chart-grid .panel:first-child p').textContent='Source-reported indicators across available fiscal years; program reach may overlap.';
+ document.querySelector('#page-overview .overall-chart-grid .panel:nth-child(2) p').textContent='Program reach totals may overlap; not unique people.';
  const all=state.overallFy==='all', loc=state.overallLocation, yr=state.overallFy;
  const row=all?null:DATA.combined.find(x=>x.fy===yr);
  const split=all?BIFTOTAL:BIF.find(x=>x.fy===yr);
@@ -2770,7 +2772,7 @@ function renderOverallQ2(){
  destroyChart('overallReach');
  charts.overallReach=new Chart(document.getElementById('overallReachChart'),{type:'bar',data:{labels:['Enrolled','Graduated','Phase launch'],datasets:[{label:'Reported activities',data:[v('enrolled'),v('graduated'),v('launch')],backgroundColor:['#3478f6','#0ca5a6','#9456ed']}]},options:{...baseOptions(),plugins:{legend:{display:false}}}});
  document.getElementById('overallFamiliesBadge').textContent='Q2 intervention tables';
- document.getElementById('overviewFamilyNote').textContent='Source: Narol and Naroda Q2 FY26-27 reports (intervention tables). Naroda report cover has an incorrect 2025 date. Q1 reports contain unresolved FY/date contradictions and are not offered as verified quarter data. Do not sum these indicators as unique people.';
+ document.getElementById('overviewFamilyNote').textContent='Source: Narol and Naroda Q2 FY26-27 intervention tables. Naroda report cover incorrectly says Sep 2025. For source details and known discrepancies see the audit file in the GitHub repository. Do not sum these indicators as unique beneficiaries.';
 }
 
 /* ---------- HEALTH ---------- */
