@@ -1654,10 +1654,10 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
   <div class="chart-box" style="height:300px"><canvas id="overallReachChart"></canvas></div>
  </div>
 </div>
-<div class="section-title-block" id="narodaHistoricalHeading"><div><h3>Historical Insights</h3><p id="historicalInsightsDescription">Source-reported historical program activity by location; family-overlap evidence is shown only where available.</p></div><span class="period-chip">FY 2025–26 reference</span></div>
+<div class="section-title-block" id="narodaHistoricalHeading"><div><h3>Historical Insights</h3><p id="historicalInsightsDescription">Source-reported historical program activity by location; family-overlap evidence is shown only where available.</p></div><span class="period-chip" id="historicalPeriodChip">Historical reference</span></div>
 <div class="row naroda-historical-charts" id="narodaHistoricalSnapshot">
  <div class="panel">
-  <div class="section-title-block"><div><h3 id="historicalPillarsTitle">Project Pillars · Reported Activity Mix</h3><p>FY 2025–26 · activity counts, not investment or unique individuals</p></div></div>
+  <div class="section-title-block"><div><h3 id="historicalPillarsTitle">Project Pillars · Reported Activity Mix</h3><p id="historicalPillarPeriod">Activity counts, not investment or distinct individuals</p></div></div>
   <div class="historical-pillar-body">
    <div id="historicalPillarDonut" class="historical-data-donut" role="img" aria-label="Program activity mix donut chart">
     <div class="historical-data-donut-center"><strong id="historicalPillarTotal">—</strong><span>reported activity<br>counts summed</span></div>
@@ -2770,6 +2770,8 @@ function renderHistoricalInsights(){
  document.getElementById('historicalPillarsTitle').textContent=displayLoc+' — Project Pillars';
  document.getElementById('historicalFamiliesTitle').textContent=displayLoc+' — Families Participation';
  document.getElementById('historicalInsightsDescription').textContent='FY '+period+' · '+displayLoc+' · project activity mix uses Master Data location splits. Family-overlap counts are separate from these activities.';
+ document.getElementById('historicalPeriodChip').textContent='FY '+period+' reference';
+ document.getElementById('historicalPillarPeriod').textContent='FY '+period+' · operational activity counts, not expenditure or unique persons';
  const naroda=loc==='Naroda'&&state.overallFy==='all'&&state.overallQuarter==='all';
  document.getElementById('historicalNarodaVenn').style.display=naroda?'block':'none';
  document.getElementById('historicalUnavailableVenn').style.display=naroda?'none':'block';
