@@ -93,3 +93,15 @@ Treat the earlier Q2 dashboard view as **pending alignment with the reconciled t
 
 ### Chart implementation rule
 Keep **Project Pillars as a donut** and **Families Participation as a three-circle Venn**. Display source-grounded values only when the selected location and period match their scope; otherwise show an explicit unavailable-data state, not a new bar or line chart and not fabricated numbers. Never publish person-level family or survey records in the public repository.
+
+## 11 November 2026 — shared spreadsheet and email cross-check, Overall fixes
+
+- Discovery used Gifting Life Drive's `sharedWithMe=true` spreadsheet listing, not merely file-name search. Confirmed accessible source sheets: `Sashakt - Master Data`, `Narol sashakt datasheet` (Healthcare/Education/Skill development), `Target vs Achievement FY 25-26`, `Active/Inactive Family - Narol/Naroda`, `Narol,naroda,lambha target vs Achievement_25-26`, `Skilling Enrollment List - Narol/Naroda`, and partner trackers.
+- **Root cause of empty KPI cards:** Overall's FY26–27 renderer returned null for every location split, despite current `Bifurcated Data` FY26–27 rows. Fixed on Overall page; other program pages unchanged.
+- **FY26–27 Bifurcated Data current row:** Narol skilling operational 3,004, Naroda 1,403; OPD service reach 1,508 / 2,091; financial literacy 1,982 / 2,072; school general checkups 5,709 / 3,321; Diva Salon + Studio beneficiaries 179 / 138.
+- **Definition caution:** Center-side skilling operational counts are not certified-only; the combined Master Data certified KPI is 1,837. Do not sum or compare these as equivalent.
+- **Q2 reported family coverage:** Narol Q2 PDF says 7,000 beneficiary families; Naroda Q2 PDF says 5,000. This is *reported family coverage*; no individual household-ID deduplication is asserted.
+- **FY26–27 Q2 corrected from Master Data's `Q2 FY26-27 Jul-Sep Audit` tab:** Narol/Naroda admissions 179/190, graduations 192/178, OPD beneficiary visits 881/1,014, FL 1,194/1,214; Science Lab engagements 2,082/2,637 from report summary. Phase-launch attendance 322/0, not estimated phase-enrolled families 500.
+- **Gmail corroboration:** Wings to Fly email from 29 Oct 2026 links partner FY26–27 target-vs-achievement Sheet (`1oXwio_03cCxHzoPT3YI5fl-vUh0fBU_Qf1yjIs844K0`); Adani correspondence 23 Oct 2026 explicitly says its previously supplied MIS figures are the latest verified ones; 27 Oct 2026 Home First feedback confirms Narol Q2 FY label error.
+- **Chart behavior:** FY-specific Overview location charts now show program operational metrics and a real OPD reach trend rather than empty family-milestone lines. Historical donut follows FY and location; original Venn is a historical Naroda-only visual pending deduplicated family overlap.
+- **Unresolved:** No verified cross-program family-ID intersection matrix for Health/Skilling/Education. The original Naroda 924-family Venn still contains irreconcilable printed regions summing to 1,084. We cannot show deduplicated Venn figures for Narol, Naroda or combined without family-program participation IDs or an approved seven-region overlap table.
