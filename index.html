@@ -1099,6 +1099,42 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 <style id="sashakt-bubble-design">
 .sashakt-bubble-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}.sashakt-bubble-chip{border:1px solid #dfebfb;border-radius:12px;background:linear-gradient(130deg,#f7fbff,#edf8ff);padding:11px 12px;min-width:0}.sashakt-bubble-chip span{display:block;font-size:9px;font-weight:800;letter-spacing:.65px;color:#647b98}.sashakt-bubble-chip strong{display:block;color:#163961;font-size:15px;margin-top:4px;overflow-wrap:anywhere}.sashakt-bubble-shell{position:relative;overflow:hidden;background:radial-gradient(ellipse at 70% 20%,rgba(53,157,239,.09),transparent 55%),linear-gradient(135deg,#ffffff,#f8fbff);border:1px solid #e2edfb;border-radius:14px;padding:7px}.sashakt-bubble-watermark{position:absolute;right:15px;top:10px;font-size:9px;letter-spacing:2px;color:#a7bdd1;font-weight:800;pointer-events:none}.sashakt-bubble-legend{display:flex;flex-wrap:wrap;gap:8px 16px;padding:10px 3px}.sashakt-bubble-legend span{font-size:11px;font-weight:650;color:#455b78;display:flex;align-items:center;gap:6px}.sashakt-bubble-legend i{display:inline-block;width:10px;height:10px;border-radius:50%}.sashakt-bubble-note{border-left:3px solid #14a8a5;background:#effaf9;padding:9px 12px;border-radius:6px;color:#335872;font-size:11px}@media(max-width:640px){.sashakt-bubble-chips{grid-template-columns:1fr 1fr}.sashakt-bubble-chip:last-child{grid-column:1/-1}}
 </style>
+
+<style id="overall-layout-fix-2026-11">
+/* Scoped Overall fixes: do not affect Health, Skilling, Education or Livelihood. */
+#page-overview{min-width:0}
+#page-overview .page-hero{margin-bottom:12px}
+#page-overview #overallFilters{display:flex;align-items:center;gap:10px 16px;padding:10px 14px!important;margin-bottom:12px!important}
+#page-overview #overallFilters label{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
+#page-overview #overallFilterStatus{flex:1 1 250px;line-height:1.4}
+#page-overview #overviewKpis{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin:0 0 14px!important;align-items:start!important}
+#page-overview #overviewKpis .stat-card{min-width:0!important;min-height:0!important;height:auto!important;padding:14px 16px!important;margin:0!important;align-self:start!important;overflow-wrap:anywhere}
+#page-overview #overviewKpis .stat-value{font-size:clamp(20px,2vw,29px);line-height:1.16;overflow-wrap:anywhere}
+#page-overview .overall-chart-grid{display:grid!important;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr)!important;gap:14px;align-items:start!important;margin-bottom:12px}
+#page-overview .overall-chart-grid>.panel{width:100%;min-width:0;min-height:0;height:auto!important;align-self:start;padding:15px!important}
+#page-overview .overall-chart-grid .section-title-block{min-height:0!important;margin-bottom:8px}
+#page-overview .overall-chart-grid .chart-box{width:100%;min-width:0;max-width:100%;overflow:hidden}
+#page-overview .overall-chart-grid .chart-box canvas{display:block;width:100%!important;max-width:100%!important}
+#page-overview .sashakt-bubble-chips{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:9px 0}
+#page-overview .sashakt-bubble-chip{min-width:0;padding:9px 10px}
+#page-overview .sashakt-bubble-chip strong{font-size:13px;line-height:1.3}
+#page-overview .page-source{margin-top:0}
+@media(max-width:1100px){
+ #page-overview #overviewKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #page-overview .overall-chart-grid{grid-template-columns:minmax(0,1fr)!important}
+}
+@media(max-width:620px){
+ #page-overview #overallFilters{align-items:stretch;gap:10px!important}
+ #page-overview #overallFilters label{width:100%;justify-content:space-between}
+ #page-overview #overallFilters select{max-width:58%}
+ #page-overview #overviewKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+ #page-overview #overviewKpis .stat-card{padding:11px!important}
+ #page-overview #overviewKpis .stat-value{font-size:20px}
+ #page-overview .sashakt-bubble-chips{grid-template-columns:1fr}
+ #page-overview .overall-chart-grid .chart-box{height:270px!important}
+}
+@media(max-width:390px){#page-overview #overviewKpis{grid-template-columns:1fr!important}}
+</style>
 </head>
 <style>
 :root{
@@ -1495,7 +1531,7 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
     <div>
       <div class="page-kicker">OVERALL</div>
       <div class="page-title">Sashakt Impact So Far</div>
-      <div class="page-lead">Main Sashakt results from all available years. Use the year filter on the program pages for yearly details.</div>
+      <div class="page-lead">Explore source-reported Sashakt impact by financial year and location. Program reach figures may overlap across services.</div>
     </div>
     <div class="page-period">
       <span class="period-chip" id="overviewFyChip"></span>
@@ -1524,27 +1560,6 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
   <div class="section-title-block"><div><h3>Program Reach Distribution</h3><p>Program reach totals may overlap; not unique people.</p></div></div>
   <div class="chart-box" style="height:300px"><canvas id="overallReachChart"></canvas></div>
  </div>
-</div>
-<div class="row" style="grid-template-columns:1fr 1fr;gap:14px;align-items:stretch" id="narodaHistoricalSnapshot">
-  <div class="panel">
-    <div class="section-title-block"><div><h3>Naroda — Project Pillars</h3><p>Historical Home First slide · proportions of reported pillar investment, not the current FY.</p></div></div>
-    <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:center;padding:14px 5px">
-      <div role="img" aria-label="Historical Naroda pillar allocations: Skilling 53 percent, Education 34 percent, Health 8 percent, Financial Literacy 5 percent" style="width:210px;height:210px;border-radius:50%;background:conic-gradient(#f8cc00 0 53%,#2970b8 53% 87%,#cdd3d8 87% 95%,#a8e0ef 95% 100%);display:grid;place-items:center;flex-shrink:0"><div style="background:white;width:125px;height:125px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;color:#122c45;font-size:16px">₹1,70,73,493</div></div>
-      <div style="display:grid;gap:12px;font-size:14px"><div><span style="color:#d1a900">●</span> Skilling <strong>53%</strong></div><div><span style="color:#2970b8">●</span> Education <strong>34%</strong></div><div><span style="color:#909aa7">●</span> Health <strong>8%</strong></div><div><span style="color:#60bed5">●</span> Financial literacy <strong>5%</strong></div></div>
-    </div>
-    <div class="chart-note">Source: historical Naroda presentation screenshot. These are spending proportions, not a verified current-year expenditure split.</div>
-  </div>
-  <div class="panel">
-    <div class="section-title-block"><div><h3>Naroda — Families Participation</h3><p>Historical intervention-overlap snapshot. Counts in the original image require reconciliation.</p></div></div>
-    <div style="width:100%;max-width:440px;margin:auto;position:relative;height:300px;isolation:isolate">
-      <div style="position:absolute;left:25%;top:4px;width:49%;height:60%;border-radius:50%;background:rgba(126,209,231,.56);display:flex;align-items:flex-start;justify-content:center;padding-top:32px;box-sizing:border-box;font-weight:800;font-size:21px">676</div>
-      <div style="position:absolute;left:5%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(28,166,159,.58);display:flex;align-items:flex-end;justify-content:flex-start;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">113</div>
-      <div style="position:absolute;right:4%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(188,191,204,.50);display:flex;align-items:flex-end;justify-content:flex-end;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">217</div>
-      <span style="position:absolute;left:36%;top:112px;font-size:20px;font-weight:800">62</span><span style="position:absolute;left:61%;top:112px;font-size:20px;font-weight:800">15</span><span style="position:absolute;left:50%;top:154px;font-size:20px;font-weight:800">1</span><span style="position:absolute;left:50%;top:210px;font-size:20px;font-weight:800">0</span>
-    </div>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-size:12px;margin:6px 0 12px"><span>🔵 Health & wellness</span><span>🟢 Skilling & employment</span><span>⚪ Education & development</span></div>
-    <div class="chart-note"><b>Audit warning:</b> Screenshot reports 924 total families but its seven regions sum to 1,084 (difference: 160). Treat this as a historical visual reference only, not a current family KPI.</div>
-  </div>
 </div>
 <div class="page-source"><b>Overview source:</b> “Data for Narol and Naroda”. Headline figures are shown as reported; program counts may overlap and are not summed into a unique-beneficiary total.</div>
 </section>
