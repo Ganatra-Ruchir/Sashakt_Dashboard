@@ -1201,7 +1201,21 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
 #page-overview #areaHistoricalSnapshot .chart-box{height:260px!important}
 #page-overview #areaHistoricalSnapshot canvas{height:260px!important;max-width:100%!important}
 @media(max-width:900px){#page-overview #areaHistoricalSnapshot{grid-template-columns:1fr!important}}
-</style></head>
+</style><style id="historical-original-types-preserved">
+#page-overview #areaHistoricalSnapshot .historical-empty-visual{display:flex;align-items:center;justify-content:center;gap:18px;min-height:210px;padding:9px}
+#page-overview #areaHistoricalSnapshot .historical-empty-donut{width:174px;height:174px;flex-shrink:0;border-radius:50%;background:conic-gradient(#d7e2ec 0 53%,#e9eff6 53% 87%,#cfdce9 87% 95%,#e4ebf4 95%);display:grid;place-items:center}
+#page-overview #areaHistoricalSnapshot .historical-empty-donut-hole{width:116px;height:116px;border-radius:50%;background:white;display:grid;place-items:center;text-align:center;color:#6b7d93;font-size:13px;font-weight:750;line-height:1.3}
+#page-overview #areaHistoricalSnapshot .historical-empty-explanation{max-width:230px;color:#5e7088;font-size:12px;line-height:1.55}
+#page-overview #areaHistoricalSnapshot .historical-empty-venn{width:300px;height:215px;position:relative;flex:none}
+#page-overview #areaHistoricalSnapshot .historical-empty-circle{position:absolute;width:150px;height:150px;border-radius:50%;border:2px dashed #bbccdc;background:rgba(208,222,233,.24)}
+#page-overview #areaHistoricalSnapshot .historical-empty-circle.top{left:75px;top:0}
+#page-overview #areaHistoricalSnapshot .historical-empty-circle.left{left:28px;top:62px}
+#page-overview #areaHistoricalSnapshot .historical-empty-circle.right{right:28px;top:62px}
+#page-overview #areaHistoricalSnapshot .historical-empty-center{position:absolute;z-index:2;top:115px;left:97px;min-width:106px;text-align:center;font-size:13px;font-weight:800;color:#697c91}
+#page-overview #areaHistoricalSnapshot .chart-note{font-size:11px;line-height:1.45}
+@media(max-width:600px){#page-overview #areaHistoricalSnapshot .historical-empty-visual{flex-direction:column}#page-overview #areaHistoricalSnapshot .historical-empty-venn-wrap{min-height:215px}}
+</style>
+</head>
 <style>
 :root{
   --sashakt-orange:#F26825;
@@ -1650,9 +1664,26 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
   </div>
 </div>
 <div class="row naroda-historical-charts" id="areaHistoricalSnapshot" style="display:none">
-<div class="panel"><div class="section-title-block"><div><h3 id="historicProgramTitle">Historical Program Reach</h3><p>FY 2025–26 · source-reported activity, not unique beneficiaries</p></div></div><div class="chart-box" style="height:260px"><canvas id="historicProgramChart"></canvas></div><div class="chart-note">Source: Sashakt - Master Data, FY25–26 Bifurcated Data. Separate activity measures may overlap.</div></div>
-<div class="panel"><div class="section-title-block"><div><h3 id="historicDivaTitle">Historical Diva Participation</h3><p>FY 2025–26 · Salon + Studio program participants</p></div></div><div class="chart-box" style="height:260px"><canvas id="historicDivaChart"></canvas></div><div class="chart-note">Source: Sashakt - Master Data, FY25–26 Bifurcated Data. Figures are not independently deduplicated people.</div></div>
-</div><div class="page-source"><b>Overview source:</b> Gifting Life Drive · “Sashakt - Master Data” (combined FY indicators). Latest family milestone corrected to 12,000 as reported for FY 2026–27. Figures may be annual or milestone measures, not distinct lifetime people. FY26–27 Q2 uses separate quarterly report intervention tables. Historical Naroda charts are reference-only and subject to reconciliation.</div>
+  <div class="panel">
+    <div class="section-title-block"><div><h3 id="historicProgramTitle">Project Pillars</h3><p id="historicPillarSubtitle">Historical allocation chart · selected location</p></div></div>
+    <div class="historical-empty-visual">
+      <div class="historical-empty-donut" role="img" aria-label="Donut chart data unavailable for this location"><div class="historical-empty-donut-hole">No verified<br>allocation</div></div>
+      <div class="historical-empty-explanation">No verified pillar investment percentages are available for this location. The original donut design is preserved; values are not inferred.</div>
+    </div>
+    <div class="chart-note">Naroda's original historical investment breakdown cannot be reused as a Narol or combined figure.</div>
+  </div>
+  <div class="panel">
+    <div class="section-title-block"><div><h3 id="historicDivaTitle">Families Participation</h3><p>Historical intervention overlap · selected location</p></div></div>
+    <div class="historical-empty-visual historical-empty-venn-wrap">
+      <div class="historical-empty-venn" role="img" aria-label="Three-circle family participation diagram unavailable for this location">
+        <span class="historical-empty-circle top"></span><span class="historical-empty-circle left"></span><span class="historical-empty-circle right"></span>
+        <span class="historical-empty-center">Not verified</span>
+      </div>
+    </div>
+    <div class="chart-note">No reconciled seven-region participation overlap is available for the selected location. The Venn diagram type is retained without displaying Naroda's counts as other locations.</div>
+  </div>
+</div>
+<div class="page-source"><b>Overview source:</b> Gifting Life Drive · “Sashakt - Master Data” (combined FY indicators). Latest family milestone corrected to 12,000 as reported for FY 2026–27. Figures may be annual or milestone measures, not distinct lifetime people. FY26–27 Q2 uses separate quarterly report intervention tables. Historical Naroda charts are reference-only and subject to reconciliation.</div>
 </section>
 
 <!-- ===================== HEALTH ===================== -->
@@ -2709,37 +2740,22 @@ function renderChangeInsights(targetId, defs){
 const Q2_REPORT={Narol:{enrolled:204,graduated:192,opd:881,fl:1194,stem:2082,launch:500},Naroda:{enrolled:190,graduated:168,opd:1077,fl:1214,stem:2637,launch:0}};
 
 function renderHistoricalInsights(){
- const loc=state.overallLocation, naroda=loc==='Naroda';
+ const loc=state.overallLocation;
+ const isNaroda=loc==='Naroda';
  const original=document.getElementById('narodaHistoricalSnapshot');
  const alternative=document.getElementById('areaHistoricalSnapshot');
- const desc=document.getElementById('historicalInsightsDescription');
- if(!original||!alternative)return;
- original.style.setProperty('display',naroda?'grid':'none','important');
- alternative.style.setProperty('display',naroda?'none':'grid','important');
- if(charts.historicProgram){charts.historicProgram.destroy();delete charts.historicProgram;}
- if(charts.historicDiva){charts.historicDiva.destroy();delete charts.historicDiva;}
- if(naroda){
-  desc.textContent='Naroda historical investment and family participation overlap — original reference figures, not filtered by year. The source overlap has unresolved discrepancies.';
+ const description=document.getElementById('historicalInsightsDescription');
+ if(!original||!alternative||!description)return;
+ original.style.setProperty('display',isNaroda?'grid':'none','important');
+ alternative.style.setProperty('display',isNaroda?'none':'grid','important');
+ if(isNaroda){
+  description.textContent='Naroda · original historical Project Pillars donut and Families Participation Venn diagram. Historical figures are not filtered by year or quarter and remain subject to reconciliation.';
   return;
  }
- const fy='2025-26';
- const rec=BIF.find(x=>x.fy===fy);
- const locs=loc==='All'?['Narol','Naroda']:['Narol'];
- const get=(name,key)=>rec[name.toLowerCase()+key];
- const def=[['Certified skilling','Skilling','#3478f6'],['OPD reach','OpdBeneficiaries','#0ca5a6'],['Financial literacy','FL','#ee9050']];
- const vals=def.flatMap(([label,key,color])=>locs.map(name=>({name:label+' · '+name,value:get(name,key),color}))).filter(x=>Number.isFinite(x.value));
- desc.textContent=(loc==='All'?'Narol + Naroda comparisons':'Narol figures')+' · FY 2025–26 operational source data. Equivalent verified historical investment and family-overlap charts are not available for this scope.';
- document.getElementById('historicProgramTitle').textContent=loc==='All'?'Program Reach by Location':'Narol · Historical Program Reach';
- document.getElementById('historicDivaTitle').textContent=loc==='All'?'Diva Participants by Location':'Narol · Historical Diva Participation';
- charts.historicProgram=new Chart(document.getElementById('historicProgramChart'),{
-  type:'bar',data:{labels:vals.map(x=>x.name),datasets:[{label:'Reported FY reach',data:vals.map(x=>x.value),backgroundColor:vals.map(x=>x.color),borderRadius:4,maxBarThickness:28}]},
-  options:{...baseOptions(),maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{precision:0}},y:{grid:{display:false}}}}
- });
- const d=locs.map(name=>({name,value:get(name,'DivaBeneficiaries')})).filter(x=>Number.isFinite(x.value));
- charts.historicDiva=new Chart(document.getElementById('historicDivaChart'),{
-  type:'bar',data:{labels:d.map(x=>x.name),datasets:[{label:'Reported Diva participants',data:d.map(x=>x.value),backgroundColor:['#9456ed','#0ca5a6'],borderRadius:4,maxBarThickness:65}]},
-  options:{...baseOptions(),maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0}},x:{grid:{display:false}}}}
- });
+ const label=loc==='All'?'Narol + Naroda':loc;
+ document.getElementById('historicProgramTitle').textContent=label+' — Project Pillars';
+ document.getElementById('historicDivaTitle').textContent=label+' — Families Participation';
+ description.textContent=label+' · historical donut and Venn chart designs retained. Equivalent verified historical allocation and overlap figures are not available for this selected location.';
 }
 
 function renderOverview(){
