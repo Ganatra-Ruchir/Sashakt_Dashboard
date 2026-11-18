@@ -1654,6 +1654,7 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
 #page-health #healthCumulativeGrid .dk-label{font-size:10px;line-height:1.35;min-height:2.7em}
 #page-health #healthCumulativeGrid .dk-value{margin-top:0;font-size:20px}
 #page-health #healthCumulativeGrid .dk-sub{display:block!important;font-size:12px!important;line-height:1.4!important;margin-top:2px!important;color:var(--ink-soft);white-space:normal;overflow-wrap:break-word}
+#page-health #healthCumulativeGrid .dk-sub:empty{display:none!important}
 #page-health #healthCumulativeGrid .health-growth{font-weight:700;color:var(--ink-soft)}
 #page-health #healthCumulativeGrid .health-growth.up{color:var(--teal)}
 #page-health .health-chart-grid{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;min-width:0;width:100%}
@@ -3009,7 +3010,8 @@ function healthAverageAnnualChange(suffix){
 function healthServiceKpi(label,suffix){
   const total=splitSum(BIFTOTAL,'narol'+suffix,'naroda'+suffix);
   const growth=healthAverageAnnualChange(suffix);
-  const detail=growth.value===null?'Avg annual change: —':`<span class="health-growth ${growth.value>0?'up':''}">${signed(growth.value,num)} / year</span> · Avg change`;
+  if(growth.value===null)return detailKpi(label,num(total));
+  const detail=`<span class="health-growth ${growth.value>0?'up':''}">${signed(growth.value,num)} / year</span> · Avg change`;
   const tip=growth.periods?`Average change across ${growth.periods} comparable completed-year transition(s)`:'Insufficient comparable completed-year data';
   return detailKpi(label,num(total),`<span title="${tip}">${detail}</span>`);
 }
