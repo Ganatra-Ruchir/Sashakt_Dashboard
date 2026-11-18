@@ -2433,33 +2433,19 @@ function divaActive(fy){ return YEARS.indexOf(fy)>=YEARS.indexOf(DATA.meta.divaS
 
 function destroyChart(name){ if(charts[name]){ charts[name].destroy(); delete charts[name]; } }
 
-function compressYearSeries(rows, key){
-  const labels=[], values=[];
-  rows.forEach(x=>{
-    const v = x ? x[key] : null;
-    if(isNum(v) && v > 0){
-      labels.push(fyLabel(x.fy).replace('FY ',''));
-      values.push(v);
-    }
-  });
-  return {labels, values};
+// Keep a year if any displayed dataset has an actual numeric observation.
+function compactHistoricalChart(labels,datasets){
+  const keep=labels.flatMap((label,i)=>datasets.some(d=>isNum(d.data[i]))?[i]:[]);
+  return {labels:keep.map(i=>labels[i]),datasets:datasets.map(d=>({...d,data:keep.map(i=>isNum(d.data[i])?d.data[i]:null)}))};
 }
-function compressDualYearSeries(rows, keyA, keyB){
-  const labels=[], a=[], b=[];
-  rows.forEach(x=>{
-    const va = x ? x[keyA] : null;
-    const vb = x ? x[keyB] : null;
-  });
-  rows.forEach(x=>{
-    const va = x ? x[keyA] : null;
-    const vb = x ? x[keyB] : null;
-    if((isNum(va) && va > 0) || (isNum(vb) && vb > 0)){
-      labels.push(fyLabel(x.fy).replace('FY ',''));
-      a.push((isNum(va) && va > 0) ? va : null);
-      b.push((isNum(vb) && vb > 0) ? vb : null);
-    }
-  });
-  return {labels, a, b};
+function compactHistoricalChartData(data){return compactHistoricalChart(data.labels,data.datasets);}
+function compressYearSeries(rows,key){
+  const data=compactHistoricalChart(rows.map(r=>fyLabel(r.fy).replace('FY ','')),[{data:rows.map(r=>r[key])}]);
+  return {labels:data.labels,values:data.datasets[0].data};
+}
+function compressDualYearSeries(rows,keyA,keyB){
+  const data=compactHistoricalChart(rows.map(r=>fyLabel(r.fy).replace('FY ','')),[{data:rows.map(r=>r[keyA])},{data:rows.map(r=>r[keyB])}]);
+  return {labels:data.labels,a:data.datasets[0].data,b:data.datasets[1].data};
 }
 
 function compressCategorySeries(labels, values){
@@ -2491,12 +2477,12 @@ function hasNumericData(values){
   const flat = values.flat ? values.flat(Infinity) : values;
   return flat.some(v => isNum(v) && v !== 0);
 }
-function updateChartPanel(canvasId, values){
+function updateChartPanel(canvasId, values, allowZero=false){
   const canvas=document.getElementById(canvasId);
   if(!canvas) return true;
   const healthGrid=canvas.closest('#page-health .health-chart-grid,.presentation-chart-grid,.presentation-single-chart,.presentation-activity-grid');
   if(healthGrid){
-    const card=canvas.closest('.tracker-inner-card,.panel');const hasData=hasNumericData(values);
+    const card=canvas.closest('.tracker-inner-card,.panel');const hasData=allowZero?values.flat(Infinity).some(isNum):hasNumericData(values);
     if(card)card.hidden=!hasData;
     const count=[...healthGrid.children].filter(c=>!c.hidden).length;
     healthGrid.dataset.visible=String(count);healthGrid.hidden=count===0;
@@ -2504,7 +2490,7 @@ function updateChartPanel(canvasId, values){
   }
   const panel=canvas.closest('.panel');
   if(!panel) return true;
-  const hasData=hasNumericData(values);
+  const hasData=allowZero?values.flat(Infinity).some(isNum):hasNumericData(values);
   panel.hidden=!hasData;
 
   const row=panel.parentElement;
@@ -2822,7 +2808,7 @@ function renderOverviewCharts(){
  document.getElementById('overallFamiliesBadge').textContent=q2?'Q2 audit':'Bifurcated Data';
  document.getElementById('overviewFamilyNote').textContent=(q2?'Jul–Sep 2026 · Q2 audit; no quarterly time series.':'FY '+fy+' · Bifurcated Data. * FY 2026–27 in progress; gaps = no data; zero = 0.')+(metric==='Skilling'?' Skilling count, not certifications.':'');
  destroyChart('overviewFamily');
- charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{type:q2?'bar':'line',data:{labels:q2?[labels[metric]]:history.map(r=>'FY '+r.fy+(r.fy===latestFY?' *':'')),datasets:areas.map(a=>({label:a,data:q2?[Q2_REPORT[a]?.[metric]??null]:history.map(r=>overallValue(r,a,metric)),borderColor:colors[a],backgroundColor:colors[a],borderWidth:q2?0:2.5,borderRadius:5,pointRadius:4,tension:0,spanGaps:false}))},options:options(false,metric)});
+ charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{type:q2?'bar':'line',data:compactHistoricalChartData({labels:q2?[labels[metric]]:history.map(r=>'FY '+r.fy+(r.fy===latestFY?' *':'')),datasets:areas.map(a=>({label:a,data:q2?[Q2_REPORT[a]?.[metric]??null]:history.map(r=>overallValue(r,a,metric)),borderColor:colors[a],backgroundColor:colors[a],borderWidth:q2?0:2.5,borderRadius:5,pointRadius:4,tension:0,spanGaps:false}))}),options:options(false,metric)});
  const keys=groups[group],missing=[];
  const datasets=areas.map(a=>({label:a,data:keys.map(k=>{const v=q2?Q2_REPORT[a]?.[k]??null:overallValue(row,a,k);if(v===null)missing.push(a+': '+labels[k]);return v;}),backgroundColor:colors[a],borderRadius:5,maxBarThickness:27}));
  panels[1].querySelector('h3').textContent=q2?'Q2 programme breakdown':'Programme delivery by location';
@@ -2935,8 +2921,8 @@ function renderHistoricalInsights(){
   const opts=baseOptions();opts.plugins.legend.display=false;opts.scales.x.ticks.font={size:11};opts.scales.y.ticks.font={size:11};opts.scales.y.ticks.callback=v=>num(v);opts.scales.y.suggestedMax=Math.max(...known.map(r=>r.value))*1.22;opts.layout={padding:{top:12,right:15,left:5}};
   opts.plugins.tooltip.callbacks={label:c=>num(c.raw)+' families covered'};
   canvas.setAttribute('aria-label','Annual family coverage for '+(loc==='All'?'Narol and Naroda':loc)+': '+rows.map(r=>r.fy+' '+(r.value===null?'unavailable':num(r.value))).join('; '));
-  const labelsPlugin={id:'familyCoverageLabels',afterDatasetsDraw(chart){const ctx=chart.ctx;ctx.save();ctx.font='600 11px Inter, Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillStyle=C.ink;chart.getDatasetMeta(0).data.forEach((p,i)=>{const v=rows[i].value;if(isNum(v))ctx.fillText(num(v),p.x,p.y-9);});ctx.restore();}};
-  charts.overviewPhase=new Chart(canvas,{type:'line',data:{labels:rows.map(r=>r.fy.replace('-','–')),datasets:[{label:'Families covered',data:rows.map(r=>r.value),borderColor:C.teal,backgroundColor:'rgba(14,165,126,.10)',borderWidth:2.5,pointRadius:4,pointHoverRadius:6,tension:.18,fill:known.length>1,spanGaps:false}]},options:opts,plugins:[labelsPlugin]});
+  const labelsPlugin={id:'familyCoverageLabels',afterDatasetsDraw(chart){const ctx=chart.ctx;ctx.save();ctx.font='600 11px Inter, Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillStyle=C.ink;chart.getDatasetMeta(0).data.forEach((p,i)=>{const v=known[i].value;if(isNum(v))ctx.fillText(num(v),p.x,p.y-9);});ctx.restore();}};
+  charts.overviewPhase=new Chart(canvas,{type:'line',data:{labels:known.map(r=>r.fy.replace('-','–')),datasets:[{label:'Families covered',data:known.map(r=>r.value),borderColor:C.teal,backgroundColor:'rgba(14,165,126,.10)',borderWidth:2.5,pointRadius:4,pointHoverRadius:6,tension:.18,fill:known.length>1,spanGaps:false}]},options:opts,plugins:[labelsPlugin]});
  }
  renderHistoricalSectorRadar(fy,loc,q);
  renderStoryBubble(fy,loc,q);
@@ -3043,7 +3029,8 @@ function renderHealth(){
  if(key==='workingHealth'){rows=SOURCE_DETAIL.workingYearly;series=[['Overall','overallHealth',C.blue],['Narol','narolHealth',C.teal],['Naroda','narodaHealth',C.purple]].map(([label,k,borderColor])=>({label,data:rows.map(r=>r[k]??null),borderColor,pointRadius:3,spanGaps:false}));}
  else if(splitKey||['communityHealth','schoolHealth'].includes(key)){const suffixes=splitKey?[splitKey]:key==='communityHealth'?['Body','Eye','Dental']:['SchoolGeneral','SchoolEye','SchoolDental'];series=[['Narol','narol',C.teal],['Naroda','naroda',C.purple]].map(([label,p,borderColor])=>({label,data:rows.map(r=>splitSum(r,...suffixes.map(k=>p+k))),borderColor,pointRadius:3,spanGaps:false}));}
  else{rows=YEARS.map(rowFor);series=[{label:HEALTH_TREND_LABELS[key]||key,data:rows.map(r=>r[key]??null),borderColor:C.teal,pointRadius:3}];}
- if(updateChartPanel('healthTrendChart',series.map(d=>d.data)))charts.healthTrend=new Chart(document.getElementById('healthTrendChart'),{type:'line',data:{labels:rows.map(r=>fyLabel(r.fy)),datasets:series},options:baseOptions()});
+ const historicalData=compactHistoricalChart(rows.map(r=>fyLabel(r.fy)),series);
+ if(updateChartPanel('healthTrendChart',historicalData.datasets.map(d=>d.data),true))charts.healthTrend=new Chart(document.getElementById('healthTrendChart'),{type:'line',data:historicalData,options:baseOptions()});
 
   destroyChart('healthCenter');
   const vals=healthCenterValues(s,state.healthArea);
@@ -3179,7 +3166,7 @@ function renderSkilling(){
   destroyChart('skillingTrend');
   const key=state.skillingTrendMetric;
   const skillingSeries=compressYearSeries(YEARS.map(rowFor),key);
-  if(updateChartPanel('skillingTrendChart',skillingSeries.values)){
+  if(updateChartPanel('skillingTrendChart',skillingSeries.values,true)){
     charts.skillingTrend=new Chart(document.getElementById('skillingTrendChart'),{
       type:'line',
       data:{labels:skillingSeries.labels,datasets:[{
@@ -3324,7 +3311,8 @@ function renderEducation(){
   destroyChart('educationTrend');
  const key=state.educationTrendMetric,rows=key==='workingStudents'?SOURCE_DETAIL.workingYearly:DATA.combined;
  const series=key==='workingStudents'?[['Overall','overallStudents',C.blue],['Narol','narolStudents',C.teal],['Naroda','narodaStudents',C.purple]].map(([label,k,borderColor])=>({label,data:rows.map(r=>r[k]??null),borderColor,pointRadius:3,spanGaps:false})):[{label:EDU_LABELS[key],data:rows.map(r=>r[key]??null),borderColor:C.blue,pointRadius:4,spanGaps:false}];
- if(updateChartPanel('educationTrendChart',series.map(d=>d.data)))charts.educationTrend=new Chart(document.getElementById('educationTrendChart'),{type:'line',data:{labels:rows.map(r=>fyLabel(r.fy)),datasets:series},options:baseOptions()});
+ const historicalData=compactHistoricalChart(rows.map(r=>fyLabel(r.fy)),series);
+ if(updateChartPanel('educationTrendChart',historicalData.datasets.map(d=>d.data),true))charts.educationTrend=new Chart(document.getElementById('educationTrendChart'),{type:'line',data:historicalData,options:baseOptions()});
 
   destroyChart('educationMix');
   const educationMixData=[r.scienceCity,r.summerCamp,r.scienceFair,r.balSashakt];
@@ -3345,7 +3333,7 @@ function renderEducation(){
   const bf=bifFullFor(state.fy);
   destroyChart('schoolTrainingHours');
   const schoolHoursDual=compressDualYearSeries(BIF,'narolSchoolHours','narodaSchoolHours');
-  if(updateChartPanel('schoolTrainingHoursChart',[schoolHoursDual.a,schoolHoursDual.b])){
+  if(updateChartPanel('schoolTrainingHoursChart',[schoolHoursDual.a,schoolHoursDual.b],true)){
     charts.schoolTrainingHours=new Chart(document.getElementById('schoolTrainingHoursChart'),{
       type:'line',data:{labels:schoolHoursDual.labels,datasets:[
         {label:'Narol',data:schoolHoursDual.a,borderColor:C.blue,tension:.25,pointRadius:3},
@@ -3412,7 +3400,7 @@ function renderLivelihood(){
     return copy;
   });
   const livelihoodSeries=compressYearSeries(livelihoodRows,key);
-  if(updateChartPanel('livelihoodTrendChart',livelihoodSeries.values)){
+  if(updateChartPanel('livelihoodTrendChart',livelihoodSeries.values,true)){
     charts.livelihoodTrend=new Chart(document.getElementById('livelihoodTrendChart'),{
       type:'line',
       data:{labels:livelihoodSeries.labels,datasets:[{
@@ -3430,19 +3418,16 @@ function renderLivelihood(){
  destroyChart('divaLocation');
  const history=BIF.filter(r=>r.fy>=DATA.meta.divaStart&&r.fy<=state.fy);
  const ds=focused.map((x,i)=>({label:x.name,data:history.map(r=>divaLocationsFor(r).find(z=>z.name===x.name)?.income??null),borderColor:[C.teal,C.purple,C.blue,C.orange][i%4],pointRadius:4,spanGaps:false}));
- if(updateChartPanel('divaLocationChart',ds.map(d=>d.data)))charts.divaLocation=new Chart(document.getElementById('divaLocationChart'),{type:'line',data:{labels:history.map(r=>fyLabel(r.fy)),datasets:ds},options:{...baseOptions(),scales:{y:{beginAtZero:true,ticks:{callback:v=>money(v)}}}}});
+ const divaChartData=compactHistoricalChart(history.map(r=>fyLabel(r.fy)),ds);
+ if(updateChartPanel('divaLocationChart',divaChartData.datasets.map(d=>d.data),true))charts.divaLocation=new Chart(document.getElementById('divaLocationChart'),{type:'line',data:divaChartData,options:{...baseOptions(),scales:{y:{beginAtZero:true,ticks:{callback:v=>money(v)}}}}});
 
   destroyChart('flCenterTrend');
-  const flDual={labels:BIF.map(r=>fyLabel(r.fy)),a:BIF.map(r=>r.narolFL),b:BIF.map(r=>r.narodaFL)};
-  if(updateChartPanel('flCenterTrendChart',[flDual.a,flDual.b])){
-    charts.flCenterTrend=new Chart(document.getElementById('flCenterTrendChart'),{
-      type:'line',
-      data:{labels:flDual.labels,datasets:[
-        {label:'Narol',data:flDual.a,borderColor:C.blue,tension:.25,pointRadius:3},
-        {label:'Naroda',data:flDual.b,borderColor:C.orange,tension:.25,pointRadius:3}
-      ]},
-      options:baseOptions()
-    });
+  const flData=compactHistoricalChart(BIF.map(r=>fyLabel(r.fy)),[
+    {label:'Narol',data:BIF.map(r=>r.narolFL),borderColor:C.blue,tension:.25,pointRadius:3},
+    {label:'Naroda',data:BIF.map(r=>r.narodaFL),borderColor:C.orange,tension:.25,pointRadius:3}
+  ]);
+  if(updateChartPanel('flCenterTrendChart',flData.datasets.map(d=>d.data),true)){
+    charts.flCenterTrend=new Chart(document.getElementById('flCenterTrendChart'),{type:'line',data:flData,options:baseOptions()});
   }
 
   renderSourceViews('livelihood');
