@@ -1615,6 +1615,15 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
 @media(max-width:600px){#page-overview .overview-radar-body,#page-overview .historical-pillar-body{grid-template-columns:1fr}#page-overview .overview-radar-values{grid-template-columns:1fr 1fr}#page-overview .section-title-block{flex-wrap:wrap}#page-overview .overview-radar-control{flex-direction:row;align-items:center}#page-overview .overview-radar-control select{width:auto}#page-overview #historicalSectorChartWrap,#page-overview #historicalSectorRadar{height:285px!important;max-height:285px!important}#page-overview .overall-chart-grid .chart-box,#page-overview .overall-chart-grid .chart-box canvas{height:260px!important;min-height:260px!important;max-height:260px!important}}
 @media(max-width:390px){#page-overview .overview-radar-values{grid-template-columns:1fr}}
 </style>
+<style id="presentation-kpi-cleanup">
+/* KPI descriptions are temporarily hidden pending presentation copy review.
+   Keep metric labels, numeric values, location and batch identifiers intact. */
+.dashboard-page :is(.stat-sub,.dk-sub,.b-sub,.tracker-summary-card small,.p-sub,.fo-sub,.insight-detail){display:none!important}
+.dashboard-page :is(.stat-card,.detail-kpi,.batch-kpi,.tracker-summary-card){min-height:0!important;height:auto!important;padding:12px!important;align-self:stretch}
+.dashboard-page :is(.stat-value,.dk-value,.b-value,.tracker-summary-card b){margin-bottom:0!important}
+#page-overview #overviewKpis>.stat-card{gap:5px!important;padding:10px 12px!important;min-height:0!important}
+#page-overview #overallFilters{justify-content:flex-start!important}
+</style>
 
 <body>
 <div class="shell"><main class="main">
@@ -1679,18 +1688,15 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
     <div>
       <div class="page-kicker">OVERALL</div>
       <div class="page-title">Sashakt Impact Overview</div>
-      <div class="page-lead">Bifurcated Data · location-wise programme data and family coverage.</div>
     </div>
     <div class="page-period">
-      <span class="period-chip" id="overviewFyChip"></span>
       <span class="period-chip progress" id="overviewProgressChip">Year in progress</span>
     </div>
   </div>
 
   <div class="panel" style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:12px 16px;margin-bottom:12px" id="overallFilters">
-    <label style="font-weight:700;font-size:12px">Financial year <select id="overallYear" class="local-select" aria-label="Overall financial year"><option value="all">Latest master snapshot</option></select></label>
-    <label id="overallQuarterWrap" style="font-weight:700;font-size:12px;display:none">Quarter <select id="overallQuarter" class="local-select"><option value="all">Annual source</option><option value="Q2">Q2 Jul–Sep 2026</option></select></label><label style="font-weight:700;font-size:12px">Location <select id="overallLocation" class="local-select" aria-label="Overall location"><option value="All">Narol + Naroda</option><option value="Narol">Narol</option><option value="Naroda">Naroda</option></select></label>
-    <span id="overallFilterStatus" style="font-size:11px;color:#617386">Lifetime combined indicators remain unchanged when location splits are unavailable.</span>
+    <label style="font-weight:700;font-size:12px">Financial year <select id="overallYear" class="local-select" aria-label="Overall financial year"><option value="all">Current financial year</option></select></label>
+    <label id="overallQuarterWrap" style="font-weight:700;font-size:12px;display:none">Quarter <select id="overallQuarter" class="local-select"><option value="all">Full year</option><option value="Q2">Q2 Jul–Sep 2026</option></select></label><label style="font-weight:700;font-size:12px">Location <select id="overallLocation" class="local-select" aria-label="Overall location"><option value="All">Narol + Naroda</option><option value="Narol">Narol</option><option value="Naroda">Naroda</option></select></label>
   </div>
   <div class="kpi-grid-six" id="overviewKpis"></div>
 <div class="overall-chart-grid">
@@ -2748,11 +2754,7 @@ function renderOverview(){
  if(state.overallQuarter==='Q2'&&fy==='2026-27'){renderOverallQ2();renderHistoricalInsights();return;}
  document.getElementById('overallYear').value=state.overallFy;
  document.getElementById('overallLocation').value=loc;
- document.getElementById('overviewFyChip').textContent=(all?'Latest master snapshot':'FY')+' · '+fy;
  document.getElementById('overviewProgressChip').style.display=latest?'inline-flex':'none';
- document.getElementById('overallFilterStatus').textContent=combined?
-  'Bifurcated Data · combined counts; repeat participants possible.':
-  'Source: Master Data Bifurcated Data · '+loc+'. Skilling count is not limited to certifications.';
  const latestFamily=loc==='Narol'?7000:5000;
  const first=latest?metric('Families Covered',latestFamily,'FY26–27 Q2 report · coverage, not unique-audited','teal'):
   metric('OPD sessions',get('OpdNo'),splitFoot,'teal');
@@ -2776,9 +2778,7 @@ function renderOverallQ2(){
  const v=k=>rr.reduce((t,r)=>t+r[k],0);
  document.getElementById('overallYear').value='2026-27';
  document.getElementById('overallLocation').value=loc;
- document.getElementById('overviewFyChip').textContent='Q2 FY 2026–27';
  document.getElementById('overviewProgressChip').style.display='none';
- document.getElementById('overallFilterStatus').textContent='Jul–Sep 2026 · '+(loc==='All'?'Narol + Naroda':loc)+' · Counts may overlap; not unique beneficiaries';
  const mk=(label,key,foot,tone)=>statCard(label,num(v(key)),foot,tone);
  document.getElementById('overviewKpis').innerHTML=[
  mk('Skilling enrolments','enrolled','Q2 reporting','blue'),
@@ -3286,7 +3286,7 @@ function setupEvents(){
   document.getElementById('overallBreakdownGroup').addEventListener('change',e=>{state[state.overallQuarter==='Q2'?'overallQ2Group':'overallBreakdownGroup']=e.target.value;renderOverviewCharts();});
   document.getElementById('overallRadarMeasure').addEventListener('change',e=>{state.overallRadarMeasure=e.target.value;renderHistoricalInsights();});
   const overallYear=document.getElementById('overallYear');
-  if(overallYear){overallYear.innerHTML='<option value="all">Latest master snapshot</option>'+YEARS.map(y=>'<option value="'+y+'">FY '+y+'</option>').join('');
+  if(overallYear){overallYear.innerHTML='<option value="all">Current financial year</option>'+YEARS.map(y=>'<option value="'+y+'">FY '+y+'</option>').join('');
   overallYear.addEventListener('change',e=>{state.overallFy=e.target.value;state.overallQuarter='all';renderOverview();});}
   const overallLocation=document.getElementById('overallLocation');
   if(overallLocation)overallLocation.addEventListener('change',e=>{state.overallLocation=e.target.value;renderOverview();});
