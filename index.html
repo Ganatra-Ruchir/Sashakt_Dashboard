@@ -1228,6 +1228,60 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
 #page-overview .historical-pillar-line small{text-align:right;font-size:10px;color:#657d96}
 @media(max-width:630px){#page-overview .historical-data-donut{width:170px;height:170px;flex-basis:170px}#page-overview .historical-pillar-legend{min-width:0;width:100%}}
 </style>
+
+<style id="overview-compact-layout-v3">
+/* Overview only: consistent compact spacing and three typography levels. */
+#page-overview{--overview-font:Inter,Arial,sans-serif;--overview-small:12px;--overview-title:14px;--overview-large:24px;font-family:var(--overview-font)}
+#page-overview :is(h3,p,select,label,button,strong,small,span,.page-title,.page-kicker,.page-lead,.stat-label,.stat-value,.stat-sub,.chart-note,.page-source,.period-chip,.tool-label,.historical-pillar-line){font-family:var(--overview-font)!important}
+#page-overview :is(p,select,label,small,span,.page-kicker,.page-lead,.stat-label,.stat-sub,.chart-note,.page-source,.period-chip,.tool-label,.historical-pillar-line,#overallFilterStatus){font-size:var(--overview-small)!important;line-height:1.4}
+#page-overview :is(.section-title-block h3,.historical-pillar-line strong,.overview-radar-value strong){font-size:var(--overview-title)!important;font-weight:700;line-height:1.3}
+#page-overview :is(.page-title,#overviewKpis .stat-value,.historical-data-donut-center strong){font-size:var(--overview-large)!important;line-height:1.15}
+body:has(#page-overview.active) .main{padding:8px 12px 12px!important}
+body:has(#page-overview.active) .topbar{display:flex!important;justify-content:space-between;align-items:center!important;flex-wrap:wrap;gap:8px!important;padding:8px 12px!important;margin-bottom:8px!important}
+body:has(#page-overview.active) .topbar .top-brand{flex:0 1 auto}
+body:has(#page-overview.active) .topbar .ask-bar{flex:0 1 320px;width:auto!important;max-width:100%!important;margin:0!important}
+body:has(#page-overview.active) .topbar .top-status{display:none!important}
+body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
+#page-overview .page-hero{padding:10px 12px!important;margin:0 0 8px!important}
+#page-overview #overallFilters{padding:8px 12px!important;gap:8px 12px!important;margin:0 0 8px!important}
+#page-overview #overviewKpis{align-items:stretch!important;gap:8px!important;margin:0 0 8px!important}
+#page-overview #overviewKpis>.stat-card{align-self:stretch!important;min-height:0!important;padding:10px 12px!important;display:flex;flex-direction:column;gap:4px}
+#page-overview #overviewKpis .stat-value,#page-overview #overviewKpis .stat-sub{margin:0!important}
+#page-overview .overall-chart-grid,#page-overview #narodaHistoricalSnapshot{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;align-items:stretch!important;margin:0 0 8px!important;width:100%}
+#page-overview .overall-chart-grid>.panel,#page-overview #narodaHistoricalSnapshot>.panel{display:flex!important;flex-direction:column;align-self:stretch!important;min-width:0!important;height:auto!important;gap:6px;padding:12px!important;margin:0!important}
+#page-overview .overall-chart-grid .section-title-block,#page-overview #narodaHistoricalSnapshot .section-title-block{min-height:0!important;margin:0!important;gap:8px!important;align-items:flex-start}
+#page-overview .section-title-block p{margin:2px 0 0!important}
+#page-overview .overall-chart-grid .section-tools{justify-content:flex-start;min-height:30px;margin:0!important;gap:6px}
+#page-overview .local-select{padding:5px 8px!important;min-height:28px;max-width:100%;text-overflow:ellipsis}
+#page-overview .overall-chart-grid .chart-box{height:290px!important;min-height:290px!important;max-height:290px!important}
+#page-overview .overall-chart-grid .chart-box canvas{height:290px!important;max-height:290px!important}
+#page-overview .chart-note{margin:auto 0 0!important;padding-top:4px!important}
+#page-overview #narodaHistoricalSnapshot>.panel>div:nth-child(2){padding:0!important}
+#page-overview .historical-pillar-body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-content:center;align-items:center;justify-items:center;gap:12px;min-height:310px;padding:0!important}
+#page-overview .historical-data-donut{width:min(100%,224px);height:auto;aspect-ratio:1;flex:none}
+#page-overview .historical-data-donut-center{width:65%;height:65%}
+#page-overview .historical-pillar-legend{width:100%;min-width:0;max-width:none;gap:10px}
+#page-overview .historical-pillar-line{grid-template-columns:9px minmax(0,1fr) auto 42px;gap:5px}
+#page-overview .overview-radar-body{flex:1;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:center;gap:10px;min-height:310px}
+#page-overview .overview-radar-stage{min-width:0;display:flex;align-items:center;justify-content:center}
+#page-overview #historicalSectorChartWrap{position:relative;height:310px!important;width:100%!important;max-width:100%;margin:0}
+#page-overview #historicalSectorRadar{height:310px!important;max-height:310px!important}
+#page-overview .overview-radar-control{display:flex;flex-direction:column;gap:2px;flex:0 1 auto;min-width:0}
+#page-overview .overview-radar-control select{width:150px}
+#page-overview .overview-radar-values{display:grid;gap:5px;align-content:center;min-width:0}
+#page-overview .overview-radar-value{display:grid;grid-template-columns:8px minmax(0,1fr) auto;align-items:center;gap:6px;font-size:12px;line-height:1.4;padding:4px 0;border-bottom:1px solid #E7EDF5}
+#page-overview .overview-radar-value:last-child{border-bottom:0}
+#page-overview .overview-radar-dot{width:8px;height:8px;border-radius:50%;display:block}
+#page-overview .overview-radar-name{overflow-wrap:anywhere}
+#page-overview .overview-radar-empty{text-align:center;padding:12px;font-size:12px;color:#617386}
+#page-overview .page-source{margin:0!important;padding:8px 10px!important}
+@media(min-width:1200px){#page-overview #overviewKpis{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
+@media(max-width:1150px){#page-overview .overview-radar-body{grid-template-columns:1fr;gap:4px;min-height:0}#page-overview .overview-radar-values{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px}#page-overview .historical-pillar-body{grid-template-columns:1fr;min-height:0;gap:12px}#page-overview .historical-data-donut{width:208px}}
+@media(max-width:900px){#page-overview .overall-chart-grid,#page-overview #narodaHistoricalSnapshot{grid-template-columns:1fr!important}#page-overview .overview-radar-body{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}#page-overview .overview-radar-values{grid-template-columns:1fr}#page-overview .historical-pillar-body{grid-template-columns:1fr 1fr;min-height:245px}}
+@media(max-width:600px){#page-overview .overview-radar-body,#page-overview .historical-pillar-body{grid-template-columns:1fr}#page-overview .overview-radar-values{grid-template-columns:1fr 1fr}#page-overview .section-title-block{flex-wrap:wrap}#page-overview .overview-radar-control{flex-direction:row;align-items:center}#page-overview .overview-radar-control select{width:auto}#page-overview #historicalSectorChartWrap,#page-overview #historicalSectorRadar{height:285px!important;max-height:285px!important}#page-overview .overall-chart-grid .chart-box,#page-overview .overall-chart-grid .chart-box canvas{height:260px!important;min-height:260px!important;max-height:260px!important}}
+@media(max-width:390px){#page-overview .overview-radar-values{grid-template-columns:1fr}}
+</style>
+
 </head>
 <style>
 :root{
@@ -1651,7 +1705,6 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
 <div class="chart-box" style="height:290px"><canvas id="overallReachChart" role="img" aria-label="Programme delivery by location"></canvas></div>
 <div class="chart-note" id="overallBreakdownNote"></div>
 </div></div>
-<div class="section-title-block" id="narodaHistoricalHeading"><div><h3>Historical Insights</h3><p id="historicalInsightsDescription">Source-reported programme activity and sector-wise participation by location.</p></div><span class="period-chip" id="historicalPeriodChip">Historical reference</span></div>
 <div class="row naroda-historical-charts" id="narodaHistoricalSnapshot">
  <div class="panel">
   <div class="section-title-block"><div><h3 id="historicalPillarsTitle">Project Pillars · Reported Activity Mix</h3><p id="historicalPillarPeriod">Activity counts, not investment or distinct individuals</p></div></div>
@@ -1661,13 +1714,14 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
    </div>
    <div class="historical-pillar-legend" id="historicalPillarLegend"></div>
   </div>
-  <div class="chart-note" id="historicalPillarNote">Source: Gifting Life Sashakt Master Data · Bifurcated Data. Shares describe recorded activities only. The four measures may contain repeat participants, and should not be treated as unique families or spending proportions.</div>
+  <div class="chart-note" id="historicalPillarNote">Bifurcated Data · reported activity mix, not unique beneficiaries or spending.</div>
  </div>
  <div class="panel">
-  <div class="section-title-block"><div><h3 id="historicalSectorsTitle">Sector-wise Participation</h3><p id="historicalSectorsSubtitle">Activity Tracker · beneficiary reach by sector</p></div></div>
-  <div id="historicalSectorChartWrap" class="chart-box" style="position:relative;height:270px;max-width:100%;margin:0 auto"><canvas id="historicalSectorRadar" role="img" aria-label="Beneficiary reach across the four core programme sectors"></canvas></div>
-  <div id="historicalSectorEmpty" style="display:none;text-align:center;padding:32px 8px;font-size:12px;color:#617386" role="status"></div>
-  <div id="historicalSectorValues" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;margin:6px 0" aria-live="polite"></div>
+  <div class="section-title-block"><div><h3 id="historicalSectorsTitle">Programme activity profile</h3><p id="historicalSectorsSubtitle">Activity Tracker · activity-based reach</p></div><label class="overview-radar-control" for="overallRadarMeasure"><span class="tool-label">Measure</span><select class="local-select" id="overallRadarMeasure"><option value="reach">Beneficiary reach</option><option value="events">Activities conducted</option></select></label></div>
+  <div class="overview-radar-body">
+   <div class="overview-radar-stage"><div id="historicalSectorChartWrap" class="chart-box"><canvas id="historicalSectorRadar" role="img" aria-label="Eight programme activity groups"></canvas></div><div id="historicalSectorEmpty" class="overview-radar-empty" role="status" style="display:none"></div></div>
+   <div id="historicalSectorValues" class="overview-radar-values" aria-live="polite"></div>
+  </div>
   <div class="chart-note" id="historicalSectorNote">Counts are activity-based reach and may include repeat participants.</div>
  </div>
 </div>
@@ -2749,7 +2803,7 @@ function renderOverviewCharts(){
  setSelect('overallTrendMetric',Object.entries(labels),metric);setSelect('overallBreakdownGroup',Object.keys(groups).map(k=>[k,k]),group);
  const panels=document.querySelectorAll('#page-overview .overall-chart-grid .panel'),colors={Narol:C.teal,Naroda:C.purple};
  const pretty=(v,k)=>(k==='DivaIncome'?'₹':'')+Number(v).toLocaleString('en-IN',{maximumFractionDigits:2});
- const options=(horizontal,k)=>{const o=baseOptions(horizontal);o.plugins.legend.display=true;o.plugins.tooltip.callbacks={label:c=>c.dataset.label+': '+(c.raw===null?'Not reported':pretty(c.raw,k))};o.scales[horizontal?'x':'y'].ticks.callback=v=>pretty(v,k);return o;};
+ const options=(horizontal,k)=>{const o=baseOptions(horizontal);for(const axis of ['x','y'])o.scales[axis].ticks.font={size:12,family:'Inter, Arial, sans-serif'};o.plugins.legend.labels.font={size:12,family:'Inter, Arial, sans-serif'};o.plugins.legend.display=true;o.plugins.tooltip.callbacks={label:c=>c.dataset.label+': '+(c.raw===null?'Not reported':pretty(c.raw,k))};o.scales[horizontal?'x':'y'].ticks.callback=v=>pretty(v,k);return o;};
  const history=OVERVIEW_BIF.filter(r=>r.fy<=fy);
  panels[0].querySelector('h3').textContent=q2?'Q2 indicator by location':'Programme trend by location';
  panels[0].querySelector('p').textContent=q2?'Compare one reconciled quarterly indicator.':'Compare one indicator across FYs, ending at the selected year.';
@@ -2767,42 +2821,53 @@ function renderOverviewCharts(){
 }
 
 
-/* Exact four programme labels used by the classified Activity Tracker. */
-const OVERVIEW_SECTORS=[
- {key:'Health & Medical',label:['Health &','Medical'],color:'#0EA57E'},
- {key:'Skilling & Employment',label:['Skilling &','Employment'],color:'#3B76F0'},
- {key:'Education & School Development',label:['Education &','School Development'],color:'#8657F0'},
- {key:'Livelihood & Community',label:['Livelihood &','Community'],color:'#F26825'}
+
+/* Eight mutually exclusive activity groups, two per programme. Each tracker row is counted once. */
+const OVERVIEW_ACTIVITY_GROUPS=[
+ {key:'OPD',label:['OPD'],sector:'Health & Medical',color:'#0EA57E',match:e=>e.activityFamily==='OPD'},
+ {key:'Other health services',label:['Other health','services'],sector:'Health & Medical',color:'#0EA57E',match:e=>e.activityFamily!=='OPD'},
+ {key:'Skilling competitions',label:['Skilling','competitions'],sector:'Skilling & Employment',color:'#3B76F0',match:e=>/Competition/i.test(e.activityFamily)},
+ {key:'Other skilling activities',label:['Other skilling','activities'],sector:'Skilling & Employment',color:'#3B76F0',match:e=>!/Competition/i.test(e.activityFamily)},
+ {key:'Bal Sashakt',label:['Bal Sashakt'],sector:'Education & School Development',color:'#8657F0',match:e=>e.activityFamily==='Bal Sashakt'},
+ {key:'Other education activities',label:['Other education','activities'],sector:'Education & School Development',color:'#8657F0',match:e=>e.activityFamily!=='Bal Sashakt'},
+ {key:'Community support',label:['Community','support'],sector:'Livelihood & Community',color:'#D9820A',match:e=>e.activityFamily==='Donation / Community Support'},
+ {key:'Livelihood initiatives',label:['Livelihood','initiatives'],sector:'Livelihood & Community',color:'#D9820A',match:e=>e.activityFamily!=='Donation / Community Support'}
 ];
 function overviewSectorStats(fy,loc,quarter){
  const events=TRACKER.events.filter(e=>e.fy===fy&&(loc==='All'||e.area===loc)&&(quarter==='all'||e.quarter===quarter));
- return OVERVIEW_SECTORS.map(sector=>{
-  const matching=events.filter(e=>e.program===sector.key);
+ return OVERVIEW_ACTIVITY_GROUPS.map(g=>{
+  const matching=events.filter(e=>e.program===g.sector&&g.match(e));
   const counted=matching.filter(e=>isNum(e.beneficiaries)&&e.beneficiaries>=0);
-  return {...sector,reach:counted.length?counted.reduce((n,e)=>n+e.beneficiaries,0):null,events:matching.length,counted:counted.length,missing:matching.length-counted.length};
+  return {...g,reach:counted.length?counted.reduce((n,e)=>n+e.beneficiaries,0):null,events:matching.length,counted:counted.length,missing:matching.length-counted.length};
  });
 }
 function renderHistoricalSectorRadar(fy,loc,quarter){
- const data=overviewSectorStats(fy,loc,quarter),hasData=data.some(d=>d.reach!==null),displayLoc=loc==='All'?'Narol + Naroda':loc;
- const period=(quarter==='all'?'':quarter+' · ')+'FY '+fy;
+ const data=overviewSectorStats(fy,loc,quarter),displayLoc=loc==='All'?'Narol + Naroda':loc;
+ const measure=state.overallRadarMeasure==='events'?'events':'reach';
+ const coverage=TRACKER.events.some(e=>e.fy===fy&&(loc==='All'||e.area===loc)&&(quarter==='all'||e.quarter===quarter));
+ const vals=data.map(d=>measure==='events'?(coverage?d.events:null):d.reach);
+ const hasData=vals.some(v=>v!==null),period=(quarter==='all'?'':quarter+' · ')+'FY '+fy;
  const recent=fy===TRACKER.meta.latestFY&&quarter==='all';
- document.getElementById('historicalSectorsTitle').textContent=displayLoc+' — Sector-wise Participation';
+ const metricName=measure==='events'?'Activities conducted':'Beneficiary reach';
+ document.getElementById('overallRadarMeasure').value=measure;
+ document.getElementById('historicalSectorsTitle').textContent=displayLoc+' — Activity profile';
  document.getElementById('historicalSectorsSubtitle').textContent='Activity Tracker · '+period+(recent?' · through '+TRACKER.meta.latestQuarter:'');
  document.getElementById('historicalSectorChartWrap').style.display=hasData?'block':'none';
- const empty=document.getElementById('historicalSectorEmpty');empty.style.display=hasData?'none':'block';empty.textContent='No recorded beneficiary counts for the selected period and location.';
+ const empty=document.getElementById('historicalSectorEmpty');empty.style.display=hasData?'none':'block';empty.textContent='No reported data for this selection.';
  const values=document.getElementById('historicalSectorValues');
- values.innerHTML=data.map(d=>'<div style="min-width:0;display:flex;align-items:flex-start;gap:6px;font-size:11px;line-height:1.4"><span style="flex:none;width:8px;height:8px;border-radius:50%;background:'+d.color+';margin-top:4px"></span><div style="min-width:0"><div>'+d.key+'</div><strong style="font-size:14px">'+(d.reach===null?'Not reported':num(d.reach))+'</strong></div></div>').join('');
+ values.innerHTML=data.map((d,i)=>'<div class="overview-radar-value"><span class="overview-radar-dot" style="background:'+d.color+'"></span><span class="overview-radar-name">'+d.key+'</span><strong>'+(vals[i]===null?'—':num(vals[i]))+'</strong></div>').join('');
  const missing=data.reduce((sum,d)=>sum+d.missing,0);
- document.getElementById('historicalSectorNote').textContent='Activity-based beneficiary reach; repeat participants may be counted. Outreach, phase launches and other sectors excluded.'+(recent?' Tracker snapshot ends '+TRACKER.meta.latestQuarter+'; current FY is partial.':'')+(missing?' '+missing+' activities have no reported beneficiary count.':'')+(data.some(d=>d.reach===null)?' Missing sectors are not treated as zero.':'');
+ document.getElementById('historicalSectorNote').textContent=(measure==='events'?'Counts recorded activity sessions, not beneficiaries.':'Reported activity reach; repeat participants possible.')+' Outreach and phase launches excluded.'+(recent?' Through '+TRACKER.meta.latestQuarter+'.':'')+(measure==='reach'&&missing?' '+missing+' activities lack counts.':'')+(vals.some(v=>v===null)?' — = not reported.':'');
  const canvas=document.getElementById('historicalSectorRadar');
- canvas.setAttribute('aria-label',displayLoc+' '+period+': '+data.map(d=>d.key+' '+(d.reach===null?'not reported':num(d.reach))).join('; '));
+ canvas.setAttribute('aria-label',displayLoc+' '+period+' '+metricName+': '+data.map((d,i)=>d.key+' '+(vals[i]===null?'not reported':num(vals[i]))).join('; '));
  destroyChart('historicalSectorRadar');
  if(!hasData)return;
  const opts=baseOptions();
- delete opts.indexAxis;opts.scales={r:{beginAtZero:true,min:0,angleLines:{color:C.grid},grid:{color:C.grid},ticks:{color:C.inkSoft,backdropColor:'transparent',maxTicksLimit:5,callback:v=>num(v),font:{size:9}},pointLabels:{color:C.inkSoft,font:{size:10,weight:'600'},padding:6}}};
+ delete opts.indexAxis;
+ opts.scales={r:{beginAtZero:true,min:0,angleLines:{color:'#D7E4F5'},grid:{color:'#D7E4F5',circular:true},ticks:{color:C.inkSoft,backdropColor:'transparent',maxTicksLimit:5,precision:0,callback:v=>num(v),font:{size:12,family:'Inter, Arial, sans-serif'}},pointLabels:{color:C.inkSoft,font:{size:12,family:'Inter, Arial, sans-serif',weight:'600'},padding:8}}};
  opts.layout={padding:4};opts.plugins.legend.display=false;opts.interaction={mode:'nearest',intersect:false};
- opts.plugins.tooltip.callbacks={title:items=>items.length?data[items[0].dataIndex].key:'',label:ctx=>{const d=data[ctx.dataIndex];return d.reach===null?'Not reported':num(d.reach)+' recorded reach';},afterLabel:ctx=>{const d=data[ctx.dataIndex];return d.counted+' activities with counts'+(d.missing?' · '+d.missing+' missing':'');}};
- charts.historicalSectorRadar=new Chart(canvas,{type:'radar',data:{labels:data.map(d=>d.label),datasets:[{label:'Beneficiary reach',data:data.map(d=>d.reach),borderColor:C.teal,backgroundColor:'rgba(14,165,126,.16)',pointBackgroundColor:data.map(d=>d.color),pointBorderColor:'#fff',pointBorderWidth:1.5,pointRadius:4,pointHoverRadius:6,borderWidth:2.5,spanGaps:false,fill:data.every(d=>d.reach!==null)}]},options:opts});
+ opts.plugins.tooltip.callbacks={title:items=>items.length?data[items[0].dataIndex].key:'',label:ctx=>{const v=vals[ctx.dataIndex];return v===null?'Not reported':num(v)+' '+metricName.toLowerCase();},afterLabel:ctx=>{const d=data[ctx.dataIndex];return measure==='events'?d.sector:d.counted+' activities with counts'+(d.missing?' · '+d.missing+' missing':'');}};
+ charts.historicalSectorRadar=new Chart(canvas,{type:'radar',data:{labels:data.map(d=>d.label),datasets:[{label:metricName,data:vals,borderColor:C.teal,backgroundColor:'rgba(14,165,126,.16)',pointBackgroundColor:data.map(d=>d.color),pointBorderColor:'#fff',pointBorderWidth:1.5,pointRadius:4,pointHoverRadius:6,borderWidth:2.5,spanGaps:false,fill:vals.every(v=>v!==null)}]},options:opts});
 }
 
 function renderHistoricalInsights(){
@@ -2831,9 +2896,7 @@ function renderHistoricalInsights(){
  document.getElementById('historicalPillarTotal').textContent=total?num(total):'—';
  document.getElementById('historicalPillarLegend').innerHTML=usable.map(p=>'<div class="historical-pillar-line"><i style="background:'+p.color+'"></i><span>'+p.name+'</span><strong>'+num(p.val)+'</strong><small>'+(total?(p.val*100/total).toFixed(1):'—')+'%</small></div>').join('');
  document.getElementById('historicalPillarsTitle').textContent=displayLoc+' — Project Pillars';
- document.getElementById('historicalInsightsDescription').textContent='FY '+period+' · '+displayLoc+' · project activity mix uses Master Data location splits. Sector participation uses the Activity Tracker and a separate reporting scope.';
- document.getElementById('historicalPeriodChip').textContent='FY '+period+' reference';
- document.getElementById('historicalPillarPeriod').textContent='FY '+period+' · operational activity counts, not expenditure or unique persons';
+ document.getElementById('historicalPillarPeriod').textContent='FY '+period+' · annual activity mix'+(state.overallQuarter==='Q2'?' (not Q2)':'');
  renderHistoricalSectorRadar(period,loc,state.overallQuarter);
 
 }
@@ -3426,7 +3489,7 @@ function setupEvents(){
   if(trackerProgram) trackerProgram.addEventListener('change',e=>{state.tracker.livelihood.program=e.target.value;state.tracker.livelihood.page=1;renderTrackerSection('livelihood');});
 
   document.getElementById('resetDashboard').addEventListener('click',()=>{
-    state.overallFy='all';state.overallQuarter='all';state.overallLocation='All';state.overallTrendMetric='OpdBeneficiaries';state.overallBreakdownGroup='Skilling & livelihood';state.overallQ2Metric='opd';state.overallQ2Group='Skilling milestones';
+    state.overallFy='all';state.overallQuarter='all';state.overallLocation='All';state.overallTrendMetric='OpdBeneficiaries';state.overallBreakdownGroup='Skilling & livelihood';state.overallQ2Metric='opd';state.overallQ2Group='Skilling milestones';state.overallRadarMeasure='reach';
     state.fy=latestFY; state.healthArea='Narol';state.healthTrendMetric='opdBeneficiaries';state.healthServiceMetric='opd';
     state.batchArea='All';state.batch='All';state.skillingTrendMetric='certified';
     state.educationTrendMetric='stem';state.livelihoodTrendMetric='financialLiteracy';state.divaLocation='All';
@@ -3455,6 +3518,7 @@ function setupEvents(){
 
   document.getElementById('overallTrendMetric').addEventListener('change',e=>{state[state.overallQuarter==='Q2'?'overallQ2Metric':'overallTrendMetric']=e.target.value;renderOverviewCharts();});
   document.getElementById('overallBreakdownGroup').addEventListener('change',e=>{state[state.overallQuarter==='Q2'?'overallQ2Group':'overallBreakdownGroup']=e.target.value;renderOverviewCharts();});
+  document.getElementById('overallRadarMeasure').addEventListener('change',e=>{state.overallRadarMeasure=e.target.value;renderHistoricalInsights();});
   const overallYear=document.getElementById('overallYear');
   if(overallYear){overallYear.innerHTML='<option value="all">Latest master snapshot</option>'+YEARS.map(y=>'<option value="'+y+'">FY '+y+'</option>').join('');
   overallYear.addEventListener('change',e=>{state.overallFy=e.target.value;state.overallQuarter='all';renderOverview();});}
