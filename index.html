@@ -1647,6 +1647,44 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
 .dashboard-page .stat-sub:has(.story-note),.dashboard-page .dk-sub:has(.story-note),.dashboard-page .b-sub:has(.story-note),.dashboard-page .tracker-summary-card small:has(.story-note){display:block!important;margin-top:4px!important;font-size:11px!important;line-height:1.4!important;color:#48657c}
 .story-panel{margin:0 0 12px;min-width:0}.story-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;align-items:center}.story-layout>*{min-width:0}.story-bubble{height:340px;position:relative}.story-guide{font-size:11px;color:#526b80;margin:5px 0 8px;line-height:1.4}.story-scroll{overflow-x:auto;border:1px solid #d7e4f5;border-radius:10px}.story-table{border-collapse:collapse;width:100%;font-size:12px;background:#fff}.story-table th,.story-table td{padding:9px 10px;border-bottom:1px solid #e6edf5;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}.story-table th{background:#f3f7fc;color:#536b82;font-weight:700}.story-table :is(th,td):first-child{text-align:left;white-space:normal;min-width:120px}.story-table td:first-child{font-weight:650;color:#17466b}.story-table tbody tr:nth-child(even){background:#f9fbfe}.story-table tbody tr:hover{background:#edf5fb}.story-table .story-total{background:#e9f4f7!important;font-weight:800}.story-table tr:last-child td{border-bottom:0}.story-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.story-section{margin:12px 0}.story-section h3{font-size:14px;margin:0 0 7px}.story-panel details{font-size:11px;color:#617386;margin-top:7px}.story-panel details summary{cursor:pointer}.story-empty{padding:20px;text-align:center;color:#617386}@media(max-width:1100px){.story-layout{grid-template-columns:1fr}}@media(max-width:600px){.story-bubble{height:300px}.story-table th,.story-table td{padding:8px 7px;font-size:11px}}
 </style>
+<style id="health-page-layout">
+#page-health .health-block{margin:10px 0 0!important;width:100%;min-width:0;height:auto!important}
+#page-health #healthCumulativeGrid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:8px}
+#page-health #healthCumulativeGrid .detail-kpi{display:flex;flex-direction:column;justify-content:space-between;gap:3px;min-height:58px!important}
+#page-health #healthCumulativeGrid .dk-label{font-size:10px;line-height:1.35;min-height:2.7em}
+#page-health #healthCumulativeGrid .dk-value{margin-top:0;font-size:20px}
+#page-health .health-chart-grid{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;min-width:0;width:100%}
+#page-health .health-service-grid{margin-top:10px}
+#page-health .health-activity-grid{margin-top:10px}
+#page-health .health-chart-grid>div{display:flex;flex-direction:column;min-width:0;max-width:100%;height:auto!important;margin:0!important}
+#page-health .health-chart-grid>div[hidden],#page-health .health-chart-grid[hidden]{display:none!important}
+#page-health .health-chart-grid[data-visible="1"]{grid-template-columns:minmax(0,1fr)}
+#page-health .health-chart-grid[data-visible="2"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+#page-health .health-chart-grid .section-title-block{min-height:55px!important;align-items:flex-start;flex-wrap:wrap;gap:6px}
+#page-health .health-chart-grid .section-title-block h3,#page-health #storyActivity-health h3,#page-health .tracker-mini-title{font-size:14px!important;line-height:1.25}
+#page-health .health-chart-grid .tracker-mini-title{min-height:34px;margin-bottom:6px}
+#page-health .health-chart-grid .chart-box{height:300px!important;min-height:300px!important;max-height:300px!important;margin-top:auto}
+#page-health .health-chart-grid canvas{display:block;width:100%;max-width:100%}
+#page-health #healthActivityPanel .section-title-block{align-items:center;flex-wrap:wrap;gap:8px}
+#page-health #healthActivityPanel .tracker-tools{justify-content:flex-end}
+#page-health #storyActivity-health .story-table th,#page-health #storyActivity-health .story-table td{padding:8px 10px}
+#page-health #healthInsights{margin:10px 0 0!important;gap:8px}
+#page-health #healthActivityDetails .tracker-table-head{margin:0 0 8px}
+#page-health #healthActivityDetails .tracker-table-head b{font-size:14px}
+#page-health #healthActivityDetails .tracker-table-wrap{max-height:410px}
+@media(min-width:760px) and (max-width:1199px){
+ #page-health .health-chart-grid[data-visible="3"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #page-health .health-chart-grid[data-visible="3"]>div:first-child{grid-column:1/-1}
+ #page-health .health-chart-grid[data-visible="3"]>div:first-child .chart-box{height:280px!important;min-height:280px!important;max-height:280px!important}
+}
+@media(max-width:1000px){#page-health #healthCumulativeGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:759px){
+ #page-health .health-chart-grid[data-visible]{grid-template-columns:minmax(0,1fr)}
+ #page-health .health-chart-grid .section-title-block,#page-health .health-chart-grid .tracker-mini-title{min-height:0!important}
+ #page-health .health-chart-grid .chart-box{height:265px!important;min-height:265px!important;max-height:265px!important}
+ #page-health #healthActivityPanel .tracker-tools{justify-content:flex-start}
+}
+</style>
 <body>
 <div class="shell"><main class="main">
 
@@ -1768,10 +1806,43 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
   </div>
 
   <div class="kpi-grid-five" id="healthKpis"></div>
-  <div class="insight-strip" id="healthInsights"></div>
+<div class="panel health-block" id="healthServicesAllYears">
+      <div class="section-title-block">
+        <div><h3>Health Services — All Years</h3><p>Sum of available annual rows; missing cells excluded.</p></div>
+      </div>
+      <div class="detail-kpi-grid" id="healthCumulativeGrid"></div>
+    </div>
+<div class="panel tracker-deep-panel health-block" id="healthActivityPanel">
+      <div class="section-title-block">
+        <div><h3>Health Activities</h3><p>Event-level health delivery and reach from the uploaded Activity Tracker.</p></div>
+        <div class="section-tools tracker-tools">
+          
+          <span class="tool-label">Area</span>
+          <select class="local-select" id="trackerArea-health">
+            <option value="All">All centers</option><option value="Narol">Narol</option><option value="Naroda">Naroda</option>
+          </select>
+          <span class="tool-label">Quarter</span>
+          <select class="local-select" id="trackerQuarter-health">
+            <option value="All">All quarters</option><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option>
+          </select>
+          <span class="tool-label">Beneficiary category</span>
+          <select class="local-select" id="trackerCategory-health"><option value="All">All categories</option></select>
+          <input class="tracker-search" id="trackerSearch-health" placeholder="Search activities…" type="search"/>
+        </div>
+      </div>
+      <div class="tracker-summary-grid" id="trackerKpis-health"></div>
+      <div class="health-chart-grid health-activity-grid" id="healthActivityCharts">
+        <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Type</div><div class="chart-box" ><canvas id="trackerActivityChart-health"></canvas></div></div>
+        <div class="tracker-inner-card"><div class="tracker-mini-title">Monthly Activity Reach</div><div class="chart-box" ><canvas id="trackerQuarterChart-health"></canvas></div></div>
+      
+        <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" ><canvas id="trackerCategoryChart-health"></canvas></div></div>
+      </div>
+      <div class="tracker-empty-state" id="trackerEmpty-health" hidden>No activities in this financial year.</div>
 
-  <div class="row" style="grid-template-columns:1.05fr .95fr;gap:14px;">
-    <div class="panel">
+    </div>
+<div class="panel health-block story-section" id="storyActivity-health"><h3>Activity Summary</h3><div class="story-scroll"><table class="story-table"></table></div></div>
+  <div class="insight-strip" id="healthInsights"></div>
+<div class="health-chart-grid health-service-grid" id="healthServiceCharts"><div class="panel">
       <div class="section-title-block">
         <div><h3>Health reach trend</h3><p>Choose a service to compare locations across financial years.</p></div>
         <div class="section-tools">
@@ -1801,74 +1872,21 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
       <div class="chart-box" style="height:300px"><canvas id="healthCenterChart"></canvas></div>
       <div class="scope-note"><b>Scope:</b> This center chart comes from Bifurcated Data and should not be forced to equal the combined headline totals.</div>
     </div>
-  </div>
-
-  <div class="row" style="grid-template-columns:1fr 1fr;gap:14px;">
-
-
-    <div class="panel">
+<div class="panel">
       <div class="section-title-block">
         <div><h3>School health delivery</h3><p>General, eye and dental student checkups by center for the selected year.</p></div>
       </div>
       <div class="chart-box" style="height:305px"><canvas id="schoolHealthChart"></canvas></div>
 <div class="scope-note" id="schoolEyeCoverageNote"></div>
-    </div>
-  </div>
-
-  
-  <div class="row" style="grid-template-columns:1fr;gap:14px;">
-    <div class="panel">
-      <div class="section-title-block">
-        <div><h3>Health Services — All Years</h3><p>Sum of available annual rows; missing cells excluded.</p></div>
-      </div>
-      <div class="detail-kpi-grid" id="healthCumulativeGrid"></div>
-    </div>
-  </div>
-
-
-
-
-  <div class="row" style="grid-template-columns:1fr;gap:14px;">
-    <div class="panel tracker-deep-panel">
-      <div class="section-title-block">
-        <div><h3>Health Activities</h3><p>Event-level health delivery and reach from the uploaded Activity Tracker.</p></div>
-        <div class="section-tools tracker-tools">
-          
-          <span class="tool-label">Area</span>
-          <select class="local-select" id="trackerArea-health">
-            <option value="All">All centers</option><option value="Narol">Narol</option><option value="Naroda">Naroda</option>
-          </select>
-          <span class="tool-label">Quarter</span>
-          <select class="local-select" id="trackerQuarter-health">
-            <option value="All">All quarters</option><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option>
-          </select>
-          <span class="tool-label">Beneficiary category</span>
-          <select class="local-select" id="trackerCategory-health"><option value="All">All categories</option></select>
-          <input class="tracker-search" id="trackerSearch-health" placeholder="Search activities…" type="search"/>
-        </div>
-      </div>
-      <div class="tracker-summary-grid" id="trackerKpis-health"></div>
-      <div class="row tracker-analysis-row" style="grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
-        <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Type</div><div class="chart-box" style="height:270px"><canvas id="trackerActivityChart-health"></canvas></div></div>
-        <div class="tracker-inner-card"><div class="tracker-mini-title">Monthly Activity Reach</div><div class="chart-box" style="height:270px"><canvas id="trackerQuarterChart-health"></canvas></div></div>
-      </div>
-      <div class="row tracker-analysis-row" style="grid-template-columns:1fr;gap:12px;margin-top:10px">
-        <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-health"></canvas></div></div>
-      </div>
-      <div class="tracker-empty-state" id="trackerEmpty-health" hidden>No activities in this financial year.</div>
-      <div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-health"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
+    </div></div>
+<div class="panel health-block" id="healthActivityDetails">      <div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-health"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-health"></table></div>
       <div class="tracker-pagination" id="trackerPagination-health">
         <button class="tracker-page-btn" id="trackerPrev-health">← Previous</button>
         <span id="trackerPageInfo-health"></span>
         <button class="tracker-page-btn" id="trackerNext-health">Next →</button>
       </div>
-      <div class="scope-note"><b>Interpretation:</b> Activity reach are summed activity reach, not deduplicated beneficiaries. Program grouping is derived from Event Name / Specifications; the raw event name stays visible below.</div>
-    </div>
-  </div>
-
-
-
+</div>
 <div class="page-source"><b>Health sources:</b> Master Summary, Bifurcated Data, Working Sheet and Activity Tracker are presented as separate source views where their definitions differ.  Health service KPIs and charts use Bifurcated Data; menstrual workshops use the combined summary. These tables use different definitions in places, so the dashboard keeps them visibly separate.</div>
 </section>
 
@@ -2377,6 +2395,14 @@ function hasNumericData(values){
 function updateChartPanel(canvasId, values){
   const canvas=document.getElementById(canvasId);
   if(!canvas) return true;
+  const healthGrid=canvas.closest('#page-health .health-chart-grid');
+  if(healthGrid){
+    const card=canvas.closest('.tracker-inner-card,.panel');const hasData=hasNumericData(values);
+    if(card)card.hidden=!hasData;
+    const count=[...healthGrid.children].filter(c=>!c.hidden).length;
+    healthGrid.dataset.visible=String(count);healthGrid.hidden=count===0;
+    return hasData;
+  }
   const panel=canvas.closest('.panel');
   if(!panel) return true;
   const hasData=hasNumericData(values);
@@ -2903,7 +2929,7 @@ function renderHealth(){
   if(updateChartPanel('healthCenterChart',healthCenterCompressed.values)){
     charts.healthCenter=new Chart(document.getElementById('healthCenterChart'),{
       type:'bar',
-      data:{labels:healthCenterCompressed.labels,datasets:[{label:state.healthArea,data:healthCenterCompressed.values,backgroundColor:[C.blue,C.teal,C.cyan,C.orange,C.purple],borderRadius:5}]},
+      data:{labels:healthCenterCompressed.labels,datasets:[{label:state.healthArea,data:healthCenterCompressed.values,backgroundColor:[C.blue,C.teal,C.cyan,C.orange,C.purple],borderRadius:5,maxBarThickness:46}]},
       options:baseOptions()
     });
   }
@@ -2916,8 +2942,8 @@ function renderHealth(){
     charts.schoolHealth=new Chart(document.getElementById('schoolHealthChart'),{
       type:'bar',
       data:{labels:schoolHealthCompressed.labels,datasets:[
-        {label:'Narol',data:schoolHealthCompressed.a,backgroundColor:'rgba(59,118,240,.78)',borderRadius:4},
-        {label:'Naroda',data:schoolHealthCompressed.b,backgroundColor:'rgba(242,104,37,.74)',borderRadius:4}
+        {label:'Narol',data:schoolHealthCompressed.a,backgroundColor:'rgba(59,118,240,.78)',borderRadius:4,maxBarThickness:40},
+        {label:'Naroda',data:schoolHealthCompressed.b,backgroundColor:'rgba(242,104,37,.74)',borderRadius:4,maxBarThickness:40}
       ]},
       options:baseOptions()
     });
