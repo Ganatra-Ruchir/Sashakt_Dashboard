@@ -2816,8 +2816,8 @@ function renderHistoricalInsights(){
  const selected=OVERVIEW_PHASES.filter(e=>e.fy===period&&(loc==='All'||e.area===loc)&&(state.overallQuarter==='all'||e.quarter===state.overallQuarter));
  const covered=period>='2023-24'&&period<='2026-27';
  const known=selected.filter(e=>isNum(e.count)),missing=selected.length-known.length;
- const total=known.reduce((n,e)=>n+e.count,0);
- const totalText=!covered||(!known.length&&missing)?'—':num(total);
+ const phaseTotal=known.reduce((n,e)=>n+e.count,0);
+ const totalText=!covered||(!known.length&&missing)?'—':num(phaseTotal);
  document.getElementById('historicalPhaseTotal').textContent=totalText;
  const phaseAreas=loc==='All'?['Narol','Naroda']:[loc];
  const byArea=phaseAreas.map(area=>{const events=selected.filter(e=>e.area===area);const valid=events.filter(e=>isNum(e.count));return {area,total:valid.reduce((n,e)=>n+e.count,0),missing:events.length-valid.length,known:valid.length,events:events.length};});
