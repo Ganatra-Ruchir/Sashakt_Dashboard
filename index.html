@@ -1653,6 +1653,9 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
 #page-health #healthCumulativeGrid .detail-kpi{display:flex;flex-direction:column;justify-content:space-between;gap:3px;min-height:58px!important}
 #page-health #healthCumulativeGrid .dk-label{font-size:10px;line-height:1.35;min-height:2.7em}
 #page-health #healthCumulativeGrid .dk-value{margin-top:0;font-size:20px}
+#page-health #healthCumulativeGrid .dk-sub{font-size:10px;line-height:1.4;margin-top:0}
+#page-health #healthCumulativeGrid .health-growth{font-weight:700;color:var(--ink-soft)}
+#page-health #healthCumulativeGrid .health-growth.up{color:var(--teal)}
 #page-health .health-chart-grid{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;min-width:0;width:100%}
 #page-health .health-service-grid{margin-top:10px}
 #page-health .health-activity-grid{margin-top:10px}
@@ -2996,6 +2999,20 @@ function healthCenterValues(r,area){
     r[p+'OpdBeneficiaries'], r[p+'Body'], r[p+'Eye'], r[p+'EyeGlasses'], r[p+'Dental']
   ];
 }
+function healthAverageAnnualChange(suffix){
+  const rows=BIF.filter(r=>r.fy!==latestFY||!DATA.meta.latestYearInProgress);
+  const annual=rows.map(r=>splitSum(r,'narol'+suffix,'naroda'+suffix));
+  const changes=annual.slice(1).flatMap((v,i)=>isNum(v)&&isNum(annual[i])?[v-annual[i]]:[]);
+  if(!changes.length)return {value:null,periods:0};
+  return {value:changes.reduce((sum,v)=>sum+v,0)/changes.length,periods:changes.length};
+}
+function healthServiceKpi(label,suffix){
+  const total=splitSum(BIFTOTAL,'narol'+suffix,'naroda'+suffix);
+  const growth=healthAverageAnnualChange(suffix);
+  const detail=growth.value===null?'Avg annual change: —':`<span class="health-growth ${growth.value>0?'up':''}">${signed(growth.value,num)} / year</span> · Avg change`;
+  const tip=growth.periods?`Average change across ${growth.periods} comparable completed-year transition(s)`:'Insufficient comparable completed-year data';
+  return detailKpi(label,num(total),`<span title="${tip}">${detail}</span>`);
+}
 function renderHealth(){
   document.getElementById('healthAuditDetails').hidden=state.fy!==HEALTH_AUDIT.fy;
   const r=current(), s=currentSplit();
@@ -3047,16 +3064,16 @@ function renderHealth(){
 
   const bf=bifFullFor(state.fy);
   document.getElementById('healthCumulativeGrid').innerHTML=[
-    detailKpi('OPD sessions',num(splitSum(BIFTOTAL,'narolOpdNo','narodaOpdNo')),num(BIFTOTAL.narolOpdNo)+' Narol + '+num(BIFTOTAL.narodaOpdNo)+' Naroda'),
-    detailKpi('OPD beneficiaries',num(splitSum(BIFTOTAL,'narolOpdBeneficiaries','narodaOpdBeneficiaries')),'Cumulative center-split reach'),
-    detailKpi('Body profiling / health',num(splitSum(BIFTOTAL,'narolBody','narodaBody')),'Cumulative beneficiaries'),
-    detailKpi('Eye camp beneficiaries',num(splitSum(BIFTOTAL,'narolEye','narodaEye')),'Separate from glasses distributed'),
-    detailKpi('Eye glasses distributed',num(splitSum(BIFTOTAL,'narolEyeGlasses','narodaEyeGlasses')),'Community eye-glass distribution'),
-    detailKpi('Dental beneficiaries',num(splitSum(BIFTOTAL,'narolDental','narodaDental')),'Cumulative community dental reach'),
-    detailKpi('School general checkups',num(splitSum(BIFTOTAL,'narolSchoolGeneral','narodaSchoolGeneral')),'Students checked'),
-    detailKpi('School eye checkups',num(splitSum(BIFTOTAL,'narolSchoolEye','narodaSchoolEye')),'Students checked'),
-    detailKpi('School eye glasses',num(splitSum(BIFTOTAL,'narolSchoolEyeGlasses','narodaSchoolEyeGlasses')),'Glasses distributed in schools'),
-    detailKpi('School dental checkups',num(splitSum(BIFTOTAL,'narolSchoolDental','narodaSchoolDental')),'Students checked')
+    healthServiceKpi('OPD sessions','OpdNo'),
+    healthServiceKpi('OPD beneficiaries','OpdBeneficiaries'),
+    healthServiceKpi('Body profiling / health','Body'),
+    healthServiceKpi('Eye camp beneficiaries','Eye'),
+    healthServiceKpi('Eye glasses distributed','EyeGlasses'),
+    healthServiceKpi('Dental beneficiaries','Dental'),
+    healthServiceKpi('School general checkups','SchoolGeneral'),
+    healthServiceKpi('School eye checkups','SchoolEye'),
+    healthServiceKpi('School eye glasses','SchoolEyeGlasses'),
+    healthServiceKpi('School dental checkups','SchoolDental')
   ].join('');
 
   const nSchools=DATA.schoolEyeCoverage.Narol.join(', ');
