@@ -1737,8 +1737,8 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
 </div></div>
 <div class="row naroda-historical-charts" id="narodaHistoricalSnapshot">
  <div class="panel">
-  <div class="section-title-block"><div><h3 id="historicalPillarsTitle">Family Enrolment</h3><p id="historicalPillarPeriod">Phase launches by quarter</p></div></div>
-  <div class="chart-box" id="overviewPhaseWrap" style="height:310px"><canvas id="overviewPhaseChart" role="img" aria-label="Family enrolment by quarter"></canvas></div>
+  <div class="section-title-block"><div><h3 id="historicalPillarsTitle">Family Coverage by Year</h3></div></div>
+  <div class="chart-box" id="overviewPhaseWrap" style="height:310px"><canvas id="overviewPhaseChart" role="img" aria-label="Annual family coverage trend"></canvas></div><div class="story-empty" id="familyCoverageEmpty" hidden>No family coverage figures for this selection.</div>
   <div id="overviewPhaseSummary" class="chart-note"></div><div class="chart-note" id="historicalPillarNote"></div>
  </div>
  <div class="panel">
@@ -2788,16 +2788,24 @@ function renderStoryActivityTable(key,rows){
  panel.hidden=!groups.length;if(groups.length)storyTable(panel.querySelector('table'),groups,areas);
 }
 
+function familyCoverageSeries(fy,loc){
+ return DATA.combined.filter(r=>r.fy<=fy).map(r=>({fy:r.fy,value:loc==='All'?(isNum(r.families)?r.families:null):r.fy===latestFY?(loc==='Narol'?7000:5000):null}));
+}
 function renderHistoricalInsights(){
- const loc=state.overallLocation,fy=state.overallFy==='all'?latestFY:state.overallFy,q=state.overallQuarter,areas=loc==='All'?['Narol','Naroda']:[loc],quarters=q==='all'?['Q1','Q2','Q3','Q4']:[q],covered=fy>='2023-24'&&fy<=latestFY;
- const rows=OVERVIEW_PHASES.filter(e=>e.fy===fy&&areas.includes(e.area)&&quarters.includes(e.quarter)),known=rows.filter(e=>isNum(e.count)),missing=rows.length-known.length;
- const series=areas.map(area=>({label:area,data:quarters.map(q=>{if(!covered||(fy===latestFY&&q==='Q4'))return null;const a=rows.filter(e=>e.area===area&&e.quarter===q),v=a.filter(e=>isNum(e.count));return a.length&&!v.length?null:v.reduce((n,e)=>n+e.count,0);}),backgroundColor:area==='Narol'?C.teal:C.purple,borderRadius:5,maxBarThickness:40}));
- document.getElementById('historicalPillarsTitle').textContent=(loc==='All'?'Narol + Naroda':loc)+' — Family Enrolment';
- document.getElementById('historicalPillarPeriod').textContent='FY '+fy+' · '+(q==='all'?'by quarter':q)+(fy===latestFY&&q==='all'?' · through 1 Nov 2026':'');
- document.getElementById('overviewPhaseSummary').textContent=covered?(known.length?num(known.reduce((n,e)=>n+e.count,0))+' families · ':'')+rows.length+' phase launches'+(missing?' · '+missing+' missing counts':''):'No tracker coverage before FY 2023–24.';
- document.getElementById('historicalPillarNote').textContent='Activity Tracker · phase launch counts = family enrolments. '+(fy===latestFY?'Through 1 Nov 2026. ':'')+'Households may overlap.';
- destroyChart('overviewPhase');document.getElementById('overviewPhaseWrap').style.display=covered?'block':'none';
- if(covered)charts.overviewPhase=new Chart(document.getElementById('overviewPhaseChart'),{type:'bar',data:{labels:quarters,datasets:series},options:baseOptions()});
+ const loc=state.overallLocation,fy=state.overallFy==='all'?latestFY:state.overallFy,q=state.overallQuarter;
+ const rows=familyCoverageSeries(fy,loc),known=rows.filter(r=>isNum(r.value)),first=known[0],last=known[known.length-1];
+ document.getElementById('historicalPillarsTitle').textContent='Family Coverage by Year';
+ const wrap=document.getElementById('overviewPhaseWrap'),empty=document.getElementById('familyCoverageEmpty'),canvas=document.getElementById('overviewPhaseChart');
+ wrap.style.display=known.length?'block':'none';empty.hidden=!!known.length;destroyChart('overviewPhase');
+ document.getElementById('overviewPhaseSummary').textContent=known.length>1?'From '+num(first.value)+' to '+num(last.value)+' families':known.length===1?(loc==='All'?num(last.value)+' families covered':num(last.value)+' families in '+loc+' · earlier years unavailable'):'';
+ document.getElementById('historicalPillarNote').textContent='Annual family coverage milestones, not new enrolments by quarter. Historical centre-level splits are unavailable.';
+ if(known.length){
+  const opts=baseOptions();opts.plugins.legend.display=false;opts.scales.x.ticks.font={size:11};opts.scales.y.ticks.font={size:11};opts.scales.y.ticks.callback=v=>num(v);opts.scales.y.suggestedMax=Math.max(...known.map(r=>r.value))*1.22;opts.layout={padding:{top:12,right:15,left:5}};
+  opts.plugins.tooltip.callbacks={label:c=>num(c.raw)+' families covered'};
+  canvas.setAttribute('aria-label','Annual family coverage for '+(loc==='All'?'Narol and Naroda':loc)+': '+rows.map(r=>r.fy+' '+(r.value===null?'unavailable':num(r.value))).join('; '));
+  const labelsPlugin={id:'familyCoverageLabels',afterDatasetsDraw(chart){const ctx=chart.ctx;ctx.save();ctx.font='600 11px Inter, Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillStyle=C.ink;chart.getDatasetMeta(0).data.forEach((p,i)=>{const v=rows[i].value;if(isNum(v))ctx.fillText(num(v),p.x,p.y-9);});ctx.restore();}};
+  charts.overviewPhase=new Chart(canvas,{type:'line',data:{labels:rows.map(r=>r.fy.replace('-','–')),datasets:[{label:'Families covered',data:rows.map(r=>r.value),borderColor:C.teal,backgroundColor:'rgba(14,165,126,.10)',borderWidth:2.5,pointRadius:4,pointHoverRadius:6,tension:.18,fill:known.length>1,spanGaps:false}]},options:opts,plugins:[labelsPlugin]});
+ }
  renderHistoricalSectorRadar(fy,loc,q);
  renderStoryBubble(fy,loc,q);
 }
