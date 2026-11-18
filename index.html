@@ -3080,6 +3080,37 @@ function renderBatchFilterOptions(){
   if(current!=='All'&&nums.includes(Number(current))) sel.value=current;
   else {state.batch='All';sel.value='All';}
 }
+function skillingAnnualInsight(key, selectedFY){
+  // Compare consecutive completed financial years only, never partial-year totals.
+  const cutoff=YEARS.indexOf(selectedFY);
+  const history=YEARS.slice(0,cutoff+1).filter(fy=>fy!==latestFY||!DATA.meta.latestYearInProgress).map(fy=>{
+    const r=rowFor(fy);
+    const original=DATA.combined.find(x=>x.fy===fy);
+    let v=r?.[key];
+    // The combined summary contains the 2022–23 topical total when Naroda was unreported.
+    if(key==='topicalSkilling'&&!isNum(v))v=original?.topicalSkilling;
+    // Youth skilling was not tracked as an active programme before FY 2025–26.
+    if(key==='youthSkilling'&&v===0&& !isNum(original?.youthSkilling)) v=null;
+    return {fy,v};
+  });
+  const deltas=history.slice(1).flatMap((r,i)=>isNum(r.v)&&isNum(history[i].v)?[r.v-history[i].v]:[]);
+  if(deltas.length)return {mode:'growth',value:deltas.reduce((sum,v)=>sum+v,0)/deltas.length,periods:deltas.length};
+  const known=history.filter(r=>isNum(r.v));
+  return known.length?{mode:'reach',value:known.reduce((sum,r)=>sum+r.v,0)/known.length,periods:known.length}:{mode:'none',value:null,periods:0};
+}
+function renderSkillingAnnualInsights(){
+  const target=document.getElementById('skillingInsights');
+  const defs=[['Certified beneficiaries','certified','count'],['Youth skilling','youthSkilling','count'],['Monthly avg income','monthlyIncome','money'],['Topical skilling','topicalSkilling','count']];
+  target.innerHTML=defs.map(([label,key,type])=>{
+    const a=skillingAnnualInsight(key,state.fy);
+    const format=type==='money'?money:num;
+    if(a.mode==='growth')return insightItem(label+' · Avg annual change',signed(a.value,format)+' / year','',a.value>=0?'positive':'neutral');
+    if(a.mode==='reach')return insightItem(label+' · Annual average',format(a.value)+' / year',a.periods===1?'1 completed FY':'','neutral');
+    return insightItem(label+' · Annual average','—','','neutral');
+  }).join('');
+  target.hidden=false;
+}
+
 function renderSkilling(){
   const r=current();
   document.getElementById('skillingYearKpis').innerHTML=[
@@ -3089,12 +3120,7 @@ function renderSkilling(){
     statCard('Monthly avg income',incomeTracked(state.fy)?moneyOrStatus(r.monthlyIncome):'Not tracked',incomeTracked(state.fy)?'Tracking starts FY 2023–24':'Income not tracked in this FY','orange'),
     statCard('Milestone',r.milestone?'Highlight':'—',storyNote(r.milestone),'cyan')
   ].join('');
-  renderChangeInsights('skillingInsights',[
-    ['Certified beneficiaries','certified'],
-    ['Youth skilling','youthSkilling'],
-    ['Monthly avg income','monthlyIncome','money'],
-    ['Topical skilling','topicalSkilling']
-  ]);
+  renderSkillingAnnualInsights();
 
   destroyChart('skillingTrend');
   const key=state.skillingTrendMetric;
