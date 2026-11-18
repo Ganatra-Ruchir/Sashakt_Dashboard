@@ -1624,7 +1624,7 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
     <div>
       <div class="page-kicker">OVERALL</div>
       <div class="page-title">Sashakt Impact Overview</div>
-      <div class="page-lead">Source-reported FY indicators and family milestones. Counts across programs and years are not automatically additive.</div>
+      <div class="page-lead">Bifurcated Data · location-wise annual operations and separately reported family milestones.</div>
     </div>
     <div class="page-period">
       <span class="period-chip" id="overviewFyChip"></span>
@@ -1639,21 +1639,18 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
   </div>
   <div class="kpi-grid-six" id="overviewKpis"></div>
 <div class="overall-chart-grid">
- <div class="panel">
-  <div class="section-title-block"><div><h3>Program Reach &amp; Scale</h3><p>Compare program beneficiary reach across historical periods. Each bubble represents one program.</p></div><div id="overallFamiliesBadge" class="period-chip">Verified records only</div></div>
-  <div id="sashaktBubbleChips" class="sashakt-bubble-chips"></div>
-  <div class="sashakt-bubble-shell">
-    <div class="sashakt-bubble-watermark">REACH · GROWTH</div>
-    <div class="chart-box" style="height:310px"><canvas id="overviewFamilyChart"></canvas></div>
-  </div>
-  <div id="sashaktBubbleLegend" class="sashakt-bubble-legend"></div>
-  <div class="chart-note sashakt-bubble-note" id="overviewFamilyNote"></div>
- </div>
- <div class="panel">
-  <div class="section-title-block"><div><h3>Program Reach Distribution</h3><p>Program reach totals may overlap; not unique people.</p></div></div>
-  <div class="chart-box" style="height:300px"><canvas id="overallReachChart"></canvas></div>
- </div>
+<div class="panel">
+<div class="section-title-block"><div><h3>Programme trend by location</h3><p>Compare one indicator across financial years.</p></div><span class="period-chip" id="overallFamiliesBadge">Bifurcated Data</span></div>
+<div class="section-tools" style="margin:8px 0"><label for="overallTrendMetric" class="tool-label">Indicator</label><select id="overallTrendMetric" class="local-select" style="max-width:100%"></select></div>
+<div class="chart-box" style="height:290px"><canvas id="overviewFamilyChart" role="img" aria-label="Programme trend by location"></canvas></div>
+<div class="chart-note" id="overviewFamilyNote"></div>
 </div>
+<div class="panel">
+<div class="section-title-block"><div><h3>Programme delivery by location</h3><p>Compare individual activities within a programme.</p></div></div>
+<div class="section-tools" style="margin:8px 0"><label for="overallBreakdownGroup" class="tool-label">Programme</label><select id="overallBreakdownGroup" class="local-select" style="max-width:100%"></select></div>
+<div class="chart-box" style="height:290px"><canvas id="overallReachChart" role="img" aria-label="Programme delivery by location"></canvas></div>
+<div class="chart-note" id="overallBreakdownNote"></div>
+</div></div>
 <div class="section-title-block" id="narodaHistoricalHeading"><div><h3>Historical Insights</h3><p id="historicalInsightsDescription">Source-reported historical program activity by location; family-overlap evidence is shown only where available.</p></div><span class="period-chip" id="historicalPeriodChip">Historical reference</span></div>
 <div class="row naroda-historical-charts" id="narodaHistoricalSnapshot">
  <div class="panel">
@@ -1683,7 +1680,7 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
   <div class="chart-note" id="historicalFamiliesNote">Naroda source reference has an unresolved inconsistency: reported total 924, seven displayed regions total 1,084. Not a verified current count.</div>
  </div>
 </div>
-<div class="page-source"><b>Overview source:</b> Gifting Life Drive · “Sashakt - Master Data” (combined FY indicators). Latest family milestone corrected to 12,000 as reported for FY 2026–27. Figures may be annual or milestone measures, not distinct lifetime people. FY26–27 Q2 uses separate quarterly report intervention tables. Historical Naroda charts are reference-only and subject to reconciliation.</div>
+<div class="page-source"><b>Overview source:</b> Gifting Life Drive · “Sashakt - Master Data” (Bifurcated Data, snapshot 18 Nov 2026; family milestones from combined summary). Latest family milestone corrected to 12,000 as reported for FY 2026–27. Figures may be annual or milestone measures, not distinct lifetime people. FY26–27 Q2 uses separate quarterly report intervention tables. Historical Naroda charts are reference-only and subject to reconciliation.</div>
 </section>
 
 <!-- ===================== HEALTH ===================== -->
@@ -2739,17 +2736,51 @@ function renderChangeInsights(targetId, defs){
 /* ---------- OVERVIEW ---------- */
 const Q2_REPORT={Narol:{enrolled:179,graduated:192,opd:881,fl:1194,stem:2082,launch:322},Naroda:{enrolled:190,graduated:178,opd:1014,fl:1214,stem:2637,launch:0}};
 
+
+/* Overview only: aggregate Bifurcated Data A1:AY7 snapshot, 18 Nov 2026. Blank/dash = null. */
+const OVERVIEW_BIF=[{"fy":"2021-22","NarolSkilling":0,"NarodaSkilling":0,"NarolSetWinners":null,"NarodaSetWinners":null,"NarolOpdNo":12,"NarodaOpdNo":0,"NarolOpdBeneficiaries":519,"NarodaOpdBeneficiaries":0,"NarolFL":80,"NarodaFL":null,"NarolSchoolHours":0,"NarodaSchoolHours":0,"NarolBody":45,"NarodaBody":0,"NarolEye":0,"NarodaEye":0,"NarolEyeGlasses":null,"NarodaEyeGlasses":null,"NarolDental":0,"NarodaDental":0,"NarolSchoolGeneral":0,"NarodaSchoolGeneral":0,"NarolSchoolEye":0,"NarodaSchoolEye":0,"NarolSchoolEyeGlasses":null,"NarodaSchoolEyeGlasses":null,"NarolSchoolDental":0,"NarodaSchoolDental":0,"NarolEarning":0,"NarodaEarning":0,"NarolTopical":null,"NarodaTopical":null,"NarolDivaBeneficiaries":null,"NarodaDivaBeneficiaries":null,"NarolDivaIncome":null,"NarodaDivaIncome":null},{"fy":"2022-23","NarolSkilling":308,"NarodaSkilling":0,"NarolSetWinners":null,"NarodaSetWinners":null,"NarolOpdNo":33,"NarodaOpdNo":0,"NarolOpdBeneficiaries":1985,"NarodaOpdBeneficiaries":0,"NarolFL":125,"NarodaFL":null,"NarolSchoolHours":0,"NarodaSchoolHours":0,"NarolBody":34,"NarodaBody":0,"NarolEye":null,"NarodaEye":0,"NarolEyeGlasses":null,"NarodaEyeGlasses":null,"NarolDental":0,"NarodaDental":0,"NarolSchoolGeneral":3000,"NarodaSchoolGeneral":0,"NarolSchoolEye":0,"NarodaSchoolEye":0,"NarolSchoolEyeGlasses":null,"NarodaSchoolEyeGlasses":null,"NarolSchoolDental":null,"NarodaSchoolDental":0,"NarolEarning":0,"NarodaEarning":0,"NarolTopical":60,"NarodaTopical":null,"NarolDivaBeneficiaries":null,"NarodaDivaBeneficiaries":null,"NarolDivaIncome":null,"NarodaDivaIncome":null},{"fy":"2023-24","NarolSkilling":843,"NarodaSkilling":116,"NarolSetWinners":80,"NarodaSetWinners":null,"NarolOpdNo":48,"NarodaOpdNo":24,"NarolOpdBeneficiaries":2703,"NarodaOpdBeneficiaries":1994,"NarolFL":203,"NarodaFL":null,"NarolSchoolHours":0,"NarodaSchoolHours":0,"NarolBody":244,"NarodaBody":226,"NarolEye":null,"NarodaEye":142,"NarolEyeGlasses":null,"NarodaEyeGlasses":92,"NarolDental":null,"NarodaDental":92,"NarolSchoolGeneral":null,"NarodaSchoolGeneral":3317,"NarolSchoolEye":4250,"NarodaSchoolEye":630,"NarolSchoolEyeGlasses":null,"NarodaSchoolEyeGlasses":290,"NarolSchoolDental":4540,"NarodaSchoolDental":3317,"NarolEarning":284,"NarodaEarning":0,"NarolTopical":136,"NarodaTopical":80,"NarolDivaBeneficiaries":null,"NarodaDivaBeneficiaries":null,"NarolDivaIncome":null,"NarodaDivaIncome":null},{"fy":"2024-25","NarolSkilling":628,"NarodaSkilling":556,"NarolSetWinners":80,"NarodaSetWinners":80,"NarolOpdNo":49,"NarodaOpdNo":47,"NarolOpdBeneficiaries":3237,"NarodaOpdBeneficiaries":3753,"NarolFL":12470,"NarodaFL":5231,"NarolSchoolHours":1173.6,"NarodaSchoolHours":632.4,"NarolBody":150,"NarodaBody":154,"NarolEye":203,"NarodaEye":270,"NarolEyeGlasses":172,"NarodaEyeGlasses":201,"NarolDental":59,"NarodaDental":51,"NarolSchoolGeneral":3469,"NarodaSchoolGeneral":4354,"NarolSchoolEye":4220,"NarodaSchoolEye":2972,"NarolSchoolEyeGlasses":1822,"NarodaSchoolEyeGlasses":1222,"NarolSchoolDental":7365,"NarodaSchoolDental":4985,"NarolEarning":377,"NarodaEarning":229,"NarolTopical":129,"NarodaTopical":166,"NarolDivaBeneficiaries":64,"NarodaDivaBeneficiaries":24,"NarolDivaIncome":129859,"NarodaDivaIncome":8292},{"fy":"2025-26","NarolSkilling":838,"NarodaSkilling":626,"NarolSetWinners":40,"NarodaSetWinners":40,"NarolOpdNo":52,"NarodaOpdNo":50,"NarolOpdBeneficiaries":3735,"NarodaOpdBeneficiaries":4684,"NarolFL":3703,"NarodaFL":4000,"NarolSchoolHours":1230.8200000000002,"NarodaSchoolHours":695.49,"NarolBody":251,"NarodaBody":331,"NarolEye":391,"NarodaEye":344,"NarolEyeGlasses":0,"NarodaEyeGlasses":0,"NarolDental":199,"NarodaDental":154,"NarolSchoolGeneral":4075,"NarodaSchoolGeneral":3868,"NarolSchoolEye":5425,"NarodaSchoolEye":3570,"NarolSchoolEyeGlasses":null,"NarodaSchoolEyeGlasses":null,"NarolSchoolDental":5966,"NarodaSchoolDental":3854,"NarolEarning":214,"NarodaEarning":350,"NarolTopical":170,"NarodaTopical":200,"NarolDivaBeneficiaries":268,"NarodaDivaBeneficiaries":156,"NarolDivaIncome":1222843,"NarodaDivaIncome":701568},{"fy":"2026-27","NarolSkilling":3004,"NarodaSkilling":1403,"NarolSetWinners":10,"NarodaSetWinners":10,"NarolOpdNo":26,"NarodaOpdNo":26,"NarolOpdBeneficiaries":1508,"NarodaOpdBeneficiaries":2091,"NarolFL":1982,"NarodaFL":2072,"NarolSchoolHours":564.83,"NarodaSchoolHours":324.05,"NarolBody":0,"NarodaBody":0,"NarolEye":284,"NarodaEye":326,"NarolEyeGlasses":176,"NarodaEyeGlasses":228,"NarolDental":96,"NarodaDental":124,"NarolSchoolGeneral":5709,"NarodaSchoolGeneral":3321,"NarolSchoolEye":0,"NarodaSchoolEye":0,"NarolSchoolEyeGlasses":0,"NarodaSchoolEyeGlasses":0,"NarolSchoolDental":0,"NarodaSchoolDental":0,"NarolEarning":1015,"NarodaEarning":715,"NarolTopical":55,"NarodaTopical":57,"NarolDivaBeneficiaries":179,"NarodaDivaBeneficiaries":138,"NarolDivaIncome":731801,"NarodaDivaIncome":525400.5}];
+const OVERVIEW_METRICS={Skilling:'Skilling (operational count)',OpdBeneficiaries:'OPD reach',OpdNo:'OPD sessions',FL:'Financial literacy',SchoolGeneral:'School general checkups',SchoolEye:'School eye checkups',SchoolDental:'School dental checkups',SchoolHours:'School training hours',Body:'Health / body profiling',Eye:'Community eye camp reach',Dental:'Community dental camp reach',EyeGlasses:'Community glasses distributed',SchoolEyeGlasses:'School glasses distributed',Earning:'Skilling earning beneficiaries',Topical:'Topical skilling',SetWinners:'SET winners (machines)',DivaBeneficiaries:'Diva Salon + Studio participants',DivaIncome:'Diva Salon + Studio earnings'};
+const OVERVIEW_GROUPS={'Skilling & livelihood':['Skilling','Earning','Topical','DivaBeneficiaries','FL'],'Community healthcare':['OpdBeneficiaries','Body','Eye','Dental'],'School health':['SchoolGeneral','SchoolEye','SchoolDental'],'Distribution & sessions':['OpdNo','SetWinners','EyeGlasses','SchoolEyeGlasses'],'School training hours':['SchoolHours'],'Diva earnings (INR)':['DivaIncome']};
+const OVERVIEW_Q2_METRICS={opd:'OPD reach',fl:'Financial literacy',stem:'Science Lab',enrolled:'Skilling admissions',graduated:'Graduations',launch:'Phase launch attendance'};
+const OVERVIEW_Q2_GROUPS={'Skilling milestones':['enrolled','graduated'],'Phase launch':['launch'],'Programme reach':['opd','fl','stem']};
+function overallValue(r,a,k){const v=r?.[a+k];return isNum(v)?v:null;}
+function overallSum(r,k,areas){const v=areas.map(a=>overallValue(r,a,k));return v.every(isNum)?v.reduce((x,y)=>x+y,0):null;}
+function renderOverviewCharts(){
+ const q2=state.overallQuarter==='Q2'&&state.overallFy==='2026-27',fy=state.overallFy==='all'?latestFY:state.overallFy;
+ const areas=state.overallLocation==='All'?['Narol','Naroda']:[state.overallLocation],row=OVERVIEW_BIF.find(r=>r.fy===fy);
+ const labels=q2?OVERVIEW_Q2_METRICS:OVERVIEW_METRICS,groups=q2?OVERVIEW_Q2_GROUPS:OVERVIEW_GROUPS;
+ const t=q2?'overallQ2Metric':'overallTrendMetric',g=q2?'overallQ2Group':'overallBreakdownGroup';
+ const metric=Object.prototype.hasOwnProperty.call(labels,state[t])?state[t]:q2?'opd':'OpdBeneficiaries';
+ const group=Object.prototype.hasOwnProperty.call(groups,state[g])?state[g]:q2?'Skilling milestones':'Skilling & livelihood';
+ const setSelect=(id,items,value)=>{const el=document.getElementById(id);el.replaceChildren(...items.map(([k,v])=>new Option(v,k)));el.value=value;};
+ setSelect('overallTrendMetric',Object.entries(labels),metric);setSelect('overallBreakdownGroup',Object.keys(groups).map(k=>[k,k]),group);
+ const panels=document.querySelectorAll('#page-overview .overall-chart-grid .panel'),colors={Narol:C.teal,Naroda:C.purple};
+ const pretty=(v,k)=>(k==='DivaIncome'?'₹':'')+Number(v).toLocaleString('en-IN',{maximumFractionDigits:2});
+ const options=(horizontal,k)=>{const o=baseOptions(horizontal);o.plugins.legend.display=true;o.plugins.tooltip.callbacks={label:c=>c.dataset.label+': '+(c.raw===null?'Not reported':pretty(c.raw,k))};o.scales[horizontal?'x':'y'].ticks.callback=v=>pretty(v,k);return o;};
+ const history=OVERVIEW_BIF.filter(r=>r.fy<=fy);
+ panels[0].querySelector('h3').textContent=q2?'Q2 indicator by location':'Programme trend by location';
+ panels[0].querySelector('p').textContent=q2?'Compare one reconciled quarterly indicator.':'Compare one indicator across FYs, ending at the selected year.';
+ document.getElementById('overallFamiliesBadge').textContent=q2?'Q2 audit':'Bifurcated Data';
+ document.getElementById('overviewFamilyNote').textContent=(q2?'Jul–Sep 2026 · Q2 audit; no quarterly time series.':'FY '+fy+' · Bifurcated Data. * FY 2026–27 in progress; gaps = not reported, zero retained.')+(metric==='Skilling'?' Operational count, not certifications.':'');
+ destroyChart('overviewFamily');
+ charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{type:q2?'bar':'line',data:{labels:q2?[labels[metric]]:history.map(r=>'FY '+r.fy+(r.fy===latestFY?' *':'')),datasets:areas.map(a=>({label:a,data:q2?[Q2_REPORT[a]?.[metric]??null]:history.map(r=>overallValue(r,a,metric)),borderColor:colors[a],backgroundColor:colors[a],borderWidth:q2?0:2.5,borderRadius:5,pointRadius:4,tension:0,spanGaps:false}))},options:options(false,metric)});
+ const keys=groups[group],missing=[];
+ const datasets=areas.map(a=>({label:a,data:keys.map(k=>{const v=q2?Q2_REPORT[a]?.[k]??null:overallValue(row,a,k);if(v===null)missing.push(a+': '+labels[k]);return v;}),backgroundColor:colors[a],borderRadius:5,maxBarThickness:27}));
+ panels[1].querySelector('h3').textContent=q2?'Q2 programme breakdown':'Programme delivery by location';
+ panels[1].querySelector('p').textContent=q2?'Quarterly activities, not annual figures.':'Compare separately reported indicators for FY '+fy+'.';
+ document.getElementById('overallBreakdownNote').textContent=(q2?'Q2 Jul–Sep 2026 · Reconciled audit.':'FY '+fy+' · Bifurcated Data.')+' Separate measures, not unique beneficiaries.'+(missing.length?' Not reported: '+missing.join('; ')+'.':'');
+ destroyChart('overallReach');
+ charts.overallReach=new Chart(document.getElementById('overallReachChart'),{type:'bar',data:{labels:keys.map(k=>labels[k]),datasets},options:options(true,group==='Diva earnings (INR)'?'DivaIncome':'count')});
+}
+
 function renderHistoricalInsights(){
  const loc=state.overallLocation;
  const displayLoc=loc==='All'?'Narol + Naroda':loc;
  const period=state.overallQuarter==='Q2'?'2026-27':(state.overallFy==='all'?latestFY:state.overallFy);
- const ref=BIF.find(x=>x.fy===period);
+ const ref=OVERVIEW_BIF.find(x=>x.fy===period);
  if(!ref)return;
- const areas=loc==='All'?['narol','naroda']:[loc.toLowerCase()];
- const sumField=key=>{
-  const values=areas.map(area=>period==='2026-27'?({narol:{Skilling:3004,OpdBeneficiaries:1508,FL:1982,SchoolGeneral:5709},naroda:{Skilling:1403,OpdBeneficiaries:2091,FL:2072,SchoolGeneral:3321}}[area]?.[key]):ref[area+key]);
-  return values.every(v=>typeof v==='number'&&Number.isFinite(v))?values.reduce((sum,v)=>sum+v,0):null;
- };
+ const areas=loc==='All'?['Narol','Naroda']:[loc];
+ const sumField=key=>overallSum(ref,key,areas);
  // These four Master Data measures are activity counts; none measures family overlap
  // or investment. They form a transparent activity mix, NOT spending shares.
  const parts=[
@@ -2785,15 +2816,8 @@ function renderOverview(){
  const loc=state.overallLocation,combined=loc==='All',all=state.overallFy==='all';
  const fy=all?latestFY:state.overallFy, latest=fy===latestFY;
  const row={...(DATA.combined.find(x=>x.fy===fy)||{})};if(latest)row.families=12000;
- const rec=BIF.find(x=>x.fy===fy);
- const sourceFY26={
-  Narol:{Skilling:3004,OpdNo:26,OpdBeneficiaries:1508,FL:1982,SchoolGeneral:5709,DivaBeneficiaries:179,Eye:284},
-  Naroda:{Skilling:1403,OpdNo:26,OpdBeneficiaries:2091,FL:2072,SchoolGeneral:3321,DivaBeneficiaries:138,Eye:326}
- };
- const get=key=>{
-  const n=latest?sourceFY26[loc]?.[key]:rec?.[loc.toLowerCase()+key];
-  return typeof n==='number'&&Number.isFinite(n)?n:null;
- };
+ const rec=OVERVIEW_BIF.find(x=>x.fy===fy);
+ const get=key=>overallSum(rec,key,combined?['Narol','Naroda']:[loc]);
  const metric=(title,v,foot,tone)=>statCard(title,typeof v==='number'&&Number.isFinite(v)?num(v):'Not reported',foot,tone);
  const foot='Master Data · FY '+fy;
  const splitFoot='Bifurcated Data · FY '+fy+' · operational reach';
@@ -2806,71 +2830,23 @@ function renderOverview(){
  document.getElementById('overviewFyChip').textContent=(all?'Latest master snapshot':'FY')+' · '+fy;
  document.getElementById('overviewProgressChip').style.display=latest?'inline-flex':'none';
  document.getElementById('overallFilterStatus').textContent=combined?
-  'Combined certified and reported figures from Master Data · not additive across years.':
+  'Bifurcated Data · combined operational counts, not unique or certified-only.':
   'Source: Master Data Bifurcated Data · '+loc+'. Skilling is an operational count, not certified-only.';
  const latestFamily=loc==='Narol'?7000:5000;
  const first=latest?metric('Reported families covered',latestFamily,'FY26–27 Q2 report · coverage, not unique-audited','teal'):
   metric('OPD sessions',get('OpdNo'),splitFoot,'teal');
  const fifth=get('SchoolGeneral');
  const last=get('DivaBeneficiaries');
- document.getElementById('overviewKpis').innerHTML=(combined?[
-  metric('Families onboarded',row.families,'Reported family milestone · '+foot,'teal'),
-  metric('Certified skilling beneficiaries',row.certified,foot,'blue'),
-  metric('OPD beneficiary reach',row.opdBeneficiaries,foot,'cyan'),
-  metric('Financial literacy reach',row.financialLiteracy,foot,'orange'),
-  metric('STEM Lab students',row.stem,foot,'purple'),
-  metric('School students reported',row.studentsSchools,'Partner school coverage · '+foot,'blue')
- ]:[
-  first,
-  metric('Skilling · operational count',get('Skilling'),splitFoot+' · not certified-only','blue'),
-  metric('OPD beneficiary reach',get('OpdBeneficiaries'),splitFoot+' · repeat visits possible','cyan'),
-  metric('Financial literacy reach',get('FL'),splitFoot+' · participation','orange'),
-  metric('School general checkups',fifth,splitFoot+' · encounters','purple'),
-  last!==null?metric('Diva Salon + Studio participants',last,splitFoot,'blue'):
-   metric('Community eye-camp reach',get('Eye'),splitFoot,'blue')
- ]).join('');
- const panels=document.querySelectorAll('#page-overview .overall-chart-grid .panel');
- panels[0].querySelector('h3').textContent=combined?'Families Onboarded · Milestones':'OPD Reach · FY Trend';
- panels[0].querySelector('p').textContent=combined?'Reported family milestones, not annual additions.':'Location-specific OPD beneficiary visits from Master Data.';
- panels[1].querySelector('h3').textContent='Program Reach · FY '+fy;
- panels[1].querySelector('p').textContent='Source-reported activity counts; different populations, not deduplicated.';
- document.getElementById('overallFamiliesBadge').textContent='Master Data · '+(combined?'Family milestones':'Location operational records');
- document.querySelector('#page-overview .sashakt-bubble-watermark').textContent=combined?'FAMILY MILESTONES':'OPD VISIT TREND';
- const history=DATA.combined.filter(x=>YEARS.indexOf(x.fy)<=YEARS.indexOf(fy));
- const points=history.map(x=>{
-  const r=BIF.find(z=>z.fy===x.fy);
-  const opd=x.fy===latestFY?sourceFY26[loc]?.OpdBeneficiaries:r?.[loc.toLowerCase()+'OpdBeneficiaries'];
-  return {fy:x.fy,v:combined?(x.fy===latestFY?12000:x.families):opd};
- }).filter(x=>typeof x.v==='number'&&Number.isFinite(x.v));
- document.getElementById('sashaktBubbleChips').innerHTML='<div class="sashakt-bubble-chip"><span>PERIOD</span><strong>FY '+fy+'</strong></div>'+
- '<div class="sashakt-bubble-chip"><span>LOCATION</span><strong>'+(combined?'Narol + Naroda':loc)+'</strong></div>'+
- '<div class="sashakt-bubble-chip"><span>METRIC</span><strong>'+(combined?'Family milestones':'OPD visits')+'</strong></div>';
- destroyChart('overviewFamily');
- charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{
-  type:'line',data:{labels:points.map(x=>'FY '+x.fy),datasets:[{label:combined?'Families':'OPD reach',data:points.map(x=>x.v),borderColor:'#3478f6',backgroundColor:'rgba(52,120,246,.11)',fill:true,tension:.22,pointRadius:4,borderWidth:2.5}]},
-  options:{...baseOptions(),maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0}},x:{grid:{display:false}}}}
- });
- document.getElementById('sashaktBubbleLegend').innerHTML='';
- const reach=(combined?[
-  ['Certified skilling',row.certified,'#3478f6'],['OPD reach',row.opdBeneficiaries,'#0ca5a6'],
-  ['Financial literacy',row.financialLiteracy,'#ee9050'],['STEM Lab',row.stem,'#9456ed'],['School students',row.studentsSchools,'#dd5a94']
- ]:[
-  ['Skilling operational',get('Skilling'),'#3478f6'],['OPD reach',get('OpdBeneficiaries'),'#0ca5a6'],
-  ['Financial literacy',get('FL'),'#ee9050'],['School checkups',get('SchoolGeneral'),'#9456ed'],['Diva participants',get('DivaBeneficiaries'),'#dd5a94']
- ]).filter(x=>typeof x[1]==='number'&&Number.isFinite(x[1]));
- destroyChart('overallReach');
- charts.overallReach=new Chart(document.getElementById('overallReachChart'),{
-  type:'bar',data:{labels:reach.map(x=>x[0]),datasets:[{label:'Reported activity',data:reach.map(x=>x[1]),backgroundColor:reach.map(x=>x[2]),borderRadius:5,maxBarThickness:34}]},
-  options:{...baseOptions(),maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{precision:0}},y:{grid:{display:false}}}}
- });
- document.getElementById('overviewFamilyNote').textContent=combined?
- 'Source: Master Data combined FY figures. Families are milestones, certified skilling is a separate metric and participation measures may overlap.':
- 'Source: Master Data > Bifurcated Data. This location view uses operational program counts, not the combined certified-only total. Q2 reported family coverage is not household-ID audited.';
+ document.getElementById('overviewKpis').innerHTML=[
+ combined?metric('Reported family coverage',row.families,'Combined Master Data · reported milestone; not household audited','teal'):first,
+ metric('Skilling · operational count',get('Skilling'),splitFoot+' · not certified-only','blue'),
+ metric('OPD beneficiary reach',get('OpdBeneficiaries'),splitFoot+' · repeat visits possible','cyan'),
+ metric('Financial literacy reach',get('FL'),splitFoot+' · participation','orange'),
+ metric('School general checkups',fifth,splitFoot+' · encounters','purple'),
+ metric('Diva Salon + Studio participants',last,splitFoot,'blue')
+ ].join('');
+ renderOverviewCharts();
  renderHistoricalInsights();
- const card=panels[1].querySelector('.chart-box');card.style.display=reach.length?'block':'none';
- let empty=document.getElementById('overviewReachEmpty');
- if(!empty){empty=document.createElement('p');empty.id='overviewReachEmpty';empty.className='chart-note';card.parentElement.appendChild(empty);}
- empty.style.display=reach.length?'none':'block';empty.textContent='No separate program reporting for this fiscal year.';
 }
 
 function renderOverallQ2(){
@@ -2891,16 +2867,7 @@ function renderOverallQ2(){
  mk('Science Lab reach','stem','School-lab participation','purple'),
  mk('Phase launch attendance','launch',loc==='Naroda'?'No Naroda launch reported':'Recorded participants, not households','blue')
  ].join('');
- document.querySelector('#page-overview .overall-chart-grid .panel:first-child h3').textContent='Q2 Program Reach';
- document.querySelector('#page-overview .overall-chart-grid .panel:nth-child(2) h3').textContent='Q2 Operational Milestones';
- document.getElementById('sashaktBubbleChips').innerHTML='<div class="sashakt-bubble-chip"><span>PERIOD</span><strong>Jul–Sep 2026</strong></div><div class="sashakt-bubble-chip"><span>LOCATION</span><strong>'+(loc==='All'?'Combined':loc)+'</strong></div><div class="sashakt-bubble-chip"><span>MEASURE</span><strong>Activity reach</strong></div>';
- destroyChart('overviewFamily');
- charts.overviewFamily=new Chart(document.getElementById('overviewFamilyChart'),{type:'bar',data:{labels:['OPD','Financial literacy','Science Lab'],datasets:[{label:'Reported reach',data:[v('opd'),v('fl'),v('stem')],backgroundColor:['#0ca5a6','#ee9050','#9456ed']}]},options:{...baseOptions(),indexAxis:'y',plugins:{legend:{display:false}}}});
- document.getElementById('sashaktBubbleLegend').innerHTML='';
- destroyChart('overallReach');
- charts.overallReach=new Chart(document.getElementById('overallReachChart'),{type:'bar',data:{labels:['Enrolled','Graduated','Phase launch'],datasets:[{label:'Reported activities',data:[v('enrolled'),v('graduated'),v('launch')],backgroundColor:['#3478f6','#0ca5a6','#9456ed']}]},options:{...baseOptions(),plugins:{legend:{display:false}}}});
- document.getElementById('overallFamiliesBadge').textContent='Q2 reconciled audit';
- document.getElementById('overviewFamilyNote').textContent='Source: Master Data > Q2 FY26-27 Jul-Sep Audit. This reconciles 179/190 admissions, 192/178 graduations, 881/1,014 OPD visits, 1,194/1,214 financial-literacy reach and 2,082/2,637 science-lab engagements. Phase-launch attendance 322 in Narol, not new families.';
+ renderOverviewCharts();
 }
 
 /* ---------- HEALTH ---------- */
@@ -3433,6 +3400,7 @@ function setupEvents(){
   if(trackerProgram) trackerProgram.addEventListener('change',e=>{state.tracker.livelihood.program=e.target.value;state.tracker.livelihood.page=1;renderTrackerSection('livelihood');});
 
   document.getElementById('resetDashboard').addEventListener('click',()=>{
+    state.overallFy='all';state.overallQuarter='all';state.overallLocation='All';state.overallTrendMetric='OpdBeneficiaries';state.overallBreakdownGroup='Skilling & livelihood';state.overallQ2Metric='opd';state.overallQ2Group='Skilling milestones';
     state.fy=latestFY; state.healthArea='Narol';state.healthTrendMetric='opdBeneficiaries';state.healthServiceMetric='opd';
     state.batchArea='All';state.batch='All';state.skillingTrendMetric='certified';
     state.educationTrendMetric='stem';state.livelihoodTrendMetric='financialLiteracy';state.divaLocation='All';
@@ -3459,6 +3427,8 @@ function setupEvents(){
     showPage('overview');
   });
 
+  document.getElementById('overallTrendMetric').addEventListener('change',e=>{state[state.overallQuarter==='Q2'?'overallQ2Metric':'overallTrendMetric']=e.target.value;renderOverviewCharts();});
+  document.getElementById('overallBreakdownGroup').addEventListener('change',e=>{state[state.overallQuarter==='Q2'?'overallQ2Group':'overallBreakdownGroup']=e.target.value;renderOverviewCharts();});
   const overallYear=document.getElementById('overallYear');
   if(overallYear){overallYear.innerHTML='<option value="all">Latest master snapshot</option>'+YEARS.map(y=>'<option value="'+y+'">FY '+y+'</option>').join('');
   overallYear.addEventListener('change',e=>{state.overallFy=e.target.value;state.overallQuarter='all';renderOverview();});}
