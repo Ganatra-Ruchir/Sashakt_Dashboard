@@ -1624,6 +1624,25 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
 #page-overview #overviewKpis>.stat-card{gap:5px!important;padding:10px 12px!important;min-height:0!important}
 #page-overview #overallFilters{justify-content:flex-start!important}
 </style>
+<style id="presentation-clean-all-pages">
+/* Presentation view: source notes remain in the code, not on the dashboard. */
+.dashboard-page :is(.page-source,.scope-note,.chart-note:not(#overviewPhaseSummary),.audit-details,.page-lead,.source-view-badge,#overallFamiliesBadge),.topbar .top-status,.topbar .updated,.global-filter-help,.tracker-table-head>span{display:none!important}
+.dashboard-page .section-title-block p:not(#historicalPillarPeriod):not(#historicalSectorsSubtitle):not(#presentationBatchPeriod){display:none!important}
+.dashboard-page .section-title-block{min-height:0!important;margin-bottom:8px!important}
+.dashboard-page .panel{min-height:0!important}
+.dashboard-page .row{margin-bottom:10px!important}
+.dashboard-page .page-hero{min-height:0!important;padding:10px 12px!important;margin-bottom:10px!important}
+.dashboard-page .page-kicker{margin-bottom:2px!important}
+.dashboard-page .page-period{align-self:center}
+.dashboard-page .chart-box{margin-bottom:0!important}
+.dashboard-page #overviewPhaseSummary{font-size:12px!important;margin-top:4px!important;padding:0!important}
+.topbar{display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important;gap:8px!important;padding:8px 12px!important}
+.topbar .top-divider{display:none!important}
+.topbar .ask-bar{flex:0 1 420px!important;min-width:0!important;margin:0!important}
+.topbar .top-meta{margin:0!important}
+.global-filter-bar{min-height:0!important;padding:8px 12px!important}
+@media(max-width:600px){.topbar .ask-bar{flex:1 1 100%!important;width:100%!important}.dashboard-page .section-title-block{flex-wrap:wrap}}
+</style>
 
 <body>
 <div class="shell"><main class="main">
@@ -1758,7 +1777,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
             <option value="communityHealth">Community health beneficiaries</option>
             <option value="schoolHealth">School health camps</option>
             <option value="menstrual">Menstrual & puberty reach</option>
-          <option value="opdNo">OPD sessions</option><option value="Body">Body profiling</option><option value="Eye">Eye camps</option><option value="EyeGlasses">Glasses distributed</option><option value="Dental">Dental camps</option><option value="workingHealth">Health reach (Working Sheet)</option></select>
+          <option value="opdNo">OPD sessions</option><option value="Body">Body profiling</option><option value="Eye">Eye camps</option><option value="EyeGlasses">Glasses distributed</option><option value="Dental">Dental camps</option><option value="workingHealth">Historical health reach</option></select>
         </div>
       </div>
       <div class="chart-box" style="height:300px"><canvas id="healthTrendChart"></canvas></div>
@@ -1796,7 +1815,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
   <div class="row" style="grid-template-columns:1fr;gap:14px;">
     <div class="panel">
       <div class="section-title-block">
-        <div><h3>Total Health Services by Center</h3><p>Sum of available annual rows; missing cells excluded.</p></div>
+        <div><h3>Health Services — All Years</h3><p>Sum of available annual rows; missing cells excluded.</p></div>
       </div>
       <div class="detail-kpi-grid" id="healthCumulativeGrid"></div>
     </div>
@@ -1832,7 +1851,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
       <div class="row tracker-analysis-row" style="grid-template-columns:1fr;gap:12px;margin-top:10px">
         <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-health"></canvas></div></div>
       </div>
-      <div class="tracker-empty-state" id="trackerEmpty-health" hidden>Activity Tracker has no records for this program in the selected financial year.</div>
+      <div class="tracker-empty-state" id="trackerEmpty-health" hidden>No activities in this financial year.</div>
       <div class="tracker-table-head"><div><b>Detailed activity records</b><span id="trackerCount-health"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-health"></table></div>
       <div class="tracker-pagination" id="trackerPagination-health">
@@ -1884,7 +1903,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
 
     <div class="panel">
       <div class="section-title-block">
-        <div><h3>Batch Results</h3><p>Working Sheet batch log · cumulative operational view.</p></div>
+        <div><h3>Batch Results</h3><p id="presentationBatchPeriod">All batches · across years</p></div>
         <div class="section-tools">
           <span class="tool-label">Area</span>
           <div class="local-pills" id="batchAreaPills">
@@ -1941,7 +1960,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
       <div class="chart-box" style="height:280px"><canvas id="skillingIncomeCenterChart"></canvas></div>
     </div>
     <div class="panel">
-      <div class="section-title-block"><div><h3>Total Skilling Results</h3><p>Sum of available annual rows; missing cells excluded.</p></div></div>
+      <div class="section-title-block"><div><h3>Skilling Results — All Years</h3><p>Sum of available annual rows; missing cells excluded.</p></div></div>
       <div class="detail-kpi-grid compact" id="skillingCumulativeGrid"></div>
     </div>
   </div>
@@ -1974,7 +1993,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
       <div class="row tracker-analysis-row" style="grid-template-columns:1fr;gap:12px;margin-top:10px">
         <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-skilling"></canvas></div></div>
       </div>
-      <div class="tracker-empty-state" id="trackerEmpty-skilling" hidden>Activity Tracker has no records for this program in the selected financial year.</div>
+      <div class="tracker-empty-state" id="trackerEmpty-skilling" hidden>No activities in this financial year.</div>
       <div class="tracker-table-head"><div><b>Detailed activity records</b><span id="trackerCount-skilling"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-skilling"></table></div>
       <div class="tracker-pagination" id="trackerPagination-skilling">
@@ -1989,7 +2008,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
   <div class="row" style="grid-template-columns:1fr;gap:14px;">
     <div class="panel source-view-panel">
       <div class="section-title-block">
-        <div><h3>2025 Skilling Snapshot</h3><p>This source block is calendar-year based, so it is kept separate from FY and batch views.</p></div>
+        <div><h3>Skilling Results — 2025</h3><p>This source block is calendar-year based, so it is kept separate from FY and batch views.</p></div>
         <span class="source-view-badge">CALENDAR 2025</span>
       </div>
       <div class="detail-kpi-grid compact" id="calendar2025Grid"></div>
@@ -2029,7 +2048,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
             <option value="scienceCity">Science City</option>
             <option value="summerCamp">Summer camp</option>
             <option value="scienceFair">Science Fair</option>
-          <option value="workingStudents">Student reach (Working Sheet)</option></select>
+          <option value="workingStudents">Historical student reach</option></select>
         </div>
       </div>
       <div class="chart-box" style="height:305px"><canvas id="educationTrendChart"></canvas></div>
@@ -2091,7 +2110,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
       <div class="row tracker-analysis-row" style="grid-template-columns:1fr;gap:12px;margin-top:10px">
         <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-education"></canvas></div></div>
       </div>
-      <div class="tracker-empty-state" id="trackerEmpty-education" hidden>Activity Tracker has no records for this program in the selected financial year.</div>
+      <div class="tracker-empty-state" id="trackerEmpty-education" hidden>No activities in this financial year.</div>
       <div class="tracker-table-head"><div><b>Detailed activity records</b><span id="trackerCount-education"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-education"></table></div>      <div class="tracker-pagination" id="trackerPagination-education">
         <button class="tracker-page-btn" id="trackerPrev-education">← Previous</button>
@@ -2199,7 +2218,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
       <div class="row tracker-analysis-row" style="grid-template-columns:1fr;gap:12px;margin-top:10px">
         <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-livelihood"></canvas></div></div>
       </div>
-      <div class="tracker-empty-state" id="trackerEmpty-livelihood" hidden>Activity Tracker has no records for this program in the selected financial year.</div>
+      <div class="tracker-empty-state" id="trackerEmpty-livelihood" hidden>No activities in this financial year.</div>
       <div class="tracker-table-head"><div><b>Detailed activity records</b><span id="trackerCount-livelihood"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-livelihood"></table></div>
       <div class="tracker-pagination" id="trackerPagination-livelihood">
@@ -2216,7 +2235,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
   <div class="row" style="grid-template-columns:1fr;gap:14px;">
     <div class="panel source-view-panel">
       <div class="section-title-block">
-        <div><h3>Field Team Coverage</h3><p>Shows team coverage ranges in Narol and Naroda. Staff names are hidden. Household ID ranges are not beneficiary totals.</p></div>
+        <div><h3>Field Team — Highest Household IDs</h3><p>Shows team coverage ranges in Narol and Naroda. Staff names are hidden. Household ID ranges are not beneficiary totals.</p></div>
         <span class="source-view-badge">PHASE SHEETS</span>
       </div>
       <div class="field-officer-grid" id="fieldOfficerGridFull"></div>
@@ -2707,7 +2726,7 @@ function renderHistoricalSectorRadar(fy,loc,quarter){
  const metricName=measure==='events'?'Activities conducted':'Beneficiary reach';
  document.getElementById('overallRadarMeasure').value=measure;
  document.getElementById('historicalSectorsTitle').textContent=displayLoc+' — Activity profile';
- document.getElementById('historicalSectorsSubtitle').textContent='Activity Tracker · '+period+(recent?' · through '+TRACKER.meta.latestQuarter:'');
+ document.getElementById('historicalSectorsSubtitle').textContent=period+(recent?' · through '+TRACKER.meta.latestQuarter:'');
  document.getElementById('historicalSectorChartWrap').style.display=hasData?'block':'none';
  const empty=document.getElementById('historicalSectorEmpty');empty.style.display=hasData?'none':'block';empty.textContent='No data for this selection.';
  const values=document.getElementById('historicalSectorValues');
@@ -2731,7 +2750,7 @@ function renderHistoricalInsights(){
  const rows=OVERVIEW_PHASES.filter(e=>e.fy===fy&&areas.includes(e.area)&&quarters.includes(e.quarter)),known=rows.filter(e=>isNum(e.count)),missing=rows.length-known.length;
  const series=areas.map(area=>({label:area,data:quarters.map(q=>{if(!covered||(fy===latestFY&&q==='Q4'))return null;const a=rows.filter(e=>e.area===area&&e.quarter===q),v=a.filter(e=>isNum(e.count));return a.length&&!v.length?null:v.reduce((n,e)=>n+e.count,0);}),backgroundColor:area==='Narol'?C.teal:C.purple,borderRadius:5,maxBarThickness:40}));
  document.getElementById('historicalPillarsTitle').textContent=(loc==='All'?'Narol + Naroda':loc)+' — Family Enrolment';
- document.getElementById('historicalPillarPeriod').textContent='FY '+fy+' · '+(q==='all'?'by quarter':q);
+ document.getElementById('historicalPillarPeriod').textContent='FY '+fy+' · '+(q==='all'?'by quarter':q)+(fy===latestFY&&q==='all'?' · through 1 Nov 2026':'');
  document.getElementById('overviewPhaseSummary').textContent=covered?(known.length?num(known.reduce((n,e)=>n+e.count,0))+' families · ':'')+rows.length+' phase launches'+(missing?' · '+missing+' missing counts':''):'No tracker coverage before FY 2023–24.';
  document.getElementById('historicalPillarNote').textContent='Activity Tracker · phase launch counts = family enrolments. '+(fy===latestFY?'Through 1 Nov 2026. ':'')+'Households may overlap.';
  destroyChart('overviewPhase');document.getElementById('overviewPhaseWrap').style.display=covered?'block':'none';
@@ -3127,7 +3146,7 @@ function renderLivelihood(){
   ]);
   const inactive=document.getElementById('communityStatusStrip');
   if(inactive){
-    inactive.innerHTML=isNum(bf?.inactiveFamilies)?`<span class="status-inline"><span class="status-dot"></span><b>${num(bf.inactiveFamilies)} inactive families</b> reported for ${fyLabel(state.fy)} in the Narol + Naroda source column.</span>`:'';
+    inactive.innerHTML=isNum(bf?.inactiveFamilies)?`<span class="status-inline"><span class="status-dot"></span><b>${num(bf.inactiveFamilies)} inactive families</b> · ${fyLabel(state.fy)}</span>`:'';
   }
 
 
@@ -3189,8 +3208,8 @@ function answerQuestion(q){
   if(/stem/.test(t)) return `STEM Lab students in ${fyLabel(state.fy)}: <b>${valueOrStatus(r.stem)}</b>.`;
   if(/financial/.test(t)) return `Financial literacy beneficiaries in ${fyLabel(state.fy)}: <b>${valueOrStatus(r.financialLiteracy)}</b>.`;
   if(/awareness/.test(t)) return `Awareness camp beneficiaries in ${fyLabel(state.fy)}: <b>${valueOrStatus(r.awareness)}</b>.`;
-  if(/salon.*income|income.*salon/.test(t)) return divaActive(state.fy)?`DIVA Salon income in ${fyLabel(state.fy)}: <b>${moneyOrStatus(r.salonIncome,'No data')}</b>.`:`DIVA Salon had not yet launched/reported in ${fyLabel(state.fy)}.`;
-  if(/studio.*income|income.*studio/.test(t)) return divaActive(state.fy)?`DIVA Studio income in ${fyLabel(state.fy)}: <b>${moneyOrStatus(r.studioIncome,'No data')}</b>.`:`DIVA Studio had not yet launched/reported in ${fyLabel(state.fy)}.`;
+  if(/salon.*income|income.*salon/.test(t)) return divaActive(state.fy)?`DIVA Salon income in ${fyLabel(state.fy)}: <b>${moneyOrStatus(r.salonIncome,'No data')}</b>.`:`DIVA Salon had not yet launched in ${fyLabel(state.fy)}.`;
+  if(/studio.*income|income.*studio/.test(t)) return divaActive(state.fy)?`DIVA Studio income in ${fyLabel(state.fy)}: <b>${moneyOrStatus(r.studioIncome,'No data')}</b>.`:`DIVA Studio had not yet launched in ${fyLabel(state.fy)}.`;
   if(/\bincome\b/.test(t)) return incomeTracked(state.fy)?`Total monthly average income in ${fyLabel(state.fy)}: <b>${moneyOrStatus(r.monthlyIncome,'No data')}</b>.`:`Income was <b>not tracked</b> in ${fyLabel(state.fy)}. Tracking starts from FY 2023–24.`;
   return 'Try asking about families, OPD, certified beneficiaries, employment rate, STEM, financial literacy, awareness, Salon income or Studio income.';
 }
