@@ -1721,7 +1721,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
     <label id="overallQuarterWrap" style="font-weight:700;font-size:12px;display:none">Quarter <select id="overallQuarter" class="local-select"><option value="all">Full year</option><option value="Q2">Q2 Jul–Sep 2026</option></select></label><label style="font-weight:700;font-size:12px">Location <select id="overallLocation" class="local-select" aria-label="Overall location"><option value="All">Narol + Naroda</option><option value="Narol">Narol</option><option value="Naroda">Naroda</option></select></label>
   </div>
   <div class="kpi-grid-six" id="overviewKpis"></div>
-<div class="panel story-panel"><div class="section-title-block"><div><h3>Programme Reach &amp; Activity</h3></div></div><div class="story-guide">X = activities · Y and bubble size = recorded participations</div><div class="story-layout"><div><div class="story-bubble" id="sectorBubbleWrap"><canvas id="sectorBubble" role="img" aria-label="Four programme sectors"></canvas></div><div id="sectorBubbleEmpty" class="story-empty" hidden>No participation counts for this selection.</div></div><div class="story-scroll"><table class="story-table" id="sectorSummaryTable"></table></div></div><div id="sectorBubbleInsight" class="story-guide" aria-live="polite"></div><details><summary>About these numbers</summary>Participation counts may include repeat attendance. Outreach and cross-programme activities are not included. A dash means no recorded participation count. Current FY activity tracker coverage ends in Q2.</details></div>
+<div class="panel story-panel"><div class="section-title-block"><div><h3>Programme Reach &amp; Activity</h3></div></div><div class="story-guide">X = activities · Y and bubble size = participations</div><div class="story-layout"><div><div class="story-bubble" id="sectorBubbleWrap"><canvas id="sectorBubble" role="img" aria-label="Four programme sectors"></canvas></div><div id="sectorBubbleEmpty" class="story-empty" hidden>No participation counts for this selection.</div></div><div class="story-scroll"><table class="story-table" id="sectorSummaryTable"></table></div></div><div id="sectorBubbleInsight" class="story-guide" aria-live="polite"></div><details><summary>About these numbers</summary>Participation counts may include repeat attendance. Outreach and cross-programme activities are not included. A dash means no participation count. Current FY activity tracker coverage ends in Q2.</details></div>
 <div class="overall-chart-grid">
 <div class="panel">
 <div class="section-title-block"><div><h3>Programme trend by location</h3><p>Compare one indicator across financial years.</p></div><span class="period-chip" id="overallFamiliesBadge">Bifurcated Data</span></div>
@@ -1856,7 +1856,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
         <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-health"></canvas></div></div>
       </div>
       <div class="tracker-empty-state" id="trackerEmpty-health" hidden>No activities in this financial year.</div>
-      <div class="tracker-table-head"><div><b>Detailed activity records</b><span id="trackerCount-health"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
+      <div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-health"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-health"></table></div>
       <div class="tracker-pagination" id="trackerPagination-health">
         <button class="tracker-page-btn" id="trackerPrev-health">← Previous</button>
@@ -1998,7 +1998,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
         <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-skilling"></canvas></div></div>
       </div>
       <div class="tracker-empty-state" id="trackerEmpty-skilling" hidden>No activities in this financial year.</div>
-      <div class="tracker-table-head"><div><b>Detailed activity records</b><span id="trackerCount-skilling"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
+      <div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-skilling"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-skilling"></table></div>
       <div class="tracker-pagination" id="trackerPagination-skilling">
         <button class="tracker-page-btn" id="trackerPrev-skilling">← Previous</button>
@@ -2115,7 +2115,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
         <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-education"></canvas></div></div>
       </div>
       <div class="tracker-empty-state" id="trackerEmpty-education" hidden>No activities in this financial year.</div>
-      <div class="tracker-table-head"><div><b>Detailed activity records</b><span id="trackerCount-education"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
+      <div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-education"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-education"></table></div>      <div class="tracker-pagination" id="trackerPagination-education">
         <button class="tracker-page-btn" id="trackerPrev-education">← Previous</button>
         <span id="trackerPageInfo-education"></span>
@@ -2223,7 +2223,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
         <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-livelihood"></canvas></div></div>
       </div>
       <div class="tracker-empty-state" id="trackerEmpty-livelihood" hidden>No activities in this financial year.</div>
-      <div class="tracker-table-head"><div><b>Detailed activity records</b><span id="trackerCount-livelihood"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
+      <div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-livelihood"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-livelihood"></table></div>
       <div class="tracker-pagination" id="trackerPagination-livelihood">
         <button class="tracker-page-btn" id="trackerPrev-livelihood">← Previous</button>
@@ -2521,19 +2521,19 @@ function renderTrackerSection(key){
   const interactions=withBen.reduce((a,b)=>a+b.beneficiaries,0);
   const famTotals=groupSum(withBen,r=>r.activityFamily,r=>r.beneficiaries).filter(x=>x.value>0).sort((a,b)=>b.value-a.value);
   const topFamily=famTotals[0];
-  const areas=[...new Set(rows.map(r=>r.area))].join(' + ')||'No matching records';
+  const areas=[...new Set(rows.map(r=>r.area))].join(' + ')||'No matching activities';
 
   const empty=document.getElementById(`trackerEmpty-${key}`);
   if(empty){
     empty.hidden=base.length>0;
-    if(base.length===0) empty.textContent=`Activity Tracker has no ${trackerProgramForKey(key)} records for ${fyLabel(state.fy)}. Tracker coverage begins in FY 2023–24.`;
+    if(base.length===0) empty.textContent=`No ${trackerProgramForKey(key)} activities available for ${fyLabel(state.fy)}.`;
   }
 
   document.getElementById(`trackerKpis-${key}`).innerHTML=[
-    trackerSummaryCard('Activity records',trackerNumber(rows.length),`${areas} · ${fyLabel(state.fy)}`),
-    trackerSummaryCard('Recorded participations',withBen.length?trackerNumber(interactions):'—',storyNote(withBen.length?'About '+num(interactions/withBen.length)+' participations per counted activity':'')),
-    trackerSummaryCard('Records with beneficiary count',trackerNumber(withBen.length),`${trackerNumber(rows.length-withBen.length)} records without beneficiary count`),
-    trackerSummaryCard('Top activity type',topFamily?topFamily.label:'—',storyNote(topFamily?trackerNumber(topFamily.value)+' recorded participations':''))
+    trackerSummaryCard('Activities conducted',trackerNumber(rows.length),`${areas} · ${fyLabel(state.fy)}`),
+    trackerSummaryCard('Participations',withBen.length?trackerNumber(interactions):'—',storyNote(withBen.length?'About '+num(interactions/withBen.length)+' participations per counted activity':'')),
+    trackerSummaryCard('Activities with participant counts',trackerNumber(withBen.length),`${trackerNumber(rows.length-withBen.length)} activities without participant counts`),
+    trackerSummaryCard('Top activity type',topFamily?topFamily.label:'—',storyNote(topFamily?trackerNumber(topFamily.value)+' participations':''))
   ].join('');
 
   renderStoryActivityTable(key,rows);
@@ -2580,16 +2580,16 @@ function renderTrackerSection(key){
     return mb-ma || b.sourceRow-a.sourceRow || a.area.localeCompare(b.area);
   }).slice(start,start+TRACKER_PAGE_SIZE);
 
-  document.getElementById(`trackerCount-${key}`).textContent=`${trackerNumber(rows.length)} records`;
+  document.getElementById(`trackerCount-${key}`).textContent=`${trackerNumber(rows.length)} activities`;
   document.getElementById(`trackerTable-${key}`).innerHTML=
     `<thead><tr><th>Area</th><th>Quarter</th><th>Date</th><th>Activity / Event</th><th>Beneficiaries</th><th>Beneficiary Category</th></tr></thead><tbody>`+
-    (display.length?display.map(r=>`<tr><td>${r.area}</td><td>${r.quarter||'—'}</td><td>${r.date||'—'}</td><td>${r.event}</td><td>${isNum(r.beneficiaries)?trackerNumber(r.beneficiaries):'<span class="empty-cell">—</span>'}</td><td>${r.category||'—'}</td></tr>`).join(''):`<tr><td colspan="6" class="empty-cell">No activity records match this filter.</td></tr>`)+
+    (display.length?display.map(r=>`<tr><td>${r.area}</td><td>${r.quarter||'—'}</td><td>${r.date||'—'}</td><td>${r.event}</td><td>${isNum(r.beneficiaries)?trackerNumber(r.beneficiaries):'<span class="empty-cell">—</span>'}</td><td>${r.category||'—'}</td></tr>`).join(''):`<tr><td colspan="6" class="empty-cell">No activities match this filter.</td></tr>`)+
     `</tbody>`;
 
   const pageInfo=document.getElementById(`trackerPageInfo-${key}`);
   const prev=document.getElementById(`trackerPrev-${key}`);
   const next=document.getElementById(`trackerNext-${key}`);
-  if(pageInfo) pageInfo.textContent=rows.length?`Page ${st.page} of ${totalPages} · ${start+1}–${Math.min(start+TRACKER_PAGE_SIZE,rows.length)} of ${rows.length}`:'No records';
+  if(pageInfo) pageInfo.textContent=rows.length?`Page ${st.page} of ${totalPages} · ${start+1}–${Math.min(start+TRACKER_PAGE_SIZE,rows.length)} of ${rows.length}`:'No activities';
   if(prev) prev.disabled=st.page<=1;
   if(next) next.disabled=st.page>=totalPages;
 }
@@ -2737,7 +2737,7 @@ function renderHistoricalSectorRadar(fy,loc,quarter){
  const values=document.getElementById('historicalSectorValues');
  values.innerHTML=data.map((d,i)=>'<div class="overview-radar-value"><span class="overview-radar-dot" style="background:'+d.color+'"></span><span class="overview-radar-name">'+d.key+'</span><strong>'+(vals[i]===null?'—':num(vals[i]))+'</strong></div>').join('');
  const missing=data.reduce((sum,d)=>sum+d.missing,0);
- document.getElementById('historicalSectorNote').textContent=(measure==='events'?'Counts recorded activity sessions, not beneficiaries.':'Beneficiary reach; repeat participants possible.')+' Outreach and phase launches excluded.'+(recent?' Through '+TRACKER.meta.latestQuarter+'.':'')+(measure==='reach'&&missing?' '+missing+' activities lack counts.':'')+(vals.some(v=>v===null)?' — = no data.':'');
+ document.getElementById('historicalSectorNote').textContent=(measure==='events'?'Activity sessions, not beneficiaries.':'Beneficiary reach; repeat participants possible.')+' Outreach and phase launches excluded.'+(recent?' Through '+TRACKER.meta.latestQuarter+'.':'')+(measure==='reach'&&missing?' '+missing+' activities lack counts.':'')+(vals.some(v=>v===null)?' — = no data.':'');
  const canvas=document.getElementById('historicalSectorRadar');
  canvas.setAttribute('aria-label',displayLoc+' '+period+' '+metricName+': '+data.map((d,i)=>d.key+' '+(vals[i]===null?'no data':num(vals[i]))).join('; '));
  destroyChart('historicalSectorRadar');
@@ -2761,7 +2761,7 @@ function storyCell(m){return m.reach===null?'—':m.missing?'<span title="'+m.mi
 function storyTable(table,groups,areas){
  const head='<thead><tr><th scope="col">Programme / Activity</th>'+areas.map(a=>'<th scope="col">'+a+'</th>').join('')+(areas.length>1?'<th scope="col">Combined</th>':'')+'<th scope="col">Activities</th></tr></thead>';
  const row=(d,total=false)=>{const t=storyCounts(d.rows);return '<tr'+(total?' class="story-total"':'')+'><td>'+(d.color?'<span class="story-dot" style="background:'+d.color+'"></span>':'')+storyEscape(d.name)+'</td>'+areas.map(a=>'<td>'+storyCell(storyCounts(d.rows.filter(e=>e.area===a)))+'</td>').join('')+(areas.length>1?'<td>'+storyCell(t)+'</td>':'')+'<td>'+num(t.events)+'</td></tr>';};
- const all=groups.flatMap(d=>d.rows);table.innerHTML=head+'<tbody>'+groups.map(d=>row(d)).join('')+(all.length?row({name:'Total recorded',rows:all},true):'')+'</tbody>';
+ const all=groups.flatMap(d=>d.rows);table.innerHTML=head+'<tbody>'+groups.map(d=>row(d)).join('')+(all.length?row({name:'Total',rows:all},true):'')+'</tbody>';
 }
 function renderStoryBubble(fy,loc,q){
  const areas=loc==='All'?['Narol','Naroda']:[loc];const base=TRACKER.events.filter(e=>e.fy===fy&&areas.includes(e.area)&&(q==='all'||e.quarter===q));
@@ -2770,18 +2770,18 @@ function renderStoryBubble(fy,loc,q){
  const plotted=groups.filter(g=>g.reach!==null),maxReach=Math.max(1,...plotted.map(g=>g.reach)),maxEvents=Math.max(1,...plotted.map(g=>g.events));
  const canvas=document.getElementById('sectorBubble');document.getElementById('sectorBubbleWrap').hidden=!plotted.length;document.getElementById('sectorBubbleEmpty').hidden=!!plotted.length;destroyChart('storyBubble');
  const leader=plotted.slice().sort((a,b)=>b.reach-a.reach)[0],total=plotted.reduce((n,g)=>n+g.reach,0);
- document.getElementById('sectorBubbleInsight').textContent=leader&&total?leader.name+' accounts for '+Math.round(leader.reach/total*100)+'% of recorded participations across these four sectors.':'';
+ document.getElementById('sectorBubbleInsight').textContent=leader&&total?leader.name+' accounts for '+Math.round(leader.reach/total*100)+'% of participations across these four sectors.':'';
  if(!plotted.length)return;
  const opt=baseOptions();delete opt.indexAxis;const axis=(title,max)=>({min:0,suggestedMax:max*1.25,title:{display:true,text:title,color:C.inkSoft,font:{size:12,weight:'600'}},ticks:{callback:v=>num(v),color:C.inkSoft,font:{size:11}},grid:{color:C.grid}});
- opt.scales={x:axis('Activities',maxEvents),y:axis('Recorded participations',maxReach)};opt.interaction={mode:'nearest',intersect:true};
- opt.plugins.legend={position:'bottom',labels:{color:C.inkSoft,boxWidth:10,font:{size:11}}};opt.plugins.tooltip.callbacks={label:c=>[c.dataset.label,'Activities: '+num(c.raw.x),'Recorded participations: '+num(c.raw.y)],afterLabel:c=>c.raw.missing?c.raw.missing+' activities without participation counts':''};
+ opt.scales={x:axis('Activities',maxEvents),y:axis('Participations',maxReach)};opt.interaction={mode:'nearest',intersect:true};
+ opt.plugins.legend={position:'bottom',labels:{color:C.inkSoft,boxWidth:10,font:{size:11}}};opt.plugins.tooltip.callbacks={label:c=>[c.dataset.label,'Activities: '+num(c.raw.x),'Participations: '+num(c.raw.y)],afterLabel:c=>c.raw.missing?c.raw.missing+' activities without participation counts':''};
  canvas.setAttribute('aria-label',groups.map(g=>g.name+': '+g.events+' activities, '+(g.reach===null?'no participation counts':num(g.reach)+' participations')).join('; '));
  charts.storyBubble=new Chart(canvas,{type:'bubble',data:{datasets:plotted.map(g=>({label:g.name.toUpperCase(),data:[{x:g.events,y:g.reach,r:g.reach===0?4:Math.max(5,34*Math.sqrt(g.reach/maxReach)),missing:g.missing}],backgroundColor:g.color+'55',borderColor:g.color,borderWidth:2,hoverRadius:3}))},options:opt});
 }
 function renderStoryActivityTable(key,rows){
  const table=document.getElementById('trackerTable-'+key);if(!table)return;
  let panel=document.getElementById('storyActivity-'+key);
- if(!panel){panel=document.createElement('div');panel.id='storyActivity-'+key;panel.className='story-section';panel.innerHTML='<h3>Activity Summary</h3><div class="story-guide">Recorded participations by activity type</div><div class="story-scroll"><table class="story-table"></table></div>';table.closest('.tracker-table-wrap').previousElementSibling.before(panel);}
+ if(!panel){panel=document.createElement('div');panel.id='storyActivity-'+key;panel.className='story-section';panel.innerHTML='<h3>Activity Summary</h3><div class="story-guide">Participations by activity type</div><div class="story-scroll"><table class="story-table"></table></div>';table.closest('.tracker-table-wrap').previousElementSibling.before(panel);}
  const areas=state.tracker[key].area==='All'?['Narol','Naroda']:[state.tracker[key].area],map=new Map();
  rows.forEach(e=>{const k=e.activityFamily||'Other activities';if(!map.has(k))map.set(k,[]);map.get(k).push(e);});
  const groups=[...map].map(([name,rows])=>({name,rows})).sort((a,b)=>(storyCounts(b.rows).reach??-1)-(storyCounts(a.rows).reach??-1));
@@ -2850,7 +2850,7 @@ function renderOverallQ2(){
  mk('OPD reach','opd','Service counts · not unique','cyan'),
  mk('Financial literacy reach','fl','Session participation','orange'),
  mk('Science Lab reach','stem','School-lab participation','purple'),
- mk('Phase launch attendance','launch',loc==='Naroda'?'No Naroda launch in tracker':'Recorded participants, not households','blue')
+ mk('Phase launch attendance','launch',loc==='Naroda'?'No Naroda launch in tracker':'Participants, not households','blue')
  ].join('');
  renderOverviewCharts();
 }
@@ -2957,7 +2957,7 @@ function renderSkilling(){
     statCard('Topical skilling',latestInProgress()&&r.topicalSkilling===0?'0':valueOrStatus(r.topicalSkilling),storyNote(storySplit(currentSplit()?.narolTopical,currentSplit()?.narodaTopical)),'purple'),
     statCard('Youth skilling',valueOrStatus(r.youthSkilling),storyNote(storyPrior('youthSkilling')),'teal'),
     statCard('Monthly avg income',incomeTracked(state.fy)?moneyOrStatus(r.monthlyIncome):'Not tracked',incomeTracked(state.fy)?'Tracking starts FY 2023–24':'Income not tracked in this FY','orange'),
-    statCard('Milestone',r.milestone?'Recorded':'—',storyNote(r.milestone),'cyan')
+    statCard('Milestone',r.milestone?'Highlight':'—',storyNote(r.milestone),'cyan')
   ].join('');
   renderChangeInsights('skillingInsights',[
     ['Certified beneficiaries','certified'],
