@@ -1107,9 +1107,9 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 #page-overview #overallFilters{display:flex;align-items:center;gap:10px 16px;padding:10px 14px!important;margin-bottom:12px!important}
 #page-overview #overallFilters label{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 #page-overview #overallFilterStatus{flex:1 1 250px;line-height:1.4}
-#page-overview #overviewKpis{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin:0 0 14px!important;align-items:start!important}
-#page-overview #overviewKpis .stat-card{min-width:0!important;min-height:0!important;height:auto!important;padding:14px 16px!important;margin:0!important;align-self:start!important;overflow-wrap:anywhere}
-#page-overview #overviewKpis .stat-value{font-size:clamp(20px,2vw,29px);line-height:1.16;overflow-wrap:anywhere}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin:0 0 14px!important;align-items:start!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-card{min-width:0!important;min-height:0!important;height:auto!important;padding:14px 16px!important;margin:0!important;align-self:start!important;overflow-wrap:anywhere}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-value{font-size:clamp(20px,2vw,29px);line-height:1.16;overflow-wrap:anywhere}
 #page-overview .overall-chart-grid{display:grid!important;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr)!important;gap:14px;align-items:start!important;margin-bottom:12px}
 #page-overview .overall-chart-grid>.panel{width:100%;min-width:0;min-height:0;height:auto!important;align-self:start;padding:15px!important}
 #page-overview .overall-chart-grid .section-title-block{min-height:0!important;margin-bottom:8px}
@@ -1120,20 +1120,20 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 #page-overview .sashakt-bubble-chip strong{font-size:13px;line-height:1.3}
 #page-overview .page-source{margin-top:0}
 @media(max-width:1100px){
- #page-overview #overviewKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ :is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){grid-template-columns:repeat(2,minmax(0,1fr))!important}
  #page-overview .overall-chart-grid{grid-template-columns:minmax(0,1fr)!important}
 }
 @media(max-width:620px){
  #page-overview #overallFilters{align-items:stretch;gap:10px!important}
  #page-overview #overallFilters label{width:100%;justify-content:space-between}
  #page-overview #overallFilters select{max-width:58%}
- #page-overview #overviewKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
- #page-overview #overviewKpis .stat-card{padding:11px!important}
- #page-overview #overviewKpis .stat-value{font-size:20px}
+ :is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+ :is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-card{padding:11px!important}
+ :is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-value{font-size:20px}
  #page-overview .sashakt-bubble-chips{grid-template-columns:1fr}
  #page-overview .overall-chart-grid .chart-box{height:270px!important}
 }
-@media(max-width:390px){#page-overview #overviewKpis{grid-template-columns:1fr!important}}
+@media(max-width:390px){:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){grid-template-columns:1fr!important}}
 </style>
 <style id="naroda-historical-responsive-restore">
 #page-overview #narodaHistoricalHeading{margin:16px 0 10px;min-height:0}
@@ -1146,24 +1146,24 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 
 <style id="overall-compact-audited-2026-11-11">
 /* Overview-specific cleanup: keep other program pages unchanged. */
-body:has(#page-overview.active) .top-status{display:none!important}
-body:has(#page-overview.active) .topbar{
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .top-status{display:none!important}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .topbar{
  display:grid!important;grid-template-columns:minmax(200px,auto) minmax(260px,1fr) auto!important;
  align-items:center!important;gap:12px!important;height:auto!important;min-height:0!important;
  padding:8px 14px!important
 }
-body:has(#page-overview.active) .top-brand{min-width:0}
-body:has(#page-overview.active) .top-brand img{height:54px!important;width:auto!important;max-width:85px!important;object-fit:contain!important}
-body:has(#page-overview.active) .page-nav{margin-top:7px!important;margin-bottom:8px!important}
-body:has(#page-overview.active) .main{padding-top:8px!important}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .top-brand{min-width:0}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .top-brand img{height:54px!important;width:auto!important;max-width:85px!important;object-fit:contain!important}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .page-nav{margin-top:7px!important;margin-bottom:8px!important}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .main{padding-top:8px!important}
 #page-overview .page-hero{padding:12px 16px!important;margin-bottom:10px!important}
-#page-overview .page-title{margin-top:3px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .page-title{margin-top:3px!important}
 #page-overview #overallFilters{margin-bottom:10px!important}
-#page-overview #overviewKpis{gap:10px!important;margin-bottom:10px!important}
-#page-overview #overviewKpis .stat-card{min-height:104px!important;max-height:none;padding:13px 16px!important}
-#page-overview #overviewKpis .stat-label{font-size:11px!important;line-height:1.25!important}
-#page-overview #overviewKpis .stat-value{font-size:clamp(22px,2.1vw,30px)!important;line-height:1.16!important;margin:6px 0 4px!important}
-#page-overview #overviewKpis .stat-sub{font-size:10px!important;line-height:1.35!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){gap:10px!important;margin-bottom:10px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-card{min-height:104px!important;max-height:none;padding:13px 16px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-label{font-size:11px!important;line-height:1.25!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-value{font-size:clamp(22px,2.1vw,30px)!important;line-height:1.16!important;margin:6px 0 4px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-sub{font-size:10px!important;line-height:1.35!important}
 #page-overview .overall-chart-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important;margin-bottom:10px!important}
 #page-overview .overall-chart-grid>.panel{display:flex;flex-direction:column;min-width:0;min-height:0;height:auto;padding:13px!important}
 #page-overview .overall-chart-grid .section-title-block{margin-bottom:6px!important}
@@ -1183,17 +1183,17 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
 #page-overview .page-source{margin-top:7px!important}
 @media(max-width:1100px){
  #page-overview .overall-chart-grid{grid-template-columns:1fr!important}
- body:has(#page-overview.active) .topbar{grid-template-columns:minmax(150px,auto) minmax(160px,1fr) auto!important}
+ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .topbar{grid-template-columns:minmax(150px,auto) minmax(160px,1fr) auto!important}
 }
 @media(max-width:700px){
- body:has(#page-overview.active) .topbar{display:flex!important;flex-wrap:wrap!important}
- body:has(#page-overview.active) .top-search{flex:1 1 100%!important}
- #page-overview #overviewKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .topbar{display:flex!important;flex-wrap:wrap!important}
+ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .top-search{flex:1 1 100%!important}
+ :is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){grid-template-columns:repeat(2,minmax(0,1fr))!important}
  #page-overview #narodaHistoricalSnapshot{grid-template-columns:1fr!important}
  #page-overview .overall-chart-grid .chart-box{height:235px!important;min-height:235px!important;max-height:235px!important}
  #page-overview .overall-chart-grid .chart-box canvas{height:235px!important;max-height:235px!important}
 }
-@media(max-width:390px){#page-overview #overviewKpis{grid-template-columns:1fr!important}}
+@media(max-width:390px){:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){grid-template-columns:1fr!important}}
 </style>
 <style id="history-filter-scope-fix">
 #page-overview #areaHistoricalSnapshot{grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%;max-width:none!important;gap:10px}
@@ -1565,22 +1565,22 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
 </style>
 <style id="overview-compact-layout-v3">
 /* Overview only: consistent compact spacing and three typography levels. */
-#page-overview{--overview-font:Inter,Arial,sans-serif;--overview-small:12px;--overview-title:14px;--overview-large:24px;font-family:var(--overview-font)}
-#page-overview :is(h3,p,select,label,button,strong,small,span,.page-title,.page-kicker,.page-lead,.stat-label,.stat-value,.stat-sub,.chart-note,.page-source,.period-chip,.tool-label,.historical-pillar-line){font-family:var(--overview-font)!important}
-#page-overview :is(p,select,label,small,span,.page-kicker,.page-lead,.stat-label,.stat-sub,.chart-note,.page-source,.period-chip,.tool-label,.historical-pillar-line,#overallFilterStatus){font-size:var(--overview-small)!important;line-height:1.4}
-#page-overview :is(.section-title-block h3,.historical-pillar-line strong,.overview-radar-value strong){font-size:var(--overview-title)!important;font-weight:700;line-height:1.3}
-#page-overview :is(.page-title,#overviewKpis .stat-value,.historical-data-donut-center strong){font-size:var(--overview-large)!important;line-height:1.15}
-body:has(#page-overview.active) .main{padding:8px 12px 12px!important}
-body:has(#page-overview.active) .topbar{display:flex!important;justify-content:space-between;align-items:center!important;flex-wrap:wrap;gap:8px!important;padding:8px 12px!important;margin-bottom:8px!important}
-body:has(#page-overview.active) .topbar .top-brand{flex:0 1 auto}
-body:has(#page-overview.active) .topbar .ask-bar{flex:0 1 320px;width:auto!important;max-width:100%!important;margin:0!important}
-body:has(#page-overview.active) .topbar .top-status{display:none!important}
-body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
-#page-overview .page-hero{padding:10px 12px!important;margin:0 0 8px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood){--overview-font:Inter,Arial,sans-serif;--overview-small:12px;--overview-title:14px;--overview-large:24px;font-family:var(--overview-font)}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(h3,p,select,label,button,strong,small,span,.page-title,.page-kicker,.page-lead,.stat-label,.stat-value,.stat-sub,.chart-note,.page-source,.period-chip,.tool-label,.historical-pillar-line){font-family:var(--overview-font)!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(p,select,label,small,span,.page-kicker,.page-lead,.stat-label,.stat-sub,.chart-note,.page-source,.period-chip,.tool-label,.historical-pillar-line,#overallFilterStatus){font-size:var(--overview-small)!important;line-height:1.4}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(.section-title-block h3,.historical-pillar-line strong,.overview-radar-value strong){font-size:var(--overview-title)!important;font-weight:700;line-height:1.3}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(.page-title,:is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-value,.historical-data-donut-center strong){font-size:var(--overview-large)!important;line-height:1.15}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .main{padding:8px 12px 12px!important}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .topbar{display:flex!important;justify-content:space-between;align-items:center!important;flex-wrap:wrap;gap:8px!important;padding:8px 12px!important;margin-bottom:8px!important}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .topbar .top-brand{flex:0 1 auto}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .topbar .ask-bar{flex:0 1 320px;width:auto!important;max-width:100%!important;margin:0!important}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .topbar .top-status{display:none!important}
+body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood).active) .page-nav{margin:0 0 8px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .page-hero{padding:10px 12px!important;margin:0 0 8px!important}
 #page-overview #overallFilters{padding:8px 12px!important;gap:8px 12px!important;margin:0 0 8px!important}
-#page-overview #overviewKpis{align-items:stretch!important;gap:8px!important;margin:0 0 8px!important}
-#page-overview #overviewKpis>.stat-card{align-self:stretch!important;min-height:0!important;padding:10px 12px!important;display:flex;flex-direction:column;gap:4px}
-#page-overview #overviewKpis .stat-value,#page-overview #overviewKpis .stat-sub{margin:0!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){align-items:stretch!important;gap:8px!important;margin:0 0 8px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis)>.stat-card{align-self:stretch!important;min-height:0!important;padding:10px 12px!important;display:flex;flex-direction:column;gap:4px}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-value,:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-sub{margin:0!important}
 #page-overview .overall-chart-grid,#page-overview #narodaHistoricalSnapshot{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;align-items:stretch!important;margin:0 0 8px!important;width:100%}
 #page-overview .overall-chart-grid>.panel,#page-overview #narodaHistoricalSnapshot>.panel{display:flex!important;flex-direction:column;align-self:stretch!important;min-width:0!important;height:auto!important;gap:6px;padding:12px!important;margin:0!important}
 #page-overview .overall-chart-grid .section-title-block,#page-overview #narodaHistoricalSnapshot .section-title-block{min-height:0!important;margin:0!important;gap:8px!important;align-items:flex-start}
@@ -1609,7 +1609,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
 #page-overview .overview-radar-name{overflow-wrap:anywhere}
 #page-overview .overview-radar-empty{text-align:center;padding:12px;font-size:12px;color:#617386}
 #page-overview .page-source{margin:0!important;padding:8px 10px!important}
-@media(min-width:1200px){#page-overview #overviewKpis{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
+@media(min-width:1200px){:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){grid-template-columns:repeat(6,minmax(0,1fr))!important}}
 @media(max-width:1150px){#page-overview .overview-radar-body{grid-template-columns:1fr;gap:4px;min-height:0}#page-overview .overview-radar-values{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px}#page-overview .historical-pillar-body{grid-template-columns:1fr;min-height:0;gap:12px}#page-overview .historical-data-donut{width:208px}}
 @media(max-width:900px){#page-overview .overall-chart-grid,#page-overview #narodaHistoricalSnapshot{grid-template-columns:1fr!important}#page-overview .overview-radar-body{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}#page-overview .overview-radar-values{grid-template-columns:1fr}#page-overview .historical-pillar-body{grid-template-columns:1fr 1fr;min-height:245px}}
 @media(max-width:600px){#page-overview .overview-radar-body,#page-overview .historical-pillar-body{grid-template-columns:1fr}#page-overview .overview-radar-values{grid-template-columns:1fr 1fr}#page-overview .section-title-block{flex-wrap:wrap}#page-overview .overview-radar-control{flex-direction:row;align-items:center}#page-overview .overview-radar-control select{width:auto}#page-overview #historicalSectorChartWrap,#page-overview #historicalSectorRadar{height:285px!important;max-height:285px!important}#page-overview .overall-chart-grid .chart-box,#page-overview .overall-chart-grid .chart-box canvas{height:260px!important;min-height:260px!important;max-height:260px!important}}
@@ -1621,7 +1621,7 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
 .dashboard-page :is(.stat-sub,.dk-sub,.b-sub,.tracker-summary-card small,.p-sub,.fo-sub,.insight-detail){display:none!important}
 .dashboard-page :is(.stat-card,.detail-kpi,.batch-kpi,.tracker-summary-card){min-height:0!important;height:auto!important;padding:12px!important;align-self:stretch}
 .dashboard-page :is(.stat-value,.dk-value,.b-value,.tracker-summary-card b){margin-bottom:0!important}
-#page-overview #overviewKpis>.stat-card{gap:5px!important;padding:10px 12px!important;min-height:0!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis)>.stat-card{gap:5px!important;padding:10px 12px!important;min-height:0!important}
 #page-overview #overallFilters{justify-content:flex-start!important}
 </style>
 <style id="presentation-clean-all-pages">
@@ -1687,9 +1687,9 @@ body:has(#page-overview.active) .page-nav{margin:0 0 8px!important}
 </style>
 <style id="shared-presentation-rules">
 /* Overview's compact visual hierarchy applied consistently, without altering its layout. */
-body:has(.dashboard-page.active:not(#page-overview)) .main{padding:8px 12px 12px!important}
-body:has(.dashboard-page.active:not(#page-overview)) .topbar{gap:8px!important;padding:8px 12px!important;margin-bottom:8px!important}
-body:has(.dashboard-page.active:not(#page-overview)) .page-nav{margin:0 0 8px!important}
+
+
+
 .dashboard-page:not(#page-overview){font-family:Inter,Arial,sans-serif;--presentation-gap:8px}
 .dashboard-page:not(#page-overview) :is(h3,p,select,label,button,strong,small,span,.page-title,.page-kicker,.stat-label,.stat-value,.stat-sub,.dk-label,.dk-value,.b-label,.b-value,.tool-label,.period-chip,.tracker-mini-title,.tracker-table,.story-table){font-family:Inter,Arial,sans-serif!important}
 .dashboard-page:not(#page-overview) :is(.page-kicker,.period-chip,.stat-label,.tool-label,.local-select,.local-pill,.tracker-search,.tracker-page-btn,.dk-label,.b-label,.tracker-summary-card span,.story-guide){font-size:12px!important;line-height:1.35}
@@ -1746,13 +1746,44 @@ body:has(.dashboard-page.active:not(#page-overview)) .page-nav{margin:0 0 8px!im
  .dashboard-page:not(#page-overview) .presentation-summary-grid{grid-template-columns:1fr}
 }
 @media(max-width:759px){
- body:has(.dashboard-page.active:not(#page-overview)) .main{padding:6px!important}
+
  .dashboard-page:not(#page-overview) :is(.presentation-chart-grid,.presentation-summary-grid,.presentation-activity-grid[data-visible]){grid-template-columns:minmax(0,1fr)}
  .dashboard-page:not(#page-overview) :is(.presentation-chart-grid .section-title-block,.presentation-activity-grid .tracker-mini-title){min-height:0!important}
  .dashboard-page:not(#page-overview) :is(.presentation-chart-grid,.presentation-single-chart,.presentation-feature-panel,.presentation-activity-grid) .chart-box{height:260px!important;min-height:260px!important;max-height:260px!important}
  .dashboard-page:not(#page-overview) .presentation-summary-panel .detail-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
 @media(max-width:390px){.dashboard-page:not(#page-overview) .presentation-summary-panel .detail-kpi-grid{grid-template-columns:minmax(0,1fr)!important}}
+</style>
+<style id="overview-shared-final">
+/* One approved shell and card system, with page-specific data and chart arrangements. */
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .page-hero{padding:10px 12px!important;margin:0 0 8px!important;gap:8px}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .page-title{font-size:24px!important;line-height:1.15!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){gap:8px!important;margin:0 0 8px!important;align-items:stretch!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis)>.stat-card{min-height:0!important;height:auto!important;padding:10px 12px!important;gap:5px!important;display:flex;flex-direction:column;align-self:stretch!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-label{font-size:11px!important;line-height:1.25!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-sub{font-size:12px!important;line-height:1.35!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-sub .story-note{font-size:inherit!important;font-weight:400!important;letter-spacing:normal!important;text-transform:none!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis) .stat-value{min-height:32px;display:flex;align-items:center}
+#page-health #healthKpis .stat-label,#page-skilling #skillingYearKpis .stat-label,#page-education #educationKpis .stat-label,#page-livelihood #livelihoodKpis .stat-label{min-height:25px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .page-period [id$="FyChip"],#globalProgressChip{display:none!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter{position:static!important;display:flex;flex-wrap:wrap;align-items:center!important;justify-content:flex-start!important;gap:8px 12px!important;padding:8px 12px!important;margin:0 0 8px!important;min-height:0!important;background:#fff;box-shadow:none;z-index:auto;width:100%}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter label{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px!important;font-weight:700;line-height:1.4}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter select{font-size:12px!important;min-width:0;min-height:28px;padding:5px 8px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter.overview-hidden{display:none!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .tracker-summary-card small .story-note{display:inline!important;color:var(--ink-soft)!important;font-size:11px!important;line-height:1.35!important;font-weight:400!important;letter-spacing:normal!important;text-transform:none!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .tracker-summary-card{gap:4px}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .tracker-summary-card span:not(.story-note){font-size:11px!important;line-height:1.25}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .tracker-summary-card b{font-size:24px!important;line-height:1.15}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .tracker-inner-card{background:#fff}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(.health-service-grid,.presentation-chart-grid,.presentation-single-chart,.presentation-feature-panel) .section-title-block{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;min-height:0!important;gap:6px!important}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(.health-service-grid,.presentation-chart-grid,.presentation-single-chart,.presentation-feature-panel) .section-tools{justify-content:flex-start;min-height:28px;margin:0!important;gap:6px}
+:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(.health-chart-grid,.presentation-chart-grid,.presentation-activity-grid) .chart-box{height:290px!important;min-height:290px!important;max-height:290px!important}
+#page-health #healthCumulativeGrid .dk-label{min-height:25px!important}
+#page-health #healthCumulativeGrid .detail-kpi{justify-content:flex-start!important;gap:5px}
+@media(min-width:1200px){#page-health #healthKpis,#page-skilling #skillingYearKpis{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+@media(max-width:1199px) and (min-width:1101px){#page-health #healthKpis,#page-skilling #skillingYearKpis{grid-template-columns:repeat(5,minmax(0,1fr))!important}#page-education #educationKpis,#page-livelihood #livelihoodKpis{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:620px){:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter label{width:100%;justify-content:space-between}:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter select{max-width:58%}:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(.health-chart-grid,.presentation-chart-grid,.presentation-activity-grid) .chart-box{height:260px!important;min-height:260px!important;max-height:260px!important}}
+@media(max-width:390px){:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){grid-template-columns:1fr!important}}
 </style>
 <body>
 <div class="shell"><main class="main">
@@ -1792,15 +1823,9 @@ body:has(.dashboard-page.active:not(#page-overview)) .page-nav{margin:0 0 8px!im
   <button class="page-tab" data-page="livelihood"><span class="nav-dot"></span>Livelihood &amp; Community</button>
 </div>
 
-<div class="global-filter-bar">
-  <div class="global-filter-copy">
-    <span class="global-filter-label">FINANCIAL YEAR</span>
-    <span class="global-filter-help">Use this on Health, Skilling, Education and Livelihood pages · Overall shows total so far</span>
-  </div>
-  <div class="global-filter-actions">
-    <select class="global-fy global-fy-main" id="globalFy" aria-label="Financial year"></select>
-    <span class="period-chip progress" id="globalProgressChip">Year in progress</span>
-  </div>
+<div class="panel global-filter-bar overview-style-filter overview-hidden" id="programmeFilters">
+  <label style="font-weight:700;font-size:12px">Financial year <select class="local-select" id="globalFy" aria-label="Financial year"></select></label>
+  <span class="period-chip progress" id="globalProgressChip" hidden>Year in progress</span>
 </div>
 
 <div class="qa-answer-panel" id="qaAnswerPanel" hidden>
@@ -2512,7 +2537,7 @@ function moneyOrStatus(v, status='Not tracked'){
 
 function renderFySelector(){
   const sel=document.getElementById('globalFy');
-  sel.innerHTML=YEARS.slice().reverse().map(f=>`<option value="${f}">${fyLabel(f)}</option>`).join('');
+  sel.innerHTML=YEARS.slice().reverse().map(f=>`<option value="${f}">${f===latestFY?'Current financial year':fyLabel(f)}</option>`).join('');
   sel.value=state.fy;
 }
 function syncFyChips(){
@@ -2675,7 +2700,14 @@ function renderSourceViews(page){
 /* ---------- PAGE ROUTING ---------- */
 function showPage(page, updateHash=true){
   state.page=page;
-  const gfb=document.querySelector('.global-filter-bar'); if(gfb) gfb.classList.toggle('overview-hidden',page==='overview');
+  const gfb=document.getElementById('programmeFilters');
+  if(gfb){
+    gfb.classList.toggle('overview-hidden',page==='overview');
+    if(page!=='overview'){
+      const hero=document.querySelector('#page-'+page+' > .page-hero');
+      if(hero)hero.after(gfb);
+    }
+  }
   document.querySelectorAll('.dashboard-page').forEach(el=>el.classList.toggle('active',el.id==='page-'+page));
   document.querySelectorAll('.page-tab').forEach(btn=>btn.classList.toggle('active',btn.dataset.page===page));
   if(updateHash && location.hash!=='#'+page) history.replaceState(null,'','#'+page);
