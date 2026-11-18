@@ -1651,7 +1651,7 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
 <div class="chart-box" style="height:290px"><canvas id="overallReachChart" role="img" aria-label="Programme delivery by location"></canvas></div>
 <div class="chart-note" id="overallBreakdownNote"></div>
 </div></div>
-<div class="section-title-block" id="narodaHistoricalHeading"><div><h3>Historical Insights</h3><p id="historicalInsightsDescription">Source-reported programme activity and phase-launch family enrolments by location.</p></div><span class="period-chip" id="historicalPeriodChip">Historical reference</span></div>
+<div class="section-title-block" id="narodaHistoricalHeading"><div><h3>Historical Insights</h3><p id="historicalInsightsDescription">Source-reported programme activity and sector-wise participation by location.</p></div><span class="period-chip" id="historicalPeriodChip">Historical reference</span></div>
 <div class="row naroda-historical-charts" id="narodaHistoricalSnapshot">
  <div class="panel">
   <div class="section-title-block"><div><h3 id="historicalPillarsTitle">Project Pillars · Reported Activity Mix</h3><p id="historicalPillarPeriod">Activity counts, not investment or distinct individuals</p></div></div>
@@ -1664,31 +1664,14 @@ body:has(#page-overview.active) .main{padding-top:8px!important}
   <div class="chart-note" id="historicalPillarNote">Source: Gifting Life Sashakt Master Data · Bifurcated Data. Shares describe recorded activities only. The four measures may contain repeat participants, and should not be treated as unique families or spending proportions.</div>
  </div>
  <div class="panel">
-  <div class="section-title-block"><div><h3 id="historicalFamiliesTitle">Families Participation</h3><p id="historicalFamiliesSubtitle">Three-program participation overlap · historical reference</p></div></div>
-  <div id="historicalFamilyEnrollment" style="display:grid;gap:10px;margin:8px 0">
-    <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><strong id="historicalPhaseTotal" style="font-size:32px;line-height:1.1;color:var(--text,#16213d)">—</strong><span style="font-size:12px">Families enrolled at phase launches</span></div>
-    <div id="historicalPhaseBars" style="display:grid;gap:10px"></div>
-    <div id="historicalPhaseCount" style="font-size:12px;line-height:1.5"></div>
-    <details><summary style="cursor:pointer;font-size:12px;font-weight:700">Phase-wise enrolment records</summary><div id="historicalPhaseRows" style="max-height:180px;overflow:auto;margin-top:8px"></div></details>
-  </div>
-  <details id="historicalOverlapReference"><summary style="cursor:pointer;font-size:12px;font-weight:700">Original programme overlap diagram · separate historical reference</summary>
-  <div id="historicalNarodaVenn">
-   <div style="width:100%;max-width:440px;margin:auto;position:relative;height:300px;isolation:isolate">
-    <div style="position:absolute;left:25%;top:4px;width:49%;height:60%;border-radius:50%;background:rgba(126,209,231,.56);display:flex;align-items:flex-start;justify-content:center;padding-top:32px;box-sizing:border-box;font-weight:800;font-size:21px">676</div>
-    <div style="position:absolute;left:5%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(28,166,159,.58);display:flex;align-items:flex-end;justify-content:flex-start;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">113</div>
-    <div style="position:absolute;right:4%;top:110px;width:49%;height:60%;border-radius:50%;background:rgba(188,191,204,.50);display:flex;align-items:flex-end;justify-content:flex-end;padding:25px;box-sizing:border-box;font-weight:800;font-size:21px">217</div>
-    <span style="position:absolute;left:36%;top:112px;font-size:20px;font-weight:800">62</span><span style="position:absolute;left:61%;top:112px;font-size:20px;font-weight:800">15</span><span style="position:absolute;left:50%;top:154px;font-size:20px;font-weight:800">1</span><span style="position:absolute;left:50%;top:210px;font-size:20px;font-weight:800">0</span>
-   </div>
-   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-size:12px;margin:6px 0 12px"><span>🔵 Health &amp; wellness</span><span>🟢 Skilling &amp; employment</span><span>⚪ Education &amp; development</span></div>
-  </div>
-  <div id="historicalUnavailableVenn" style="display:none">
-   <div class="historical-empty-visual historical-empty-venn-wrap"><div class="historical-empty-venn" role="img" aria-label="Family overlap data not verified"><span class="historical-empty-circle top"></span><span class="historical-empty-circle left"></span><span class="historical-empty-circle right"></span><span class="historical-empty-center">Overlap not<br>verified</span></div></div>
-  </div>
-  </details>
-  <div class="chart-note" id="historicalFamiliesNote">Naroda source reference has an unresolved inconsistency: reported total 924, seven displayed regions total 1,084. Not a verified current count.</div>
+  <div class="section-title-block"><div><h3 id="historicalSectorsTitle">Sector-wise Participation</h3><p id="historicalSectorsSubtitle">Activity Tracker · beneficiary reach by sector</p></div></div>
+  <div id="historicalSectorChartWrap" class="chart-box" style="position:relative;height:270px;max-width:100%;margin:0 auto"><canvas id="historicalSectorRadar" role="img" aria-label="Beneficiary reach across the four core programme sectors"></canvas></div>
+  <div id="historicalSectorEmpty" style="display:none;text-align:center;padding:32px 8px;font-size:12px;color:#617386" role="status"></div>
+  <div id="historicalSectorValues" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;margin:6px 0" aria-live="polite"></div>
+  <div class="chart-note" id="historicalSectorNote">Counts are activity-based reach and may include repeat participants.</div>
  </div>
 </div>
-<div class="page-source"><b>Overview source:</b> Gifting Life Drive · “Sashakt - Master Data” (Bifurcated Data, snapshot 18 Nov 2026; family milestones from combined summary). Latest family milestone corrected to 12,000 as reported for FY 2026–27. Figures may be annual or milestone measures, not distinct lifetime people. FY26–27 Q2 uses separate quarterly report intervention tables. Historical Naroda charts are reference-only and subject to reconciliation.</div>
+<div class="page-source"><b>Overview source:</b> Gifting Life Drive · “Sashakt - Master Data” (Bifurcated Data, snapshot 18 Nov 2026; family milestones from combined summary). Latest family milestone corrected to 12,000 as reported for FY 2026–27. Figures may be annual or milestone measures, not distinct lifetime people. FY26–27 Q2 uses separate quarterly report intervention tables. Sector participation uses the classified Activity Tracker snapshot through Q2 FY 2026–27; participation counts may overlap.</div>
 </section>
 
 <!-- ===================== HEALTH ===================== -->
@@ -2783,6 +2766,45 @@ function renderOverviewCharts(){
  charts.overallReach=new Chart(document.getElementById('overallReachChart'),{type:'bar',data:{labels:keys.map(k=>labels[k]),datasets},options:options(true,group==='Diva earnings (INR)'?'DivaIncome':'count')});
 }
 
+
+/* Exact four programme labels used by the classified Activity Tracker. */
+const OVERVIEW_SECTORS=[
+ {key:'Health & Medical',label:['Health &','Medical'],color:'#0EA57E'},
+ {key:'Skilling & Employment',label:['Skilling &','Employment'],color:'#3B76F0'},
+ {key:'Education & School Development',label:['Education &','School Development'],color:'#8657F0'},
+ {key:'Livelihood & Community',label:['Livelihood &','Community'],color:'#F26825'}
+];
+function overviewSectorStats(fy,loc,quarter){
+ const events=TRACKER.events.filter(e=>e.fy===fy&&(loc==='All'||e.area===loc)&&(quarter==='all'||e.quarter===quarter));
+ return OVERVIEW_SECTORS.map(sector=>{
+  const matching=events.filter(e=>e.program===sector.key);
+  const counted=matching.filter(e=>isNum(e.beneficiaries)&&e.beneficiaries>=0);
+  return {...sector,reach:counted.length?counted.reduce((n,e)=>n+e.beneficiaries,0):null,events:matching.length,counted:counted.length,missing:matching.length-counted.length};
+ });
+}
+function renderHistoricalSectorRadar(fy,loc,quarter){
+ const data=overviewSectorStats(fy,loc,quarter),hasData=data.some(d=>d.reach!==null),displayLoc=loc==='All'?'Narol + Naroda':loc;
+ const period=(quarter==='all'?'':quarter+' · ')+'FY '+fy;
+ const recent=fy===TRACKER.meta.latestFY&&quarter==='all';
+ document.getElementById('historicalSectorsTitle').textContent=displayLoc+' — Sector-wise Participation';
+ document.getElementById('historicalSectorsSubtitle').textContent='Activity Tracker · '+period+(recent?' · through '+TRACKER.meta.latestQuarter:'');
+ document.getElementById('historicalSectorChartWrap').style.display=hasData?'block':'none';
+ const empty=document.getElementById('historicalSectorEmpty');empty.style.display=hasData?'none':'block';empty.textContent='No recorded beneficiary counts for the selected period and location.';
+ const values=document.getElementById('historicalSectorValues');
+ values.innerHTML=data.map(d=>'<div style="min-width:0;display:flex;align-items:flex-start;gap:6px;font-size:11px;line-height:1.4"><span style="flex:none;width:8px;height:8px;border-radius:50%;background:'+d.color+';margin-top:4px"></span><div style="min-width:0"><div>'+d.key+'</div><strong style="font-size:14px">'+(d.reach===null?'Not reported':num(d.reach))+'</strong></div></div>').join('');
+ const missing=data.reduce((sum,d)=>sum+d.missing,0);
+ document.getElementById('historicalSectorNote').textContent='Activity-based beneficiary reach; repeat participants may be counted. Outreach, phase launches and other sectors excluded.'+(recent?' Tracker snapshot ends '+TRACKER.meta.latestQuarter+'; current FY is partial.':'')+(missing?' '+missing+' activities have no reported beneficiary count.':'')+(data.some(d=>d.reach===null)?' Missing sectors are not treated as zero.':'');
+ const canvas=document.getElementById('historicalSectorRadar');
+ canvas.setAttribute('aria-label',displayLoc+' '+period+': '+data.map(d=>d.key+' '+(d.reach===null?'not reported':num(d.reach))).join('; '));
+ destroyChart('historicalSectorRadar');
+ if(!hasData)return;
+ const opts=baseOptions();
+ delete opts.indexAxis;opts.scales={r:{beginAtZero:true,min:0,angleLines:{color:C.grid},grid:{color:C.grid},ticks:{color:C.inkSoft,backdropColor:'transparent',maxTicksLimit:5,callback:v=>num(v),font:{size:9}},pointLabels:{color:C.inkSoft,font:{size:10,weight:'600'},padding:6}}};
+ opts.layout={padding:4};opts.plugins.legend.display=false;opts.interaction={mode:'nearest',intersect:false};
+ opts.plugins.tooltip.callbacks={title:items=>items.length?data[items[0].dataIndex].key:'',label:ctx=>{const d=data[ctx.dataIndex];return d.reach===null?'Not reported':num(d.reach)+' recorded reach';},afterLabel:ctx=>{const d=data[ctx.dataIndex];return d.counted+' activities with counts'+(d.missing?' · '+d.missing+' missing':'');}};
+ charts.historicalSectorRadar=new Chart(canvas,{type:'radar',data:{labels:data.map(d=>d.label),datasets:[{label:'Beneficiary reach',data:data.map(d=>d.reach),borderColor:C.teal,backgroundColor:'rgba(14,165,126,.16)',pointBackgroundColor:data.map(d=>d.color),pointBorderColor:'#fff',pointBorderWidth:1.5,pointRadius:4,pointHoverRadius:6,borderWidth:2.5,spanGaps:false,fill:data.every(d=>d.reach!==null)}]},options:opts});
+}
+
 function renderHistoricalInsights(){
  const loc=state.overallLocation;
  const displayLoc=loc==='All'?'Narol + Naroda':loc;
@@ -2809,31 +2831,10 @@ function renderHistoricalInsights(){
  document.getElementById('historicalPillarTotal').textContent=total?num(total):'—';
  document.getElementById('historicalPillarLegend').innerHTML=usable.map(p=>'<div class="historical-pillar-line"><i style="background:'+p.color+'"></i><span>'+p.name+'</span><strong>'+num(p.val)+'</strong><small>'+(total?(p.val*100/total).toFixed(1):'—')+'%</small></div>').join('');
  document.getElementById('historicalPillarsTitle').textContent=displayLoc+' — Project Pillars';
- document.getElementById('historicalFamiliesTitle').textContent=displayLoc+' — Families Participation';
- document.getElementById('historicalInsightsDescription').textContent='FY '+period+' · '+displayLoc+' · project activity mix uses Master Data location splits. Phase-launch family enrolments are separate from these activities.';
+ document.getElementById('historicalInsightsDescription').textContent='FY '+period+' · '+displayLoc+' · project activity mix uses Master Data location splits. Sector participation uses the Activity Tracker and a separate reporting scope.';
  document.getElementById('historicalPeriodChip').textContent='FY '+period+' reference';
  document.getElementById('historicalPillarPeriod').textContent='FY '+period+' · operational activity counts, not expenditure or unique persons';
- const selected=OVERVIEW_PHASES.filter(e=>e.fy===period&&(loc==='All'||e.area===loc)&&(state.overallQuarter==='all'||e.quarter===state.overallQuarter));
- const covered=period>='2023-24'&&period<='2026-27';
- const known=selected.filter(e=>isNum(e.count)),missing=selected.length-known.length;
- const phaseTotal=known.reduce((n,e)=>n+e.count,0);
- const totalText=!covered||(!known.length&&missing)?'—':num(phaseTotal);
- document.getElementById('historicalPhaseTotal').textContent=totalText;
- const phaseAreas=loc==='All'?['Narol','Naroda']:[loc];
- const byArea=phaseAreas.map(area=>{const events=selected.filter(e=>e.area===area);const valid=events.filter(e=>isNum(e.count));return {area,total:valid.reduce((n,e)=>n+e.count,0),missing:events.length-valid.length,known:valid.length,events:events.length};});
- const top=Math.max(1,...byArea.map(a=>a.total));
- document.getElementById('historicalPhaseBars').innerHTML=covered?byArea.map(a=>{
-  const shown=a.known||!a.events?num(a.total):'Not reported';
-  const color=a.area==='Narol'?C.teal:C.purple;
-  return '<div><div style="display:flex;justify-content:space-between;gap:8px;font-size:12px"><span>'+a.area+'</span><strong>'+shown+(a.missing?' (partial)':'')+'</strong></div><div style="height:9px;background:rgba(100,116,139,.15);border-radius:6px;margin-top:5px;overflow:hidden"><div style="height:100%;width:'+(a.total/top*100)+'%;background:'+color+';border-radius:6px"></div></div></div>';
- }).join(''):'';
- document.getElementById('historicalPhaseCount').textContent=covered?selected.length+' recorded phase launches · '+known.length+' with family counts'+(missing?' · '+missing+' missing counts':''):'Activity Tracker coverage starts FY 2023–24.';
- document.getElementById('historicalPhaseRows').innerHTML=selected.length?selected.map(e=>'<div style="display:flex;gap:8px;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(100,116,139,.15);font-size:12px"><span>'+e.date.split('-').reverse().join('/')+' · '+e.area+'</span><strong>'+(isNum(e.count)?num(e.count):'Not reported')+'</strong></div>').join(''):'<span style="font-size:12px">No phase launch records in this selection.</span>';
- document.getElementById('historicalFamiliesSubtitle').textContent='Activity Tracker · phase launch = family enrolment · '+(state.overallQuarter==='Q2'?'Q2 ':'')+'FY '+period;
- document.getElementById('historicalFamiliesNote').textContent='Source: Sashakt Activity Tracker, Narol and Naroda tabs. Snapshot 18 Nov 2026. Phase launch counts treated as enrolments per reporting rule; not a household-ID deduplicated total or three-programme intersection.'+(missing?' Total excludes missing launch counts.':'')+(!covered?' No tracker coverage for selected period.':'');
- const naroda=loc==='Naroda'&&state.overallFy==='all'&&state.overallQuarter==='all';
- document.getElementById('historicalNarodaVenn').style.display=naroda?'block':'none';
- document.getElementById('historicalUnavailableVenn').style.display=naroda?'none':'block';
+ renderHistoricalSectorRadar(period,loc,state.overallQuarter);
 
 }
 
