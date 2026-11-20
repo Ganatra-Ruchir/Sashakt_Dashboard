@@ -2309,16 +2309,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
       <div class="chart-box" style="height:300px"><canvas id="flCenterTrendChart"></canvas></div>
     </div></div>
 <div class="community-status-strip" id="communityStatusStrip"></div>
-<div class="row" style="grid-template-columns:1fr;gap:14px;">
-    <div class="panel source-view-panel">
-      <div class="section-title-block">
-        <div><h3>Field Team — Highest Household IDs</h3><p>Shows team coverage ranges in Narol and Naroda. Staff names are hidden. Household ID ranges are not beneficiary totals.</p></div>
-        <span class="source-view-badge">PHASE SHEETS</span>
-      </div>
-      <div class="field-officer-grid" id="fieldOfficerGridFull"></div>
-      
-    </div>
-  </div>
 <div class="presentation-layout presentation-full"><div class="panel programme-detail-panel"><div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-livelihood"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-livelihood"></table></div>
       </div></div>
@@ -2706,15 +2696,6 @@ function renderTrackerSection(key){
   applyTablePreview(document.getElementById(`trackerTable-${key}`));
 }
 function renderSourceViews(page){
-  if(page==='livelihood'){
-    document.getElementById('fieldOfficerGridFull').innerHTML=SOURCE_DETAIL.fieldOfficers.map(r=>`
-      <div class="field-officer-card">
-        <div class="fo-area">${r.area}</div><div class="fo-name">${r.name}</div>
-        <div class="fo-value">${num(r.highestHouseholdId)}</div>
-        <div class="fo-sub">${r.phases} phase ranges · highest assigned household ID</div>
-      </div>`).join('');
-
-  }
   if(page==='skilling'){
     const c=SOURCE_DETAIL.calendar2025;
     document.getElementById('calendar2025Grid').innerHTML=[
