@@ -1828,6 +1828,12 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
 #page-education .presentation-chart-grid:has(#educationTrendChart){grid-template-columns:minmax(0,1fr)!important}
 @media(max-width:700px){#page-skilling #skillingCumulativeGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:390px){#page-skilling #skillingCumulativeGrid,#page-skilling #youthSkillingGrid{grid-template-columns:minmax(0,1fr)!important}}
+
+.kpi-local-switch{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.kpi-local-switch button{font:inherit;font-size:11px;font-weight:700;color:var(--ink-soft);background:transparent;border:1px solid var(--panel-border-soft);border-radius:6px;padding:4px 7px;cursor:pointer}
+.kpi-local-switch button[aria-pressed="true"]{background:#dcecf8;color:#17486f;border-color:#a7c5dd}
+.kpi-breakdown-note{font-size:10px;color:var(--ink-soft);margin-top:5px}
+.kpi-breakdown-note[hidden]{display:none!important}
 </style>
 <body>
 <div class="shell"><main class="main">
@@ -3102,6 +3108,29 @@ function programmeDetailGrowth(label,value,values,format=num){
  return detailKpi(label,value,avg===null?'':storyNote(signed(avg,format)+' / year · Avg change'));
 }
 function completedProgrammeRows(){return BIF.filter(r=>r.fy!==latestFY||!DATA.meta.latestYearInProgress);}
+
+/* Independent, local KPI breakdowns; never infer missing split values. */
+const localKpiSelection=Object.create(null);
+function switchableDetailKpi(id,label,options,format=num){
+ const selected=options.find(o=>o[0]===localKpiSelection[id])||options[0];
+ const value=isNum(selected[1])?format(selected[1]):'—';
+ const note=isNum(selected[1])?'':'Breakdown unavailable in source';
+ return `<div class="detail-kpi local-breakdown-kpi" data-breakdown="${id}"><div class="dk-label">${label}</div><div class="dk-value" aria-live="polite">${value}</div><div class="kpi-local-switch" role="group" aria-label="${label} breakdown">${options.map(([name])=>`<button type="button" data-choice="${name}" aria-pressed="${name===selected[0]}">${name}</button>`).join('')}</div><div class="kpi-breakdown-note" ${note?'':'hidden'}>${note}</div></div>`;
+}
+function bindLocalKpiSwitches(root,definitions){
+ root.querySelectorAll('[data-breakdown]').forEach(card=>{
+  const id=card.dataset.breakdown,def=definitions[id];
+  if(!def)return;
+  card.querySelectorAll('button[data-choice]').forEach(button=>button.addEventListener('click',()=>{
+   const choice=def.options.find(o=>o[0]===button.dataset.choice);if(!choice)return;
+   localKpiSelection[id]=choice[0];
+   card.querySelector('.dk-value').textContent=isNum(choice[1])?def.format(choice[1]):'—';
+   const note=card.querySelector('.kpi-breakdown-note');note.hidden=isNum(choice[1]);
+   card.querySelectorAll('button[data-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+  }));
+ });
+}
+
 function renderSkilling(){
   const r=current();
   document.getElementById('skillingYearKpis').innerHTML=[
@@ -3206,16 +3235,25 @@ function renderSkilling(){
     });
   }
 
+  const centerOptions=(a,b)=>[['Total',splitSum(BIFTOTAL,a,b)],['Narol',BIFTOTAL[a]],['Naroda',BIFTOTAL[b]]];
+  const localDefs={
+   trades:{options:[['Total',splitSum(BIFTOTAL,'narolPrograms','narodaPrograms')],['SET',null],['BT',null],['DDEO',null],['GST',null]],format:num},
+   centerSkilling:{options:centerOptions('narolSkilling','narodaSkilling'),format:num},
+   winners:{options:centerOptions('narolSetWinners','narodaSetWinners'),format:num},
+   earning:{options:centerOptions('narolEarning','narodaEarning'),format:num},
+   income:{options:centerOptions('narolIncome','narodaIncome'),format:money}
+  };
   document.getElementById('skillingCumulativeGrid').innerHTML=[
-    programmeDetailGrowth('Skilling beneficiaries (center report)',num(splitSum(BIFTOTAL,'narolSkilling','narodaSkilling')),completedProgrammeRows().map(r=>splitSum(r,'narolSkilling','narodaSkilling')),num),
-    programmeDetailGrowth('SET machine winners',num(splitSum(BIFTOTAL,'narolSetWinners','narodaSetWinners')),completedProgrammeRows().map(r=>splitSum(r,'narolSetWinners','narodaSetWinners')),num),
-    programmeDetailGrowth('SET + BT + DDEO + GST',num(splitSum(BIFTOTAL,'narolPrograms','narodaPrograms')),completedProgrammeRows().map(r=>splitSum(r,'narolPrograms','narodaPrograms')),num),
-    programmeDetailGrowth('Earning beneficiaries',num(splitSum(BIFTOTAL,'narolEarning','narodaEarning')),completedProgrammeRows().map(r=>splitSum(r,'narolEarning','narodaEarning')),num),
+    switchableDetailKpi('centerSkilling','Skilling beneficiaries (center report)',localDefs.centerSkilling.options,localDefs.centerSkilling.format),
+    switchableDetailKpi('winners','SET machine winners',localDefs.winners.options,localDefs.winners.format),
+    switchableDetailKpi('trades','SET + BT + DDEO + GST',localDefs.trades.options,localDefs.trades.format),
+    switchableDetailKpi('earning','Earning beneficiaries',localDefs.earning.options,localDefs.earning.format),
     programmeDetailGrowth('Youth skilling',num(BIFTOTAL.youthTotal),completedProgrammeRows().map(r=>r.fy<'2025-26'?null:r.youthTotal),num),
     programmeDetailGrowth('2-wheeler',num(BIFTOTAL.youth2Wheeler),completedProgrammeRows().map(r=>r.fy<'2025-26'?null:r.youth2Wheeler),num),
     programmeDetailGrowth('AutoCAD',num(BIFTOTAL.youthAutoCAD),completedProgrammeRows().map(r=>r.fy<'2025-26'?null:r.youthAutoCAD),num),
-    programmeDetailGrowth('Tracked center income',money(splitSum(BIFTOTAL,'narolIncome','narodaIncome')),completedProgrammeRows().map(r=>splitSum(r,'narolIncome','narodaIncome')),money)
+    switchableDetailKpi('income','Tracked center income',localDefs.income.options,localDefs.income.format)
   ].join('');
+  bindLocalKpiSwitches(document.getElementById('skillingCumulativeGrid'),localDefs);
   renderTrackerSection('skilling');
 }
 
