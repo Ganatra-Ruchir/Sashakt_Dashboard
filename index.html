@@ -1820,6 +1820,14 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
 .dashboard-page .tracker-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
 @media(max-width:620px){.dashboard-page .tracker-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:390px){.dashboard-page .tracker-summary-grid{grid-template-columns:minmax(0,1fr)!important}}
+
+/* Prioritize cumulative outcomes and avoid stretched summary panels. */
+#page-skilling .presentation-summary-grid{grid-template-columns:minmax(0,1fr)!important;align-items:start!important}
+#page-skilling #skillingCumulativeGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+#page-skilling #youthSkillingGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+#page-education .presentation-chart-grid:has(#educationTrendChart){grid-template-columns:minmax(0,1fr)!important}
+@media(max-width:700px){#page-skilling #skillingCumulativeGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:390px){#page-skilling #skillingCumulativeGrid,#page-skilling #youthSkillingGrid{grid-template-columns:minmax(0,1fr)!important}}
 </style>
 <body>
 <div class="shell"><main class="main">
@@ -1889,20 +1897,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
     <label id="overallQuarterWrap" style="font-weight:700;font-size:12px;display:none">Quarter <select id="overallQuarter" class="local-select"><option value="all">Full year</option><option value="Q2">Q2 Jul–Sep 2026</option></select></label><label style="font-weight:700;font-size:12px">Location <select id="overallLocation" class="local-select" aria-label="Overall location"><option value="All">Narol + Naroda</option><option value="Narol">Narol</option><option value="Naroda">Naroda</option></select></label>
   </div>
   <div class="kpi-grid-six" id="overviewKpis"></div>
-<div class="panel story-panel"><div class="section-title-block"><div><h3>Programme Reach &amp; Activity</h3></div></div><div class="story-guide">X = activities · Y and bubble size = participations</div><div class="story-layout"><div><div class="story-bubble" id="sectorBubbleWrap"><canvas id="sectorBubble" role="img" aria-label="Four programme sectors"></canvas></div><div id="sectorBubbleEmpty" class="story-empty" hidden>No participation counts for this selection.</div></div><div class="story-scroll"><table class="story-table" id="sectorSummaryTable"></table></div></div><div id="sectorBubbleInsight" class="story-guide" aria-live="polite"></div><details><summary>About these numbers</summary>Participation counts may include repeat attendance. Outreach and cross-programme activities are not included. A dash means no participation count. Current FY activity tracker coverage ends in Q2.</details></div>
-<div class="overall-chart-grid">
-<div class="panel">
-<div class="section-title-block"><div><h3>Programme trend by location</h3><p>Compare one indicator across financial years.</p></div><span class="period-chip" id="overallFamiliesBadge">Bifurcated Data</span></div>
-<div class="section-tools" style="margin:8px 0"><label for="overallTrendMetric" class="tool-label">Indicator</label><select id="overallTrendMetric" class="local-select" style="max-width:100%"></select></div>
-<div class="chart-box" style="height:290px"><canvas id="overviewFamilyChart" role="img" aria-label="Programme trend by location"></canvas></div>
-<div class="chart-note" id="overviewFamilyNote"></div>
-</div>
-<div class="panel">
-<div class="section-title-block"><div><h3>Programme delivery by location</h3><p>Compare individual activities within a programme.</p></div></div>
-<div class="section-tools" style="margin:8px 0"><label for="overallBreakdownGroup" class="tool-label">Programme</label><select id="overallBreakdownGroup" class="local-select" style="max-width:100%"></select></div>
-<div class="chart-box" style="height:290px"><canvas id="overallReachChart" role="img" aria-label="Programme delivery by location"></canvas></div>
-<div class="chart-note" id="overallBreakdownNote"></div>
-</div></div>
 <div class="row naroda-historical-charts" id="narodaHistoricalSnapshot">
  <div class="panel">
   <div class="section-title-block"><div><h3 id="historicalPillarsTitle">Family Coverage by Year</h3></div></div>
@@ -1918,6 +1912,20 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
   <div class="chart-note" id="historicalSectorNote">Counts are activity-based reach and may include repeat participants.</div>
  </div>
 </div>
+<div class="panel story-panel"><div class="section-title-block"><div><h3>Programme Reach &amp; Activity</h3></div></div><div class="story-guide">X = activities · Y and bubble size = participations</div><div class="story-layout"><div><div class="story-bubble" id="sectorBubbleWrap"><canvas id="sectorBubble" role="img" aria-label="Four programme sectors"></canvas></div><div id="sectorBubbleEmpty" class="story-empty" hidden>No participation counts for this selection.</div></div><div class="story-scroll"><table class="story-table" id="sectorSummaryTable"></table></div></div><div id="sectorBubbleInsight" class="story-guide" aria-live="polite"></div><details><summary>About these numbers</summary>Participation counts may include repeat attendance. Outreach and cross-programme activities are not included. A dash means no participation count. Current FY activity tracker coverage ends in Q2.</details></div>
+<div class="overall-chart-grid">
+<div class="panel">
+<div class="section-title-block"><div><h3>Programme trend by location</h3><p>Compare one indicator across financial years.</p></div><span class="period-chip" id="overallFamiliesBadge">Bifurcated Data</span></div>
+<div class="section-tools" style="margin:8px 0"><label for="overallTrendMetric" class="tool-label">Indicator</label><select id="overallTrendMetric" class="local-select" style="max-width:100%"></select></div>
+<div class="chart-box" style="height:290px"><canvas id="overviewFamilyChart" role="img" aria-label="Programme trend by location"></canvas></div>
+<div class="chart-note" id="overviewFamilyNote"></div>
+</div>
+<div class="panel">
+<div class="section-title-block"><div><h3>Programme delivery by location</h3><p>Compare individual activities within a programme.</p></div></div>
+<div class="section-tools" style="margin:8px 0"><label for="overallBreakdownGroup" class="tool-label">Programme</label><select id="overallBreakdownGroup" class="local-select" style="max-width:100%"></select></div>
+<div class="chart-box" style="height:290px"><canvas id="overallReachChart" role="img" aria-label="Programme delivery by location"></canvas></div>
+<div class="chart-note" id="overallBreakdownNote"></div>
+</div></div>
 <div class="page-source"><b>Overview source:</b> Gifting Life Drive · “Sashakt - Master Data” (Bifurcated Data, snapshot 18 Nov 2026; family milestones from combined summary). Family coverage: 12,000 for FY 2026–27. Figures may be annual or milestone measures, not distinct lifetime people. FY26–27 Q2 uses separate quarterly report intervention tables. Sector participation uses the classified Activity Tracker snapshot through Q2 FY 2026–27; participation counts may overlap.</div>
 </section>
 
@@ -2029,6 +2037,17 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
     </div>
   </div>
 <div class="kpi-grid-five" id="skillingYearKpis"></div>
+<div class="presentation-layout presentation-summary-grid"><div class="panel presentation-summary-panel">
+      <div class="section-title-block"><div><h3>Skilling Results — All Years</h3><p>Sum of available annual rows; missing cells excluded.</p></div></div>
+      <div class="detail-kpi-grid compact" id="skillingCumulativeGrid"></div>
+    </div>
+<div class="panel presentation-summary-panel">
+      <div class="section-title-block">
+        <div><h3>Youth Skilling</h3><p>Total youth skilling with the available 2-wheeler and AutoCAD subcolumns.</p></div>
+      </div>
+      <div class="detail-kpi-grid compact" id="youthSkillingGrid"></div>
+      
+    </div></div>
 <div class="presentation-layout presentation-full"><div class="panel presentation-feature-panel">
       <div class="section-title-block">
         <div><h3>Batch Results — All Years</h3><p id="presentationBatchPeriod">All batches · across years</p></div>
@@ -2089,17 +2108,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
       <div class="scope-note"><b>Interpretation:</b> Activity reach are summed activity reach, not deduplicated beneficiaries. Program grouping is derived from Event Name / Specifications; the raw event name stays visible below.</div>
     </div>
   </div>
-<div class="presentation-layout presentation-summary-grid"><div class="panel presentation-summary-panel">
-      <div class="section-title-block"><div><h3>Skilling Results — All Years</h3><p>Sum of available annual rows; missing cells excluded.</p></div></div>
-      <div class="detail-kpi-grid compact" id="skillingCumulativeGrid"></div>
-    </div>
-<div class="panel presentation-summary-panel">
-      <div class="section-title-block">
-        <div><h3>Youth Skilling</h3><p>Total youth skilling with the available 2-wheeler and AutoCAD subcolumns.</p></div>
-      </div>
-      <div class="detail-kpi-grid compact" id="youthSkillingGrid"></div>
-      
-    </div></div>
 <div class="presentation-layout presentation-full presentation-single-chart"><div class="panel">
       <div class="section-title-block">
         <div><h3>Skilling by Year</h3><p>Combined program summary by financial year.</p></div>
@@ -2121,15 +2129,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
         <div class="audit-content" id="batchAudit"></div>
       </details>
     </div></div>
-<div class="row" style="grid-template-columns:1fr;gap:14px;">
-    <div class="panel source-view-panel">
-      <div class="section-title-block">
-        <div><h3>Skilling Results — 2025</h3><p>This source block is calendar-year based, so it is kept separate from FY and batch views.</p></div>
-        <span class="source-view-badge">CALENDAR 2025</span>
-      </div>
-      <div class="detail-kpi-grid compact" id="calendar2025Grid"></div>
-    </div>
-  </div>
 <div class="presentation-layout presentation-full"><div class="panel programme-detail-panel"><div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-skilling"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-skilling"></table></div>
       </div></div>
@@ -2678,16 +2677,6 @@ function renderTrackerSection(key){
 
   applyTablePreview(document.getElementById(`trackerTable-${key}`));
 }
-function renderSourceViews(page){
-  if(page==='skilling'){
-    const c=SOURCE_DETAIL.calendar2025;
-    document.getElementById('calendar2025Grid').innerHTML=[
-      detailKpi('Certified',num(c.certified),'Calendar year 2025'),
-      detailKpi('Working',num(c.working),'Calendar year 2025'),
-      detailKpi('Income',money(c.income),'Calendar year 2025')
-    ].join('');
-  }
-}
 /* ---------- PAGE ROUTING ---------- */
 function showPage(page, updateHash=true){
   state.page=page;
@@ -3227,7 +3216,6 @@ function renderSkilling(){
     programmeDetailGrowth('AutoCAD',num(BIFTOTAL.youthAutoCAD),completedProgrammeRows().map(r=>r.fy<'2025-26'?null:r.youthAutoCAD),num),
     programmeDetailGrowth('Tracked center income',money(splitSum(BIFTOTAL,'narolIncome','narodaIncome')),completedProgrammeRows().map(r=>splitSum(r,'narolIncome','narodaIncome')),money)
   ].join('');
-  renderSourceViews('skilling');
   renderTrackerSection('skilling');
 }
 
@@ -3355,8 +3343,6 @@ function renderLivelihood(){
   if(updateChartPanel('flCenterTrendChart',flData.datasets.map(d=>d.data),true)){
     charts.flCenterTrend=new Chart(document.getElementById('flCenterTrendChart'),{type:'line',data:flData,options:baseOptions()});
   }
-
-  renderSourceViews('livelihood');
   renderTrackerSection('livelihood');
 }
 
