@@ -2237,7 +2237,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
     </div>
   </div>
 <div class="kpi-grid-six" id="livelihoodKpis"></div>
-<div class="insight-strip" id="livelihoodInsights"></div>
 <div class="presentation-layout presentation-full"><div class="panel presentation-feature-panel">
       <div class="section-title-block">
         <div><h3>DIVA Income by Location</h3><p>Location-level operational data from Bifurcated Data.</p></div>
@@ -3374,14 +3373,6 @@ function renderLivelihood(){
     statCard('DIVA Salon income',salonIncomeLabel,storyNote(divaActive(state.fy)?storyPrior('salonIncome',money):''),'orange'),
     statCard('DIVA Studio income',studioIncomeLabel,storyNote(divaActive(state.fy)?storyPrior('studioIncome',money):''),'blue')
   ].join('');
-  renderProgrammeAnnualInsights('livelihoodInsights',[
-    ['Financial literacy','financialLiteracy'],
-    ['Awareness beneficiaries','awareness'],
-    ['Salon beneficiaries','salonBeneficiaries'],
-    ['Studio beneficiaries','studioBeneficiaries'],
-    ['Salon income','salonIncome','money'],
-    ['Studio income','studioIncome','money']
-  ]);
   const inactive=document.getElementById('communityStatusStrip');
   if(inactive){
     inactive.innerHTML=isNum(bf?.inactiveFamilies)?`<span class="status-inline"><span class="status-dot"></span><b>${num(bf.inactiveFamilies)} inactive families</b> · ${fyLabel(state.fy)}</span>`:'';
