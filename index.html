@@ -1806,6 +1806,7 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
 @media(max-width:1199px) and (min-width:1101px){#page-health #healthKpis,#page-skilling #skillingYearKpis{grid-template-columns:repeat(5,minmax(0,1fr))!important}#page-education #educationKpis,#page-livelihood #livelihoodKpis{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:620px){:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter label{width:100%;justify-content:space-between}:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter select{max-width:58%}:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(.health-chart-grid,.presentation-chart-grid,.presentation-activity-grid) .chart-box{height:260px!important;min-height:260px!important;max-height:260px!important}}
 @media(max-width:390px){:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){grid-template-columns:1fr!important}}
+@media(min-width:1101px){#page-skilling #skillingYearKpis{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
 </style>
 <body>
 <div class="shell"><main class="main">
@@ -1958,7 +1959,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
 
     </div>
 <div class="panel health-block story-section" id="storyActivity-health"><h3>Activity Summary</h3><div class="story-scroll"><table class="story-table"></table></div></div>
-  <div class="insight-strip" id="healthInsights"></div>
 <div class="health-chart-grid health-service-grid" id="healthServiceCharts"><div class="panel">
       <div class="section-title-block">
         <div><h3>Health reach trend</h3><p>Choose a service to compare locations across financial years.</p></div>
@@ -2045,7 +2045,7 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
         <div><h3>Skilling by Center</h3><p>Every skilling field available for Narol and Naroda in the selected year.</p></div>
       </div>
       <div class="chart-box" style="height:325px"><canvas id="skillingBifChart"></canvas></div>
-      <div class="scope-note">Skilling, SET winners, SET+BT+DDEO+GST, earning beneficiaries and topical skilling are separate source columns and are not added together as one unique-beneficiary total.</div>
+      <div class="scope-note">Skilling, SET winners, SET+BT+DDEO+GST, and earning beneficiaries are separate source columns and are not added together as one unique-beneficiary total.</div>
     </div>
 <div class="panel">
       <div class="section-title-block"><div><h3>Skilling Income by Center</h3><p>Income tracking begins from FY 2023–24.</p></div></div>
@@ -2101,7 +2101,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
           <span class="tool-label">Metric</span>
           <select class="local-select" id="skillingTrendMetric">
             <option value="certified">Certified beneficiaries</option>
-            <option value="topicalSkilling">Topical skilling</option>
             <option value="youthSkilling">Youth skilling</option>
           </select>
         </div>
@@ -2150,6 +2149,13 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
     </div>
   </div>
 <div class="kpi-grid-six" id="educationKpis"></div>
+<div class="presentation-layout presentation-full"><div class="panel presentation-summary-panel">
+      <div class="section-title-block">
+        <div><h3>Education &amp; school-development milestones</h3><p>Relevant milestones extracted from the program journey.</p></div>
+      </div>
+      <div class="timeline-compact" id="educationTimeline"></div>
+      <div class="scope-note"><b>Why no Narol/Naroda filter here?</b> The workbook does not provide a clean center split using the same education definitions as the headline summary, so this page does not invent one.</div>
+    </div></div>
 <div class="insight-strip" id="educationInsights"></div>
 <div class="presentation-layout presentation-full"><div class="panel presentation-summary-panel">
       <div class="section-title-block"><div><h3>Training Hours Summary</h3><p>Selected year and cumulative delivery.</p></div></div>
@@ -2211,13 +2217,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
 <div class="presentation-layout presentation-full presentation-single-chart"><div class="panel">
       <div class="section-title-block"><div><h3>School Training Hours by Center</h3><p>Narol and Naroda training-hour columns from Bifurcated Data.</p></div></div>
       <div class="chart-box" style="height:285px"><canvas id="schoolTrainingHoursChart"></canvas></div>
-    </div></div>
-<div class="presentation-layout presentation-full"><div class="panel presentation-summary-panel">
-      <div class="section-title-block">
-        <div><h3>Education &amp; school-development milestones</h3><p>Relevant milestones extracted from the program journey.</p></div>
-      </div>
-      <div class="timeline-compact" id="educationTimeline"></div>
-      <div class="scope-note"><b>Why no Narol/Naroda filter here?</b> The workbook does not provide a clean center split using the same education definitions as the headline summary, so this page does not invent one.</div>
     </div></div>
 <div class="presentation-layout presentation-full"><div class="panel programme-detail-panel"><div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-education"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-education"></table></div>      <div class="tracker-pagination" id="trackerPagination-education">
@@ -2784,8 +2783,8 @@ const Q2_REPORT={Narol:{enrolled:179,graduated:192,opd:881,fl:1194,stem:2082,lau
 // Activity Tracker launch counts (source rows checked 18 Nov 2026). Cross-tab duplicate by location/date removed.
 const OVERVIEW_PHASES=[{"area":"Narol","date":"2023-06-11","fy":"2023-24","quarter":"Q1","count":null},{"area":"Naroda","date":"2023-09-10","fy":"2023-24","quarter":"Q2","count":null},{"area":"Naroda","date":"2023-10-10","fy":"2023-24","quarter":"Q3","count":500},{"area":"Naroda","date":"2023-11-26","fy":"2023-24","quarter":"Q3","count":250},{"area":"Naroda","date":"2024-02-04","fy":"2023-24","quarter":"Q4","count":null},{"area":"Narol","date":"2024-02-18","fy":"2023-24","quarter":"Q4","count":160},{"area":"Narol","date":"2024-07-28","fy":"2024-25","quarter":"Q2","count":253},{"area":"Naroda","date":"2024-07-28","fy":"2024-25","quarter":"Q2","count":225},{"area":"Narol","date":"2024-12-29","fy":"2024-25","quarter":"Q3","count":73},{"area":"Naroda","date":"2024-12-29","fy":"2024-25","quarter":"Q3","count":225},{"area":"Narol","date":"2025-03-30","fy":"2024-25","quarter":"Q4","count":320},{"area":"Naroda","date":"2025-03-31","fy":"2024-25","quarter":"Q4","count":375},{"area":"Narol","date":"2025-07-20","fy":"2025-26","quarter":"Q2","count":317},{"area":"Naroda","date":"2025-07-20","fy":"2025-26","quarter":"Q2","count":382},{"area":"Narol","date":"2025-10-12","fy":"2025-26","quarter":"Q3","count":323},{"area":"Naroda","date":"2025-10-12","fy":"2025-26","quarter":"Q3","count":327},{"area":"Narol","date":"2025-12-14","fy":"2025-26","quarter":"Q3","count":287},{"area":"Naroda","date":"2025-12-21","fy":"2025-26","quarter":"Q3","count":372},{"area":"Naroda","date":"2026-04-22","fy":"2026-27","quarter":"Q1","count":362},{"area":"Narol","date":"2026-04-26","fy":"2026-27","quarter":"Q1","count":286},{"area":"Naroda","date":"2026-06-16","fy":"2026-27","quarter":"Q1","count":327},{"area":"Narol","date":"2026-07-19","fy":"2026-27","quarter":"Q2","count":322},{"area":"Naroda","date":"2026-10-28","fy":"2026-27","quarter":"Q3","count":342},{"area":"Narol","date":"2026-11-01","fy":"2026-27","quarter":"Q3","count":311}];
 const OVERVIEW_BIF=BIF.map(r=>Object.fromEntries(Object.entries(r).map(([k,v])=>[k.replace(/^narol/,'Narol').replace(/^naroda/,'Naroda'),v])));
-const OVERVIEW_METRICS={Skilling:'Skilling',OpdBeneficiaries:'OPD reach',OpdNo:'OPD sessions',FL:'Financial literacy',SchoolGeneral:'School general checkups',SchoolEye:'School eye checkups',SchoolDental:'School dental checkups',SchoolHours:'School training hours',Body:'Health / body profiling',Eye:'Community eye camp reach',Dental:'Community dental camp reach',EyeGlasses:'Community glasses distributed',SchoolEyeGlasses:'School glasses distributed',Earning:'Skilling earning beneficiaries',Topical:'Topical skilling',SetWinners:'SET winners (machines)',DivaBeneficiaries:'Diva Salon + Studio participants',DivaIncome:'Diva Salon + Studio earnings'};
-const OVERVIEW_GROUPS={'Skilling & livelihood':['Skilling','Earning','Topical','DivaBeneficiaries','FL'],'Community healthcare':['OpdBeneficiaries','Body','Eye','Dental'],'School health':['SchoolGeneral','SchoolEye','SchoolDental'],'Distribution & sessions':['OpdNo','SetWinners','EyeGlasses','SchoolEyeGlasses'],'School training hours':['SchoolHours'],'Diva earnings (INR)':['DivaIncome']};
+const OVERVIEW_METRICS={Skilling:'Skilling',OpdBeneficiaries:'OPD reach',OpdNo:'OPD sessions',FL:'Financial literacy',SchoolGeneral:'School general checkups',SchoolEye:'School eye checkups',SchoolDental:'School dental checkups',SchoolHours:'School training hours',Body:'Health / body profiling',Eye:'Community eye camp reach',Dental:'Community dental camp reach',EyeGlasses:'Community glasses distributed',SchoolEyeGlasses:'School glasses distributed',Earning:'Skilling earning beneficiaries',SetWinners:'SET winners (machines)',DivaBeneficiaries:'Diva Salon + Studio participants',DivaIncome:'Diva Salon + Studio earnings'};
+const OVERVIEW_GROUPS={'Skilling & livelihood':['Skilling','Earning','DivaBeneficiaries','FL'],'Community healthcare':['OpdBeneficiaries','Body','Eye','Dental'],'School health':['SchoolGeneral','SchoolEye','SchoolDental'],'Distribution & sessions':['OpdNo','SetWinners','EyeGlasses','SchoolEyeGlasses'],'School training hours':['SchoolHours'],'Diva earnings (INR)':['DivaIncome']};
 const OVERVIEW_Q2_METRICS={opd:'OPD reach',fl:'Financial literacy',stem:'Science Lab',enrolled:'Skilling admissions',graduated:'Graduations',launch:'Phase launch attendance'};
 const OVERVIEW_Q2_GROUPS={'Skilling milestones':['enrolled','graduated'],'Phase launch':['launch'],'Programme reach':['opd','fl','stem']};
 function overallValue(r,a,k){const v=r?.[a+k];return isNum(v)?v:null;}
@@ -3018,11 +3017,7 @@ function renderHealth(){
     statCard(state.fy===HEALTH_AUDIT.fy?'School checkup participations':'School health reach',valueOrStatus(r.schoolHealth),storyNote(storySplit(splitSum(s,'narolSchoolGeneral','narolSchoolEye','narolSchoolDental'),splitSum(s,'narodaSchoolGeneral','narodaSchoolEye','narodaSchoolDental'))),'purple'),
     statCard('Menstrual & puberty reach',valueOrStatus(r.menstrual),storyNote(state.fy===HEALTH_AUDIT.fy?num(auditedHealthMetric('Narol','Menstrual / Puberty').sum)+' Narol · '+num(auditedHealthMetric('Naroda','Menstrual / Puberty').sum):''),'orange')
   ].join('');
-  renderChangeInsights('healthInsights',[
-    ['OPD beneficiaries','opdBeneficiaries'],
-    ['OPDs conducted','opdNo'],
-    ['Community health reach','communityHealth']
-  ]);
+
 
   destroyChart('healthTrend');
  const key=state.healthTrendMetric,splitKey={opdBeneficiaries:'OpdBeneficiaries',opdNo:'OpdNo',Body:'Body',Eye:'Eye',EyeGlasses:'EyeGlasses',Dental:'Dental'}[key];let rows=BIF,series=[];
@@ -3079,7 +3074,7 @@ function renderHealth(){
 }
 
 /* ---------- SKILLING ---------- */
-const SKILL_TREND_LABELS={certified:'Certified beneficiaries',topicalSkilling:'Topical skilling',youthSkilling:'Youth skilling'};
+const SKILL_TREND_LABELS={certified:'Certified beneficiaries',youthSkilling:'Youth skilling'};
 function scopedBatches(){
   let rows=DATA.batches.filter(x=>state.batchArea==='All'||x.area===state.batchArea);
   if(state.batch!=='All') rows=rows.filter(x=>String(x.batch)===String(state.batch));
@@ -3113,7 +3108,7 @@ function skillingAnnualInsight(key, selectedFY){
 }
 function renderSkillingAnnualInsights(){
   const target=document.getElementById('skillingInsights');
-  const defs=[['Certified beneficiaries','certified','count'],['Youth skilling','youthSkilling','count'],['Monthly avg income','monthlyIncome','money'],['Topical skilling','topicalSkilling','count']];
+  const defs=[['Certified beneficiaries','certified','count'],['Youth skilling','youthSkilling','count'],['Monthly avg income','monthlyIncome','money']];
   target.innerHTML=defs.map(([label,key,type])=>{
     const a=skillingAnnualInsight(key,state.fy);
     const format=type==='money'?money:num;
@@ -3156,7 +3151,6 @@ function renderSkilling(){
   const r=current();
   document.getElementById('skillingYearKpis').innerHTML=[
     statCard('Certified beneficiaries',valueOrStatus(r.certified),storyNote(storyPrior('certified')),'blue'),
-    statCard('Topical skilling',latestInProgress()&&r.topicalSkilling===0?'0':valueOrStatus(r.topicalSkilling),storyNote(storySplit(currentSplit()?.narolTopical,currentSplit()?.narodaTopical)),'purple'),
     statCard('Youth skilling',valueOrStatus(r.youthSkilling),storyNote(storyPrior('youthSkilling')),'teal'),
     statCard('Total monthly avg income',incomeTracked(state.fy)?moneyOrStatus(r.monthlyIncome):'—','','orange'),
     statCard('Earning beneficiaries (center report)',valueOrStatus(splitSum(currentSplit(),'narolEarning','narodaEarning')),'','cyan')
@@ -3234,9 +3228,9 @@ function renderSkilling(){
 
   const bf=bifFullFor(state.fy);
   destroyChart('skillingBif');
-  const nVals=bf?[bf.narolSkilling,bf.narolSetWinners,bf.narolPrograms,bf.narolEarning,bf.narolTopical]:[];
-  const ndVals=bf?[bf.narodaSkilling,bf.narodaSetWinners,bf.narodaPrograms,bf.narodaEarning,bf.narodaTopical]:[];
-  const skillingBifCompressed=compressDualCategorySeries(['Skilling','SET machine winners','SET+BT+DDEO+GST','Earning beneficiaries','Topical skilling'],nVals,ndVals);
+  const nVals=bf?[bf.narolSkilling,bf.narolSetWinners,bf.narolPrograms,bf.narolEarning]:[];
+  const ndVals=bf?[bf.narodaSkilling,bf.narodaSetWinners,bf.narodaPrograms,bf.narodaEarning]:[];
+  const skillingBifCompressed=compressDualCategorySeries(['Skilling','SET machine winners','SET+BT+DDEO+GST','Earning beneficiaries'],nVals,ndVals);
   if(updateChartPanel('skillingBifChart',[skillingBifCompressed.a,skillingBifCompressed.b])){
     charts.skillingBif=new Chart(document.getElementById('skillingBifChart'),{
       type:'bar',
@@ -3267,7 +3261,6 @@ function renderSkilling(){
     programmeDetailGrowth('SET machine winners',num(splitSum(BIFTOTAL,'narolSetWinners','narodaSetWinners')),completedProgrammeRows().map(r=>splitSum(r,'narolSetWinners','narodaSetWinners')),num),
     programmeDetailGrowth('SET + BT + DDEO + GST',num(splitSum(BIFTOTAL,'narolPrograms','narodaPrograms')),completedProgrammeRows().map(r=>splitSum(r,'narolPrograms','narodaPrograms')),num),
     programmeDetailGrowth('Earning beneficiaries',num(splitSum(BIFTOTAL,'narolEarning','narodaEarning')),completedProgrammeRows().map(r=>splitSum(r,'narolEarning','narodaEarning')),num),
-    programmeDetailGrowth('Topical skilling',num(splitSum(BIFTOTAL,'narolTopical','narodaTopical')),completedProgrammeRows().map(r=>splitSum(r,'narolTopical','narodaTopical')),num),
     programmeDetailGrowth('Youth skilling',num(BIFTOTAL.youthTotal),completedProgrammeRows().map(r=>r.fy<'2025-26'?null:r.youthTotal),num),
     programmeDetailGrowth('2-wheeler',num(BIFTOTAL.youth2Wheeler),completedProgrammeRows().map(r=>r.fy<'2025-26'?null:r.youth2Wheeler),num),
     programmeDetailGrowth('AutoCAD',num(BIFTOTAL.youthAutoCAD),completedProgrammeRows().map(r=>r.fy<'2025-26'?null:r.youthAutoCAD),num),
