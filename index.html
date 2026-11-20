@@ -1807,6 +1807,13 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
 @media(max-width:620px){:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter label{width:100%;justify-content:space-between}:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) .overview-style-filter select{max-width:58%}:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(.health-chart-grid,.presentation-chart-grid,.presentation-activity-grid) .chart-box{height:260px!important;min-height:260px!important;max-height:260px!important}}
 @media(max-width:390px){:is(#page-overview,#page-health,#page-skilling,#page-education,#page-livelihood) :is(#overviewKpis,#healthKpis,#skillingYearKpis,#educationKpis,#livelihoodKpis){grid-template-columns:1fr!important}}
 @media(min-width:1101px){#page-skilling #skillingYearKpis{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+
+/* Compact table previews; totals remain visible. */
+.preview-hidden{display:none!important}
+.table-preview-control{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px;color:var(--ink-soft);font-size:12px}
+.table-preview-control[hidden]{display:none!important}
+.table-preview-toggle{cursor:pointer;font-size:12px!important;padding:6px 12px!important}
+.table-preview-expanded{max-height:410px;overflow:auto}
 </style>
 <body>
 <div class="shell"><main class="main">
@@ -1998,11 +2005,7 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
     </div></div>
 <div class="panel health-block" id="healthActivityDetails">      <div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-health"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-health"></table></div>
-      <div class="tracker-pagination" id="trackerPagination-health">
-        <button class="tracker-page-btn" id="trackerPrev-health">← Previous</button>
-        <span id="trackerPageInfo-health"></span>
-        <button class="tracker-page-btn" id="trackerNext-health">Next →</button>
-      </div>
+      
 </div>
 <div class="page-source"><b>Health sources:</b> Master Summary, Bifurcated Data, Working Sheet and Activity Tracker are presented as separate source views where their definitions differ.  Health service KPIs and charts use Bifurcated Data; menstrual workshops use the combined summary. These tables use different definitions in places, so the dashboard keeps them visibly separate.</div>
 </section>
@@ -2126,11 +2129,7 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
   </div>
 <div class="presentation-layout presentation-full"><div class="panel programme-detail-panel"><div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-skilling"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-skilling"></table></div>
-      <div class="tracker-pagination" id="trackerPagination-skilling">
-        <button class="tracker-page-btn" id="trackerPrev-skilling">← Previous</button>
-        <span id="trackerPageInfo-skilling"></span>
-        <button class="tracker-page-btn" id="trackerNext-skilling">Next →</button>
-      </div></div></div>
+      </div></div>
 <details class="programme-audit-note"><summary>About these figures</summary><div>FY 2026–27 annual certification: master summary 1,837; different center skilling fields total 4,407 and are not treated as certified counts. Youth skilling: 211 in FY center data; summary 736 appears cumulative (525 prior + 211 current). Working Sheet detail rows: 3,663 certified and 1,562 employed; stated totals: 3,087 and 1,404. Batch income agrees. Q2 audit: 369 new admissions and 370 graduates; not added to annual totals with unknown cutoff.</div></details>
 <div class="page-source"><b>Skilling sources:</b> Master Summary, Bifurcated Data, Working Sheet batch/calendar views and Activity Tracker are kept definition-specific.  FY-level cards/trend use “Data for Narol and Naroda”. Batch outcomes use the “Working Sheet” batch log. The two sources are not treated as the same population.</div>
 </section>
@@ -2219,11 +2218,7 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
       <div class="chart-box" style="height:285px"><canvas id="schoolTrainingHoursChart"></canvas></div>
     </div></div>
 <div class="presentation-layout presentation-full"><div class="panel programme-detail-panel"><div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-education"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
-      <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-education"></table></div>      <div class="tracker-pagination" id="trackerPagination-education">
-        <button class="tracker-page-btn" id="trackerPrev-education">← Previous</button>
-        <span id="trackerPageInfo-education"></span>
-        <button class="tracker-page-btn" id="trackerNext-education">Next →</button>
-      </div></div></div>
+      <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-education"></table></div>      </div></div>
 <details class="programme-audit-note"><summary>About these figures</summary><div>STEM and student reach are reported metrics, not deduplicated students. Q2 audit: 4,719 report engagements; underlying Narol July–August file supports 740 only and September remains unverified. Naroda tracker row 552 shows 24 May 2025 within FY 2026–27 Q1; retained pending date confirmation. Science fair projects are a separate measure from participant counts.</div></details>
 <div class="page-source"><b>Education sources:</b> Master Summary, Bifurcated school-service/training fields, Working Sheet and Activity Tracker are kept separate where populations differ.  “Data for Narol and Naroda”. School partner text is displayed as reported rather than converted into an inferred count for years where the workbook does not state a clean cumulative total.</div>
 </section>
@@ -2327,11 +2322,7 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
   </div>
 <div class="presentation-layout presentation-full"><div class="panel programme-detail-panel"><div class="tracker-table-head"><div><b>Activity Details</b><span id="trackerCount-livelihood"></span></div><span>Detailed activity data · staff names and internal notes hidden for privacy</span></div>
       <div class="tracker-table-wrap"><table class="tracker-table" id="trackerTable-livelihood"></table></div>
-      <div class="tracker-pagination" id="trackerPagination-livelihood">
-        <button class="tracker-page-btn" id="trackerPrev-livelihood">← Previous</button>
-        <span id="trackerPageInfo-livelihood"></span>
-        <button class="tracker-page-btn" id="trackerNext-livelihood">Next →</button>
-      </div></div></div>
+      </div></div>
 <details class="programme-audit-note"><summary>About these figures</summary><div>FY 2026–27 center financial-literacy data: 4,054; combined summary: 9,889 with a different or unresolved cutoff. Q2 audit supports 2,408 participations; not added to annual totals. DIVA annual program and center income sources differ in coverage; quarterly ledger and partner report gaps remain. No cross-branch amounts combined beyond their verified scope.</div></details>
 <div class="page-source"><b>Livelihood & field sources:</b> Master Summary, Bifurcated Data, NAROL/NARODA phase sheets, Working Sheet and Activity Tracker are represented without treating assignment IDs or interactions as unique beneficiaries.  DIVA programme totals use the combined master sheet; location incomes and financial literacy use Bifurcated Data. DIVA income first appears from FY 2024–25.</div>
 </section>
@@ -2577,7 +2568,29 @@ function syncFyChips(){
 
 
 function trackerNumber(v){ return Math.round(v||0).toLocaleString('en-IN'); }
-const TRACKER_PAGE_SIZE=50;
+const TABLE_PREVIEW_ROWS=5;
+function applyTablePreview(table){
+ if(!table)return;
+ const wrap=table.parentElement;
+ let control=wrap.nextElementSibling;
+ if(!control||!control.classList.contains('table-preview-control')){
+  control=document.createElement('div');control.className='table-preview-control';
+  control.innerHTML='<span class="table-preview-count" aria-live="polite"></span><button type="button" class="tracker-page-btn table-preview-toggle" aria-expanded="false"></button>';
+  wrap.after(control);
+ }
+ const rows=Array.from(table.tBodies).flatMap(body=>Array.from(body.rows)).filter(row=>!row.classList.contains('story-total')&&!(row.cells.length===1&&row.cells[0].colSpan>1));
+ const button=control.querySelector('button'), count=control.querySelector('.table-preview-count');
+ const total=rows.length;let expanded=false;
+ function paint(){
+  rows.forEach((row,i)=>row.classList.toggle('preview-hidden',!expanded&&i>=TABLE_PREVIEW_ROWS));
+  control.hidden=total<=TABLE_PREVIEW_ROWS;
+  button.setAttribute('aria-expanded',String(expanded));
+  button.textContent=expanded?'− Show less':'+ Show all '+total.toLocaleString('en-IN');
+  count.textContent='Showing '+(expanded?total:Math.min(TABLE_PREVIEW_ROWS,total)).toLocaleString('en-IN')+' of '+total.toLocaleString('en-IN');
+  wrap.classList.toggle('table-preview-expanded',expanded);
+ }
+ button.onclick=()=>{expanded=!expanded;paint();};paint();
+}
 function trackerProgramForKey(key){
   if(key==='health') return 'Health & Medical';
   if(key==='skilling') return 'Skilling & Employment';
@@ -2680,15 +2693,10 @@ function renderTrackerSection(key){
     });
   }
 
-  // All filtered rows are accessible via pagination.
-  const totalPages=Math.max(1,Math.ceil(rows.length/TRACKER_PAGE_SIZE));
-  if(st.page>totalPages) st.page=totalPages;
-  if(st.page<1) st.page=1;
-  const start=(st.page-1)*TRACKER_PAGE_SIZE;
   const display=rows.slice().sort((a,b)=>{
     const ma=key==='health'?Number(a.month||0):(Number(a.month||0)+8)%12,mb=key==='health'?Number(b.month||0):(Number(b.month||0)+8)%12;
     return mb-ma || b.sourceRow-a.sourceRow || a.area.localeCompare(b.area);
-  }).slice(start,start+TRACKER_PAGE_SIZE);
+  });
 
   document.getElementById(`trackerCount-${key}`).textContent=`${trackerNumber(rows.length)} activities`;
   document.getElementById(`trackerTable-${key}`).innerHTML=
@@ -2696,12 +2704,7 @@ function renderTrackerSection(key){
     (display.length?display.map(r=>`<tr><td>${r.area}</td><td>${r.quarter||'—'}</td><td>${r.date||'—'}</td><td>${r.event}</td><td>${isNum(r.beneficiaries)?trackerNumber(r.beneficiaries):'<span class="empty-cell">—</span>'}</td><td>${r.category||'—'}</td></tr>`).join(''):`<tr><td colspan="6" class="empty-cell">No activities match this filter.</td></tr>`)+
     `</tbody>`;
 
-  const pageInfo=document.getElementById(`trackerPageInfo-${key}`);
-  const prev=document.getElementById(`trackerPrev-${key}`);
-  const next=document.getElementById(`trackerNext-${key}`);
-  if(pageInfo) pageInfo.textContent=rows.length?`Page ${st.page} of ${totalPages} · ${start+1}–${Math.min(start+TRACKER_PAGE_SIZE,rows.length)} of ${rows.length}`:'No activities';
-  if(prev) prev.disabled=st.page<=1;
-  if(next) next.disabled=st.page>=totalPages;
+  applyTablePreview(document.getElementById(`trackerTable-${key}`));
 }
 function renderSourceViews(page){
   if(page==='livelihood'){
@@ -2878,7 +2881,7 @@ function storyCell(m){return m.reach===null?'—':m.missing?'<span title="'+m.mi
 function storyTable(table,groups,areas){
  const head='<thead><tr><th scope="col">Programme / Activity</th>'+areas.map(a=>'<th scope="col">'+a+'</th>').join('')+(areas.length>1?'<th scope="col">Combined</th>':'')+'<th scope="col">Activities</th></tr></thead>';
  const row=(d,total=false)=>{const t=storyCounts(d.rows);return '<tr'+(total?' class="story-total"':'')+'><td>'+(d.color?'<span class="story-dot" style="background:'+d.color+'"></span>':'')+storyEscape(d.name)+'</td>'+areas.map(a=>'<td>'+storyCell(storyCounts(d.rows.filter(e=>e.area===a)))+'</td>').join('')+(areas.length>1?'<td>'+storyCell(t)+'</td>':'')+'<td>'+num(t.events)+'</td></tr>';};
- const all=groups.flatMap(d=>d.rows);table.innerHTML=head+'<tbody>'+groups.map(d=>row(d)).join('')+(all.length?row({name:'Total',rows:all},true):'')+'</tbody>';
+ const all=groups.flatMap(d=>d.rows);table.innerHTML=head+'<tbody>'+groups.map(d=>row(d)).join('')+(all.length?row({name:'Total',rows:all},true):'')+'</tbody>';applyTablePreview(table);
 }
 function renderStoryBubble(fy,loc,q){
  const areas=loc==='All'?['Narol','Naroda']:[loc];const base=TRACKER.events.filter(e=>e.fy===fy&&areas.includes(e.area)&&(q==='all'||e.quarter===q));
@@ -3494,14 +3497,10 @@ function setupEvents(){
     const quarter=document.getElementById(`trackerQuarter-${key}`);
     const category=document.getElementById(`trackerCategory-${key}`);
     const search=document.getElementById(`trackerSearch-${key}`);
-    const prev=document.getElementById(`trackerPrev-${key}`);
-    const next=document.getElementById(`trackerNext-${key}`);
     if(area) area.addEventListener('change',e=>{state.tracker[key].area=e.target.value;state.tracker[key].page=1;renderTrackerSection(key);});
     if(quarter) quarter.addEventListener('change',e=>{state.tracker[key].quarter=e.target.value;state.tracker[key].page=1;renderTrackerSection(key);});
     if(category) category.addEventListener('change',e=>{state.tracker[key].category=e.target.value;state.tracker[key].page=1;renderTrackerSection(key);});
     if(search) search.addEventListener('input',e=>{state.tracker[key].search=e.target.value;state.tracker[key].page=1;renderTrackerSection(key);});
-    if(prev) prev.addEventListener('click',()=>{if(state.tracker[key].page>1){state.tracker[key].page--;renderTrackerSection(key);}});
-    if(next) next.addEventListener('click',()=>{state.tracker[key].page++;renderTrackerSection(key);});
   });
   const trackerProgram=document.getElementById('trackerProgram-livelihood');
   if(trackerProgram) trackerProgram.addEventListener('change',e=>{state.tracker.livelihood.program=e.target.value;state.tracker.livelihood.page=1;renderTrackerSection('livelihood');});
