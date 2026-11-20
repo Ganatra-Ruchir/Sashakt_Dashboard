@@ -1814,6 +1814,12 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
 .table-preview-control[hidden]{display:none!important}
 .table-preview-toggle{cursor:pointer;font-size:12px!important;padding:6px 12px!important}
 .table-preview-expanded{max-height:410px;overflow:auto}
+
+/* Clean presentation layout after duplicate removal. */
+@media(min-width:621px){#page-health .health-activity-grid[data-visible="2"],.dashboard-page:not(#page-overview) .presentation-activity-grid[data-visible="2"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+.dashboard-page .tracker-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+@media(max-width:620px){.dashboard-page .tracker-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:390px){.dashboard-page .tracker-summary-grid{grid-template-columns:minmax(0,1fr)!important}}
 </style>
 <body>
 <div class="shell"><main class="main">
@@ -1957,7 +1963,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
       </div>
       <div class="tracker-summary-grid" id="trackerKpis-health"></div>
       <div class="health-chart-grid health-activity-grid" id="healthActivityCharts">
-        <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Type</div><div class="chart-box" ><canvas id="trackerActivityChart-health"></canvas></div></div>
         <div class="tracker-inner-card"><div class="tracker-mini-title">Monthly Activity Reach</div><div class="chart-box" ><canvas id="trackerQuarterChart-health"></canvas></div></div>
       
         <div class="tracker-inner-card"><div class="tracker-mini-title">Activity Reach by Beneficiary Group</div><div class="chart-box" ><canvas id="trackerCategoryChart-health"></canvas></div></div>
@@ -2024,7 +2029,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
     </div>
   </div>
 <div class="kpi-grid-five" id="skillingYearKpis"></div>
-<div class="insight-strip" id="skillingInsights"></div>
 <div class="presentation-layout presentation-full"><div class="panel presentation-feature-panel">
       <div class="section-title-block">
         <div><h3>Batch Results — All Years</h3><p id="presentationBatchPeriod">All batches · across years</p></div>
@@ -2075,7 +2079,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
       </div>
       <div class="tracker-summary-grid" id="trackerKpis-skilling"></div>
       <div class="presentation-activity-grid" id="presentationActivities-skilling">
-        <div class="tracker-inner-card"><div class="tracker-mini-title">Participations by Activity</div><div class="chart-box" style="height:270px"><canvas id="trackerActivityChart-skilling"></canvas></div></div>
         <div class="tracker-inner-card"><div class="tracker-mini-title">Monthly Participations</div><div class="chart-box" style="height:270px"><canvas id="trackerQuarterChart-skilling"></canvas></div></div>
       
         <div class="tracker-inner-card"><div class="tracker-mini-title">Participations by Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-skilling"></canvas></div></div>
@@ -2155,7 +2158,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
       <div class="timeline-compact" id="educationTimeline"></div>
       <div class="scope-note"><b>Why no Narol/Naroda filter here?</b> The workbook does not provide a clean center split using the same education definitions as the headline summary, so this page does not invent one.</div>
     </div></div>
-<div class="insight-strip" id="educationInsights"></div>
 <div class="presentation-layout presentation-full"><div class="panel presentation-summary-panel">
       <div class="section-title-block"><div><h3>Training Hours Summary</h3><p>Selected year and cumulative delivery.</p></div></div>
       <div class="detail-kpi-grid compact" id="schoolHoursGrid"></div>
@@ -2181,7 +2183,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
       </div>
       <div class="tracker-summary-grid" id="trackerKpis-education"></div>
       <div class="presentation-activity-grid" id="presentationActivities-education">
-        <div class="tracker-inner-card"><div class="tracker-mini-title">Participations by Activity</div><div class="chart-box" style="height:270px"><canvas id="trackerActivityChart-education"></canvas></div></div>
         <div class="tracker-inner-card"><div class="tracker-mini-title">Monthly Participations</div><div class="chart-box" style="height:270px"><canvas id="trackerQuarterChart-education"></canvas></div></div>
       
         <div class="tracker-inner-card"><div class="tracker-mini-title">Participations by Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-education"></canvas></div></div>
@@ -2209,10 +2210,7 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
       </div>
       <div class="chart-box" style="height:305px"><canvas id="educationTrendChart"></canvas></div>
     </div>
-<div class="panel">
-      <div class="section-title-block"><div><h3>Exposure &amp; learning activities</h3><p>Selected-FY activity mix; zero means zero reported in the workbook.</p></div></div>
-      <div class="chart-box" style="height:305px"><canvas id="educationMixChart"></canvas></div>
-    </div></div>
+</div>
 <div class="presentation-layout presentation-full presentation-single-chart"><div class="panel">
       <div class="section-title-block"><div><h3>School Training Hours by Center</h3><p>Narol and Naroda training-hour columns from Bifurcated Data.</p></div></div>
       <div class="chart-box" style="height:285px"><canvas id="schoolTrainingHoursChart"></canvas></div>
@@ -2276,7 +2274,6 @@ body:has(:is(#page-overview,#page-health,#page-skilling,#page-education,#page-li
       </div>
       <div class="tracker-summary-grid" id="trackerKpis-livelihood"></div>
       <div class="presentation-activity-grid" id="presentationActivities-livelihood">
-        <div class="tracker-inner-card"><div class="tracker-mini-title">Participations by Activity</div><div class="chart-box" style="height:270px"><canvas id="trackerActivityChart-livelihood"></canvas></div></div>
         <div class="tracker-inner-card"><div class="tracker-mini-title">Monthly Participations</div><div class="chart-box" style="height:270px"><canvas id="trackerQuarterChart-livelihood"></canvas></div></div>
       
         <div class="tracker-inner-card"><div class="tracker-mini-title">Participations by Group</div><div class="chart-box" style="height:270px"><canvas id="trackerCategoryChart-livelihood"></canvas></div></div>
@@ -2631,8 +2628,6 @@ function renderTrackerSection(key){
   const rows=trackerRows(key);
   const withBen=rows.filter(r=>isNum(r.beneficiaries));
   const interactions=withBen.reduce((a,b)=>a+b.beneficiaries,0);
-  const famTotals=groupSum(withBen,r=>r.activityFamily,r=>r.beneficiaries).filter(x=>x.value>0).sort((a,b)=>b.value-a.value);
-  const topFamily=famTotals[0];
   const areas=[...new Set(rows.map(r=>r.area))].join(' + ')||'No matching activities';
 
   const empty=document.getElementById(`trackerEmpty-${key}`);
@@ -2645,21 +2640,9 @@ function renderTrackerSection(key){
     trackerSummaryCard('Activities conducted',trackerNumber(rows.length),`${areas} · ${fyLabel(state.fy)}`),
     trackerSummaryCard('Participations',withBen.length?trackerNumber(interactions):'—',storyNote(withBen.length?'About '+num(interactions/withBen.length)+' participations per counted activity':'')),
     trackerSummaryCard('Activities with participant counts',trackerNumber(withBen.length),`${trackerNumber(rows.length-withBen.length)} activities without participant counts`),
-    trackerSummaryCard('Top activity type',topFamily?topFamily.label:'—',storyNote(topFamily?trackerNumber(topFamily.value)+' participations':''))
   ].join('');
 
   renderStoryActivityTable(key,rows);
-  // Activity family
-  destroyChart(`trackerActivity-${key}`);
-  const fam=famTotals.slice(0,12);
-  if(updateChartPanel(`trackerActivityChart-${key}`,fam.map(x=>x.value))){
-    charts[`trackerActivity-${key}`]=new Chart(document.getElementById(`trackerActivityChart-${key}`),{
-      type:'bar',
-      data:{labels:fam.map(x=>x.label),datasets:[{label:'Activity reach',data:fam.map(x=>x.value),backgroundColor:'rgba(59,118,240,.76)',borderRadius:4}]},
-      options:baseOptions(true)
-    });
-  }
-
   // Month
   destroyChart(`trackerQuarter-${key}`);
   const months=key==='health'?['01','02','03','04','05','06','07','08','09','10','11','12']:['04','05','06','07','08','09','10','11','12','01','02','03'];
@@ -3138,7 +3121,6 @@ function renderSkilling(){
     statCard('Total monthly avg income',incomeTracked(state.fy)?moneyOrStatus(r.monthlyIncome):'—','','orange'),
     statCard('Earning beneficiaries (center report)',valueOrStatus(splitSum(currentSplit(),'narolEarning','narodaEarning')),'','cyan')
   ].join('');
-  renderSkillingAnnualInsights();
 
   destroyChart('skillingTrend');
   const key=state.skillingTrendMetric;
@@ -3193,15 +3175,11 @@ function renderSkilling(){
   }
 
   if(rows.length){
-    const bestRate=rows.reduce((a,b)=>a.employmentRate>b.employmentRate?a:b);
     const bestIncome=rows.reduce((a,b)=>a.totalIncome>b.totalIncome?a:b);
     const bestAvg=rows.reduce((a,b)=>a.avgIncome>b.avgIncome?a:b);
-    const bestEmp=rows.reduce((a,b)=>a.employed>b.employed?a:b);
     document.getElementById('batchHighlights').innerHTML=[
-      `<div class="program-card"><div class="p-kicker">HIGHEST EMPLOYMENT RATE</div><div class="p-value">${percent(bestRate.employmentRate)}</div><div class="p-name">${bestRate.area} Batch ${bestRate.batch}</div><div class="p-sub">${num(bestRate.employed)} employed of ${num(bestRate.certified)} certified</div></div>`,
       `<div class="program-card"><div class="p-kicker">HIGHEST BATCH INCOME</div><div class="p-value">${money(bestIncome.totalIncome)}</div><div class="p-name">${bestIncome.area} Batch ${bestIncome.batch}</div><div class="p-sub">${num(bestIncome.certified)} certified</div></div>`,
       `<div class="program-card"><div class="p-kicker">HIGHEST AVG INCOME</div><div class="p-value">${money(bestAvg.avgIncome)}</div><div class="p-name">${bestAvg.area} Batch ${bestAvg.batch}</div><div class="p-sub">Average monthly income in batch log</div></div>`,
-      `<div class="program-card"><div class="p-kicker">MOST EMPLOYED</div><div class="p-value">${num(bestEmp.employed)}</div><div class="p-name">${bestEmp.area} Batch ${bestEmp.batch}</div><div class="p-sub">${num(bestEmp.certified)} certified</div></div>`
     ].join('');
   } else document.getElementById('batchHighlights').innerHTML='';
 
@@ -3277,31 +3255,11 @@ function renderEducation(){
     statCard('Science City',valueOrStatus(r.scienceCity),storyNote(storyPrior('scienceCity')),'cyan'),
     statCard('Summer camp',valueOrStatus(r.summerCamp),storyNote(storyPrior('summerCamp')),'orange'),    statCard('Partner schools',schoolPartners.value,schoolPartners.value==='Details'||(!/^total/i.test(String(r.schoolsPartner??''))&&state.fy!=='2022-23')?storyNote(schoolPartners.sub):'','blue')
   ].join('');
-  renderProgrammeAnnualInsights('educationInsights',[
-    ['STEM Lab reach','stem'],
-    ['Science City','scienceCity'],
-    ['Summer camp','summerCamp'],
-    ['Bal Sashakt','balSashakt']
-  ]);
-
   destroyChart('educationTrend');
  const key=state.educationTrendMetric,rows=key==='workingStudents'?SOURCE_DETAIL.workingYearly:DATA.combined;
  const series=key==='workingStudents'?[['Overall','overallStudents',C.blue],['Narol','narolStudents',C.teal],['Naroda','narodaStudents',C.purple]].map(([label,k,borderColor])=>({label,data:rows.map(r=>r[k]??null),borderColor,pointRadius:3,spanGaps:false})):[{label:EDU_LABELS[key],data:rows.map(r=>r[key]??null),borderColor:C.blue,pointRadius:4,spanGaps:false}];
  const historicalData=compactHistoricalChart(rows.map(r=>fyLabel(r.fy)),series);
  if(updateChartPanel('educationTrendChart',historicalData.datasets.map(d=>d.data),true))charts.educationTrend=new Chart(document.getElementById('educationTrendChart'),{type:'line',data:historicalData,options:baseOptions()});
-
-  destroyChart('educationMix');
-  const educationMixData=[r.scienceCity,r.summerCamp,r.scienceFair,r.balSashakt];
-  const educationMixCompressed=compressCategorySeries(['Science City','Summer camp','Science Fair','Bal Sashakt'],educationMixData);
-  if(updateChartPanel('educationMixChart',educationMixCompressed.values)){
-    charts.educationMix=new Chart(document.getElementById('educationMixChart'),{
-      type:'bar',
-      data:{labels:educationMixCompressed.labels,datasets:[{
-        label:fyLabel(state.fy),data:educationMixCompressed.values,backgroundColor:[C.cyan,C.orange,C.purple,C.blue,C.teal],borderRadius:5
-      }]},
-      options:baseOptions()
-    });
-  }
 
   const relevant=DATA.combined.filter(x=>/school|science|bal sashakt|counsel/i.test(String(x.milestone||'')));
   document.getElementById('educationTimeline').innerHTML=relevant.map(x=>`<div class="timeline-item"><div class="tl-year">${fyLabel(x.fy)}</div><div class="tl-text">${x.milestone}</div></div>`).join('');
