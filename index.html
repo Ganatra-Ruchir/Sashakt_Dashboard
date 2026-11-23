@@ -3054,7 +3054,7 @@ function renderOverallQ2(){
  document.getElementById('overviewKpis').innerHTML=[
  mk('Skilling enrolments','enrolled','Q2 reporting','blue'),
  mk('Skilling graduations','graduated','Q2 reporting','teal'),
- statCard('OPD visits',num(v('opd')),storyNote(storySplit(Q2_REPORT.Narol.opd,Q2_REPORT.Naroda.opd,loc)),'cyan','<span class="kpi-average" title="Q2 2026–27: 1,895 OPD visits across 26 sessions (13 per location)">Q2 avg: '+num(v('opd')/26)+' visits per OPD</span>'),
+ statCard('OPD visits',num(v('opd')),storyNote(storySplit(Q2_REPORT.Narol.opd,Q2_REPORT.Naroda.opd,loc)),'cyan','<span class="kpi-average" title="OPD visits divided by OPD sessions in the selected Q2 location scope">Q2 avg: '+num(v('opd')/(loc==='All'?26:13))+' visits per OPD</span>'),
  mk('Financial literacy reach','fl','Session participation','orange'),
  mk('Science Lab reach','stem','School-lab participation','purple'),
  mk('Phase launch attendance','launch',loc==='Naroda'?'No Naroda launch in tracker':'Participants, not households','blue')
