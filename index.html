@@ -536,6 +536,8 @@
     .filter-bar.mobile-open{ display:flex; flex-direction:column; align-items:stretch; }
     .filter-bar.mobile-open .filter-group{ justify-content:space-between; }
   }
+.kpi-average{display:block;margin-top:5px;font-size:10.8px;font-weight:650;line-height:1.3;color:#287A6F}
+.kpi-source-note{display:block;margin-top:4px;font-size:10.5px;font-weight:600;line-height:1.35;color:#895E20}
 </style>
 <style>
 /* Final management-flow layout: presentation order only. */
@@ -2417,6 +2419,8 @@ const TRACKER = JSON.parse(document.getElementById('activity-tracker-data').text
 const SOURCE_DETAIL = JSON.parse(document.getElementById('source-detail-data').textContent);
 // Health audit overlay: keeps original workbook snapshots intact.
 const HEALTH_AUDIT=JSON.parse(document.getElementById('health-audit-data').textContent);
+const MASTER_SPLIT_SNAPSHOT=DATA.bifurcatedFull.map(r=>({...r}));
+const MASTER_COMBINED_SNAPSHOT=DATA.combined.map(r=>({...r}));
 const healthAuditedRows=HEALTH_AUDIT.events;
 const PROGRAMME_AUDIT=JSON.parse(document.getElementById('programme-audit-data').textContent);
 function auditedHealthMetric(area,family){const rows=healthAuditedRows.filter(e=>e.area===area&&e.activityFamily===family);return {n:rows.length,sum:rows.reduce((n,e)=>n+(Number.isFinite(e.beneficiaries)?e.beneficiaries:0),0)};}
@@ -2604,9 +2608,41 @@ function setPeriodChips(prefix){
 function detailKpi(label,value,sub=''){
   return `<div class="detail-kpi"><div class="dk-label">${label}</div><div class="dk-value">${value}</div><div class="dk-sub">${sub}</div></div>`;
 }
-function statCard(label,value,sub,cls=''){
-  return `<div class="stat-card ${cls}"><div class="stat-label">${label}</div><div class="stat-value">${value}</div><div class="stat-sub">${sub||''}</div></div>`;
+function statCard(label,value,sub,cls='',extra=''){
+  return `<div class="stat-card ${cls}"><div class="stat-label">${label}</div><div class="stat-value">${value}</div><div class="stat-sub">${sub||''}${extra||''}</div></div>`;
 }
+
+/* KPI averages: only completed financial years with reported observations.
+   Years before a programme first appears are not counted as zero-impact years. */
+function completedFyAverage(read,fy,format=num){
+ const end=YEARS.indexOf(fy);if(end<0)return '';
+ const observations=YEARS.slice(0,end+1).filter(y=>y!==latestFY||!DATA.meta.latestYearInProgress).map(y=>({fy:y,v:read(y)}));
+ const first=observations.findIndex(x=>isNum(x.v)&&x.v>0);if(first<0)return '';
+ const reported=observations.slice(first).filter(x=>isNum(x.v));
+ if(reported.length<2)return '';
+ const mean=reported.reduce((n,x)=>n+x.v,0)/reported.length;
+ return '<span class="kpi-average" title="Mean of recorded completed financial years; excludes the current partial financial year">FY avg: '+format(mean)+' / year · '+reported.length+' FYs</span>';
+}
+function coreKpiAverage(key,fy=state.fy,format=num){return completedFyAverage(y=>rowFor(y)?.[key],fy,format);}
+function splitKpiAverage(keys,fy=state.fy,format=num){
+ return completedFyAverage(y=>splitSum(MASTER_SPLIT_SNAPSHOT.find(r=>r.fy===y),...keys),fy,format);
+}
+function overviewKpiAverage(key,fy,loc){
+ const areas=loc==='All'?['Narol','Naroda']:[loc];
+ return completedFyAverage(y=>overallSum(OVERVIEW_BIF.find(r=>r.fy===y),key,areas),fy);
+}
+function sourceComparisonNote(key,fy,loc='All'){
+ if(fy!==HEALTH_AUDIT.fy)return '';
+ const fields={OpdNo:['narolOpdNo','narodaOpdNo'],OpdBeneficiaries:['narolOpdBeneficiaries','narodaOpdBeneficiaries'],SchoolGeneral:['narolSchoolGeneral','narodaSchoolGeneral']};
+ const field=fields[key];if(!field)return '';
+ const original=MASTER_SPLIT_SNAPSHOT.find(r=>r.fy===fy),updated=BIF.find(r=>r.fy===fy);
+ const ks=loc==='All'?field:[field[loc==='Narol'?0:1]];
+ const old=splitSum(original,...ks),now=splitSum(updated,...ks);
+ if(!isNum(old)||!isNum(now)||old===now)return '';
+ const diff=now-old;
+ return '<span class="kpi-source-note" title="Activity Tracker as of 17 Nov 2026 versus Bifurcated Data workbook. Reporting cutoffs differ.">Tracker '+num(now)+' · Master '+num(old)+' ('+(diff>0?'+':'')+num(diff)+')</span>';
+}
+
 function firstNumeric(key){
   const r=DATA.combined.find(x=>isNum(x[key]));
   return r?{fy:r.fy,value:r[key]}:null;
@@ -2979,7 +3015,7 @@ function renderOverview(){
  const row={...(DATA.combined.find(x=>x.fy===fy)||{})};if(latest)row.families=12000;
  const rec=OVERVIEW_BIF.find(x=>x.fy===fy);
  const get=key=>overallSum(rec,key,combined?['Narol','Naroda']:[loc]);
- const metric=(title,v,foot,tone)=>statCard(title,typeof v==='number'&&Number.isFinite(v)?num(v):'No data',foot,tone);
+ const metric=(title,v,foot,tone,avgKey=null)=>statCard(title,typeof v==='number'&&Number.isFinite(v)?num(v):'No data',foot,tone,avgKey?overviewKpiAverage(avgKey,fy,loc):'');
  const foot='Master Data · FY '+fy;
  const splitFoot='Bifurcated Data · FY '+fy+'';
  const splitNote=k=>storyNote(storySplit(overallValue(rec,'Narol',k),overallValue(rec,'Naroda',k),loc));
@@ -2992,16 +3028,16 @@ function renderOverview(){
  document.getElementById('overviewProgressChip').style.display=latest?'inline-flex':'none';
  const latestFamily=loc==='Narol'?7000:5000;
  const first=latest?metric('Families Covered',latestFamily,storyNote(storySplit(7000,5000,loc)),'teal'):
-  metric('OPD sessions',get('OpdNo'),splitNote('OpdNo'),'teal');
+  metric('OPD sessions',get('OpdNo'),splitNote('OpdNo')+sourceComparisonNote('OpdNo',fy,loc),'teal','OpdNo');
  const fifth=get('SchoolGeneral');
  const last=get('DivaBeneficiaries');
  document.getElementById('overviewKpis').innerHTML=[
  combined?metric('Family Coverage',row.families,storyNote(latest?storySplit(7000,5000):''),'teal'):first,
- metric('Skilling',get('Skilling'),splitNote('Skilling'),'blue'),
- metric('OPD beneficiary reach',get('OpdBeneficiaries'),splitNote('OpdBeneficiaries'),'cyan'),
- metric('Financial literacy reach',get('FL'),splitNote('FL'),'orange'),
- metric('School general checkups',fifth,splitNote('SchoolGeneral'),'purple'),
- metric('Diva Salon + Studio participants',last,splitNote('DivaBeneficiaries'),'blue')
+ metric('Skilling · centre report',get('Skilling'),splitNote('Skilling'),'blue','Skilling'),
+ metric('OPD beneficiary visits',get('OpdBeneficiaries'),splitNote('OpdBeneficiaries')+sourceComparisonNote('OpdBeneficiaries',fy,loc),'cyan','OpdBeneficiaries'),
+ metric('Financial literacy reach',get('FL'),splitNote('FL'),'orange','FL'),
+ metric('School general checkups',fifth,splitNote('SchoolGeneral')+sourceComparisonNote('SchoolGeneral',fy,loc),'purple','SchoolGeneral'),
+ metric('DIVA participants · Narol/Naroda',last,splitNote('DivaBeneficiaries'),'blue','DivaBeneficiaries')
  ].join('');
  renderOverviewCharts();
  renderHistoricalInsights();
@@ -3057,11 +3093,11 @@ function renderHealth(){
   document.getElementById('healthAuditDetails').hidden=state.fy!==HEALTH_AUDIT.fy;
   const r=current(), s=currentSplit();
   document.getElementById('healthKpis').innerHTML=[
-    statCard('OPDs conducted',valueOrStatus(r.opdNo),storyNote(storySplit(s?.narolOpdNo,s?.narodaOpdNo)),'teal'),
-    statCard('OPD beneficiaries',valueOrStatus(r.opdBeneficiaries),storyNote(isNum(r.opdBeneficiaries)&&isNum(r.opdNo)&&r.opdNo>0?'About '+num(r.opdBeneficiaries/r.opdNo)+' visits per OPD':''),'blue'),
-    statCard('Community health beneficiaries',valueOrStatus(r.communityHealth),storyNote(storySplit(splitSum(s,'narolBody','narolEye','narolDental'),splitSum(s,'narodaBody','narodaEye','narodaDental'))),'cyan'),
-    statCard(state.fy===HEALTH_AUDIT.fy?'School checkup participations':'School health reach',valueOrStatus(r.schoolHealth),storyNote(storySplit(splitSum(s,'narolSchoolGeneral','narolSchoolEye','narolSchoolDental'),splitSum(s,'narodaSchoolGeneral','narodaSchoolEye','narodaSchoolDental'))),'purple'),
-    statCard('Menstrual & puberty reach',valueOrStatus(r.menstrual),storyNote(state.fy===HEALTH_AUDIT.fy?num(auditedHealthMetric('Narol','Menstrual / Puberty').sum)+' Narol · '+num(auditedHealthMetric('Naroda','Menstrual / Puberty').sum):''),'orange')
+    statCard('OPDs conducted',valueOrStatus(r.opdNo),storyNote(storySplit(s?.narolOpdNo,s?.narodaOpdNo))+sourceComparisonNote('OpdNo',state.fy),'teal',coreKpiAverage('opdNo')),
+    statCard('OPD beneficiary visits',valueOrStatus(r.opdBeneficiaries),storyNote(isNum(r.opdBeneficiaries)&&isNum(r.opdNo)&&r.opdNo>0?'Avg '+num(r.opdBeneficiaries/r.opdNo)+' visits per OPD':'')+sourceComparisonNote('OpdBeneficiaries',state.fy),'blue',coreKpiAverage('opdBeneficiaries')),
+    statCard('Community health participation',valueOrStatus(r.communityHealth),storyNote(storySplit(splitSum(s,'narolBody','narolEye','narolDental'),splitSum(s,'narodaBody','narodaEye','narodaDental'))),'cyan',coreKpiAverage('communityHealth')),
+    statCard(state.fy===HEALTH_AUDIT.fy?'School checkup participations':'School health participation',valueOrStatus(r.schoolHealth),storyNote(storySplit(splitSum(s,'narolSchoolGeneral','narolSchoolEye','narolSchoolDental'),splitSum(s,'narodaSchoolGeneral','narodaSchoolEye','narodaSchoolDental')))+sourceComparisonNote('SchoolGeneral',state.fy),'purple',coreKpiAverage('schoolHealth')),
+    statCard('Menstrual & puberty reach',state.fy===HEALTH_AUDIT.fy&&HEALTH_AUDIT.unresolved.menstrualMissing?num(r.menstrual)+'+':valueOrStatus(r.menstrual),storyNote(state.fy===HEALTH_AUDIT.fy?num(auditedHealthMetric('Narol','Menstrual / Puberty').sum)+' Narol · '+num(auditedHealthMetric('Naroda','Menstrual / Puberty').sum)+' Naroda · '+HEALTH_AUDIT.unresolved.menstrualMissing+' activity count missing':'Reported session reach'),'orange')
   ].join('');
 
 
@@ -3219,10 +3255,10 @@ function bindLocalKpiSwitches(root,definitions){
 function renderSkilling(){
   const r=current();
   document.getElementById('skillingYearKpis').innerHTML=[
-    statCard('Certified beneficiaries',valueOrStatus(r.certified),storyNote(storyPrior('certified')),'blue'),
-    statCard('Youth skilling',valueOrStatus(r.youthSkilling),storyNote(storyPrior('youthSkilling')),'teal'),
+    statCard('Certified beneficiaries',valueOrStatus(r.certified),storyNote(storyPrior('certified')),'blue',coreKpiAverage('certified')),
+    statCard('Youth skilling',valueOrStatus(r.youthSkilling),storyNote(storyPrior('youthSkilling')),'teal',coreKpiAverage('youthSkilling')),
     statCard('Total monthly avg income',incomeTracked(state.fy)?moneyOrStatus(r.monthlyIncome):'—','','orange'),
-    statCard('Earning beneficiaries (center report)',valueOrStatus(splitSum(currentSplit(),'narolEarning','narodaEarning')),'','cyan')
+    statCard('Earning beneficiaries (center report)',valueOrStatus(splitSum(currentSplit(),'narolEarning','narodaEarning')),'','cyan',splitKpiAverage(['narolEarning','narodaEarning']))
   ].join('');
 
   destroyChart('skillingTrend');
@@ -3361,10 +3397,10 @@ function renderEducation(){
   const schoolPartners=schoolPartnerDisplay(r.schoolsPartner);
   document.getElementById('educationKpis').innerHTML=[
     statCard('Students benefited in schools',valueOrStatus(r.studentsSchools),storyNote(storyPrior('studentsSchools')),'blue'),
-    statCard('STEM Lab reach',valueOrStatus(r.stem),storyNote(storyPrior('stem')),'teal'),
-    statCard('Bal Sashakt',valueOrStatus(r.balSashakt),storyNote(storyPrior('balSashakt')),'purple'),
-    statCard('Science City',valueOrStatus(r.scienceCity),storyNote(storyPrior('scienceCity')),'cyan'),
-    statCard('Summer camp',valueOrStatus(r.summerCamp),storyNote(storyPrior('summerCamp')),'orange'),    statCard('Partner schools',schoolPartners.value,schoolPartners.value==='Details'||(!/^total/i.test(String(r.schoolsPartner??''))&&state.fy!=='2022-23')?storyNote(schoolPartners.sub):'','blue')
+    statCard('STEM Lab reach',valueOrStatus(r.stem),storyNote(storyPrior('stem')),'teal',coreKpiAverage('stem')),
+    statCard('Bal Sashakt',valueOrStatus(r.balSashakt),storyNote(storyPrior('balSashakt')),'purple',coreKpiAverage('balSashakt')),
+    statCard('Science City',valueOrStatus(r.scienceCity),storyNote(storyPrior('scienceCity')),'cyan',coreKpiAverage('scienceCity')),
+    statCard('Summer camp',valueOrStatus(r.summerCamp),storyNote(storyPrior('summerCamp')),'orange',coreKpiAverage('summerCamp')),    statCard('Partner schools',schoolPartners.value,schoolPartners.value==='Details'||(!/^total/i.test(String(r.schoolsPartner??''))&&state.fy!=='2022-23')?storyNote(schoolPartners.sub):'','blue')
   ].join('');
   destroyChart('educationTrend');
  const key=state.educationTrendMetric,rows=key==='workingStudents'?SOURCE_DETAIL.workingYearly:DATA.combined;
@@ -3416,12 +3452,12 @@ function renderLivelihood(){
   const salonIncomeLabel=divaActive(state.fy)?moneyOrStatus(r.salonIncome,'No data'):'Program not launched';
   const studioIncomeLabel=divaActive(state.fy)?moneyOrStatus(r.studioIncome,'No data'):'Program not launched';
   document.getElementById('livelihoodKpis').innerHTML=[
-    statCard('Financial literacy (center reach)',valueOrStatus(r.financialLiteracy),storyNote(storySplit(s?.narolFL,s?.narodaFL)),'blue'),
-    statCard('Awareness camps',valueOrStatus(r.awareness),storyNote(storyPrior('awareness')),'teal'),
-    statCard('DIVA Salon beneficiaries',divaActive(state.fy)?valueOrStatus(r.salonBeneficiaries):'—',storyNote(divaActive(state.fy)?storyPrior('salonBeneficiaries'):''),'purple'),
-    statCard('DIVA Studio beneficiaries',divaActive(state.fy)?valueOrStatus(r.studioBeneficiaries):'—',storyNote(divaActive(state.fy)?storyPrior('studioBeneficiaries'):''),'cyan'),
-    statCard('DIVA Salon income',salonIncomeLabel,storyNote(divaActive(state.fy)?storyPrior('salonIncome',money):''),'orange'),
-    statCard('DIVA Studio income',studioIncomeLabel,storyNote(divaActive(state.fy)?storyPrior('studioIncome',money):''),'blue')
+    statCard('Financial literacy (center reach)',valueOrStatus(r.financialLiteracy),storyNote(storySplit(s?.narolFL,s?.narodaFL)),'blue',coreKpiAverage('financialLiteracy')),
+    statCard('Awareness camps',valueOrStatus(r.awareness),storyNote(storyPrior('awareness')),'teal',coreKpiAverage('awareness')),
+    statCard('DIVA Salon beneficiaries',divaActive(state.fy)?valueOrStatus(r.salonBeneficiaries):'—',storyNote(divaActive(state.fy)?storyPrior('salonBeneficiaries'):''),'purple',coreKpiAverage('salonBeneficiaries')),
+    statCard('DIVA Studio beneficiaries',divaActive(state.fy)?valueOrStatus(r.studioBeneficiaries):'—',storyNote(divaActive(state.fy)?storyPrior('studioBeneficiaries'):''),'cyan',coreKpiAverage('studioBeneficiaries')),
+    statCard('DIVA Salon income',salonIncomeLabel,storyNote(divaActive(state.fy)?storyPrior('salonIncome',money):''),'orange',coreKpiAverage('salonIncome',state.fy,money)),
+    statCard('DIVA Studio income',studioIncomeLabel,storyNote(divaActive(state.fy)?storyPrior('studioIncome',money):''),'blue',coreKpiAverage('studioIncome',state.fy,money))
   ].join('');
   const inactive=document.getElementById('communityStatusStrip');
   if(inactive){
